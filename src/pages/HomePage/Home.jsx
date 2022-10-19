@@ -126,6 +126,7 @@ function Home() {
                   image: el.attributes.posterImage.small,
                   title: el.attributes.canonicalTitle,
                   description: el.attributes.description,
+                  type: el.type
                 },
               });
             }}
@@ -150,6 +151,7 @@ function Home() {
                   image: el.attributes.posterImage.small,
                   title: el.attributes.canonicalTitle,
                   description: el.attributes.description,
+                  type: el.type
                 },
               });
             }}
@@ -173,6 +175,7 @@ function Home() {
                   image: el.attributes.posterImage.small,
                   title: el.attributes.canonicalTitle,
                   description: el.attributes.description,
+                  type: el.type
                 },
               });
             }}
@@ -196,6 +199,7 @@ function Home() {
                   image: el.attributes.posterImage.small,
                   title: el.attributes.canonicalTitle,
                   description: el.attributes.description,
+                  type: el.type
                 },
               });
             }}
@@ -219,6 +223,7 @@ function Home() {
                   image: el.attributes.posterImage.small,
                   title: el.attributes.canonicalTitle,
                   description: el.attributes.description,
+                  type: el.type
                 },
               });
             }}

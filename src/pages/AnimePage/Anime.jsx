@@ -62,10 +62,12 @@ function Anime() {
     } else {
       setPromena(true);
     }
+    console.log(data);
   }
 
   useEffect(() => {
     if (state) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setCategory(state.category);
       kategorija = state.category;
     }
@@ -74,6 +76,7 @@ function Anime() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setOffset(offset + 20);
   }, [animes]);
 
