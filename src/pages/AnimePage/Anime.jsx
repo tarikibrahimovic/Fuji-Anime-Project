@@ -67,8 +67,9 @@ function Anime() {
 
   useEffect(() => {
     if (state) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      
       setCategory(state.category);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       kategorija = state.category;
     }
     window.scrollTo({top: 0});
@@ -76,8 +77,8 @@ function Anime() {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setOffset(offset + 20);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animes]);
 
   useEffect(() => {

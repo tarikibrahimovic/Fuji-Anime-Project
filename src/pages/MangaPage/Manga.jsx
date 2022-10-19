@@ -78,8 +78,9 @@ function Manga() {
   }, [promena]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
     setOffset(offset + 20);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [manga]);
 
   pomeraj = offset;
