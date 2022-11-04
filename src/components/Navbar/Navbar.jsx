@@ -26,7 +26,7 @@ function Navbar() {
           <ul class="flex flex-col py-4">
             <li>
               <NavLink
-                to="/"
+                to="/home"
                 end
                 className={({ isActive }) =>
                   isActive ? activeClassName : nesto
@@ -38,7 +38,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="anime"
+                to="/anime"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -47,7 +47,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="manga"
+                to="/manga"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -56,7 +56,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="about"
+                to="/about"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -65,7 +65,7 @@ function Navbar() {
             </li>
             <li>
             <NavLink
-                to="favorites"
+                to="/favorites"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >

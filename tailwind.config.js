@@ -12,14 +12,14 @@ module.exports = {
     },
     colors: {
       'dark': '#343338',
-      'lightred': '#902923',
+      'lightred': '#ef233c',
       'light': '#b9baa3',
       'grayish': '#bbbbbf',
       'darkred': '#a22c29',
       'white': '#ffffff',
       'logored': '#ED4CC2',
+      'linkblue': "#0077b6"
     }
-
   },
   plugins: [],
 }

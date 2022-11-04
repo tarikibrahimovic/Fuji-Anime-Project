@@ -4,6 +4,7 @@ const FavoritesList = createContext();
 
 function FavoritesContextProvider({ children }) {
     const [favItems, setFavItems] = useState([]);
+    const [isAuth, setIsAuth] = useState(false);
 
     const addToFavorites = (favoriteItem) => {
          setFavItems((prevItems) => {
@@ -24,6 +25,8 @@ function FavoritesContextProvider({ children }) {
         setFavItems,
         addToFavorites,
         removeFromFav,
+        isAuth,
+        setIsAuth
     }
     return(
         <FavoritesList.Provider value={values}>
