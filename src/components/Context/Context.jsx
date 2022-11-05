@@ -26,7 +26,7 @@ function FavoritesContextProvider({ children }) {
         addToFavorites,
         removeFromFav,
         isAuth,
-        setIsAuth
+        setIsAuth,
     }
     return(
         <FavoritesList.Provider value={values}>

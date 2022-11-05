@@ -10,6 +10,7 @@ import {
 import Logo from "./img/fuji-logo.png";
 import Sidebar from "./components/Navbar/Navbar";
 import FooterReal from "./components/Footer/Footer";
+import DropDown from "./components/DropDown/DropDown";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import Anime from "./pages/AnimePage/Anime";
@@ -21,7 +22,6 @@ import FavPage from "./pages/FavoritePage/FavPage";
 import { Link } from "react-router-dom";
 
 export default function AppShellDemo() {
-  
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   return (
@@ -41,7 +41,6 @@ export default function AppShellDemo() {
             paddingRight: "0px",
           },
         },
-        
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
@@ -59,29 +58,32 @@ export default function AppShellDemo() {
         <Header height={70}>
           <div
             style={{ display: "flex", alignItems: "center", height: "100%" }}
-            className="bg-dark"
+            className="bg-dark w-full justify-between"
           >
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
-            <Link to="/home">
-              <img
-                src={Logo}
-                alt=""
-                className="w-9 h-9 lg:ml-3 sm:ml-5 cursor-pointer"
-              />
-            </Link>
-            <Link to="/home">
-              <h1 className="text-white text-3xl font-bold pl-3 cursor-pointer">
-                Fuji
-              </h1>
-            </Link>
+            <div className="flex">
+              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+                <Burger
+                  opened={opened}
+                  onClick={() => setOpened((o) => !o)}
+                  size="sm"
+                  color={theme.colors.gray[6]}
+                  mr="xl"
+                />
+              </MediaQuery>
+              <Link to="/home">
+                <img
+                  src={Logo}
+                  alt=""
+                  className="w-9 h-9 lg:ml-3 sm:ml-5 cursor-pointer"
+                />
+              </Link>
+              <Link to="/home">
+                <h1 className="text-white text-3xl font-bold pl-3 cursor-pointer">
+                  Fuji
+                </h1>
+              </Link>
+            </div>
+            <DropDown />
           </div>
         </Header>
       }
