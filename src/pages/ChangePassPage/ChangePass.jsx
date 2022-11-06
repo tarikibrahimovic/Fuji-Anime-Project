@@ -9,7 +9,7 @@ function Changepass() {
   let navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(FavoritesList);
   let status;
-  let token = JSON.parse(localStorage.getItem('token')) || "";
+  let token = localStorage.getItem('token') || "";
   const [conPass, setConPass] = useState();
   const [pass, setPass] = useState();
   const [errors, setErrors] = useState();

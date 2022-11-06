@@ -12,7 +12,7 @@ function Delete() {
   const [error, setError] = useState();
   let status;
   let token = localStorage.getItem("token") || "";
-  console.log(token);
+  
   const DeleteUser = (pass) => {
     setError();
     let requestOptions = {

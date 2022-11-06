@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { FavoritesList } from "../Context/Context";
+import './Navbar.css'
 
 function Navbar() {
+  const { setIsAuth } = useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
@@ -64,12 +68,46 @@ function Navbar() {
               </NavLink>
             </li>
             <li>
-            <NavLink
+              <NavLink
                 to="/favorites"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Favorites
+              </NavLink>
+            </li>
+            <hr className="text-white" />
+            <li id="options">
+              <NavLink
+                to="/changepass"
+                className={nesto}
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Change Password
+              </NavLink>
+            </li>
+            <li id="options">
+              <NavLink
+                to="/"
+                className={nesto}
+                // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={(e) => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("username");
+                  setIsAuth(false);
+                }}
+              >
+                Log Out
+              </NavLink>
+            </li>
+            <hr className="text-white" />
+            <li id="options">
+              <NavLink
+                to="/deleteacc"
+                className={nesto}
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Delete Account
               </NavLink>
             </li>
           </ul>

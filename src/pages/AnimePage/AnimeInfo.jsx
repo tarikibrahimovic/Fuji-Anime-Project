@@ -27,14 +27,14 @@ export default function AnimeInfo() {
           {favItems.find((el) => el.id === id && el.title === title) ? (
               <button
                 className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded"
-                onClick={() => removeFromFav(state.id, state.title)}
+                onClick={() => removeFromFav(state, "anime")}
               >
                 Remove from favorites
               </button>
             ) : (
               <button
                 className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded"
-                onClick={() => addToFavorites(state)}
+                onClick={() => addToFavorites("anime", state)}
               >
                 Add to favorites
               </button>
