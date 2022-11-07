@@ -180,11 +180,7 @@ function Manga() {
               onClick={() => {
                 navigate(`${manga.attributes.canonicalTitle}/${manga.id}`, {
                   state: {
-                    id: manga.id,
-                    image: manga.attributes.posterImage.small,
-                    title: manga.attributes.canonicalTitle,
-                    description: manga.attributes.description,
-                    type: manga.type,
+                    manga: manga
                   },
                 });
               }}

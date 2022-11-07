@@ -1,16 +1,12 @@
 import Logo from "../../img/fuji-logo.png";
 import Poster from "../../img/all-anime-poster.jpg";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 
 function Login() {
   
-  const { setIsAuth} = useContext(FavoritesList);
-  let navigate = useNavigate();
-  let token = "";
-  let username = "";
+  const { setIsAuth, setToken} = useContext(FavoritesList);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -28,23 +24,19 @@ function Login() {
     };
     fetch("https://localhost:7098/api/User/login", requestOptions)
       .then((res) => {
-        console.log(res);
         status = res.status;
         return res.json();
       })
       .then((e) => {
-        token = 'Bearer ' + e.token;
-        username = e.username
-        console.log(e);
+        localStorage.setItem("token", 'Bearer ' + e.token);
+        localStorage.setItem("username", e.username);
+        setToken('Bearer ' + e.token);
         if(status === 200){
-          navigate('/home',{});
-          setIsAuth(true);
+            setIsAuth(true);
         }
         else{
           setError(e.message);
         }
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", username);
       })
       .catch((e) => console.log(e));
   };

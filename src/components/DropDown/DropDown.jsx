@@ -1,5 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { Fragment, useContext} from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import "./DropDown.css";
 import { FavoritesList } from "../Context/Context";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Example() {
 
   let username = localStorage.getItem('username') || "";
-  const {isAuth, setIsAuth} = useContext(FavoritesList)
+  const {isAuth, setIsAuth, setFavItems} = useContext(FavoritesList)
   const navigate = useNavigate();
 
   return (
@@ -70,6 +70,7 @@ export default function Example() {
                         e.preventDefault();
                         localStorage.removeItem('token');
                         localStorage.removeItem('username');
+                        setFavItems([]);
                         setIsAuth(false);
                         navigate('/',{});
                     }}

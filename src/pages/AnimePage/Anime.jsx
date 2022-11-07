@@ -61,7 +61,6 @@ function Anime() {
     } else {
       setPromena(true);
     }
-    console.log(data);
   }
 
   useEffect(() => {
@@ -181,11 +180,7 @@ function Anime() {
               onClick={() => {
                 navigate(`${anime.attributes.canonicalTitle}/${anime.id}`, {
                   state: {
-                    id: anime.id,
-                    image: anime.attributes.posterImage.small,
-                    title: anime.attributes.canonicalTitle,
-                    description: anime.attributes.description,
-                    type: anime.type,
+                    anime: anime
                   },
                 });
               }}

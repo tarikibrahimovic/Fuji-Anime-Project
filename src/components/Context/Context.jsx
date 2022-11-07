@@ -5,9 +5,10 @@ const FavoritesList = createContext();
 function FavoritesContextProvider({ children }) {
   const [favItems, setFavItems] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
+  const [token, setToken] = useState();
+  let niz = [];
 
-  const addToFavorites = (tip, favoriteItem) => {
-    let status;
+  const addToFavorites = (favoriteItem) => {
     let token = localStorage.getItem("token") || "";
     const requestOptions = {
       method: "POST",
@@ -17,7 +18,7 @@ function FavoritesContextProvider({ children }) {
       },
       body: JSON.stringify({
         idSadrzaja: favoriteItem.id,
-        tip: tip,
+        tip: favoriteItem.type,
       }),
     };
     fetch("https://localhost:7098/api/User/add-favorite", requestOptions)
@@ -25,30 +26,19 @@ function FavoritesContextProvider({ children }) {
         return res.json();
       })
       .then((e) => {
-        if (status === 200) {
-          console.log(e);
-          setFavItems((prevItems) => {
-            if (
-              !prevItems.find(
-                (el) =>
-                  el.id === favoriteItem.id && el.title === favoriteItem.title
-              )
-            ) {
-              return [...prevItems, { ...favoriteItem }];
-            } else {
-              alert("This is already added on favorite");
-              return [...prevItems];
-            }
-          });
-          console.log(favItems);
+        if (
+          !favItems.some(
+            (e) => e.id == favoriteItem.id && e.type == favoriteItem.type
+          )
+        ) {
+          setFavItems((prev) => [...prev, favoriteItem]);
         }
       })
       .catch((e) => console.log(e));
   };
 
-  const removeFromFav = (favoriteItem, Tip) => {
+  const removeFromFav = (favoriteItem) => {
     let token = localStorage.getItem("token") || "";
-    let status;
     let requestOptions = {
       method: "DELETE",
       headers: {
@@ -56,27 +46,34 @@ function FavoritesContextProvider({ children }) {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-favorite?Tip=${Tip}&idSadrzaja=${favoriteItem.id}`,
+      `https://localhost:7098/api/User/delete-favorite?Tip=${favoriteItem.type}&idSadrzaja=${favoriteItem.id}`,
       requestOptions
     )
       .then((res) => {
-        status = res.status;
         return res.json();
       })
       .then((e) => {
-        console.log(e);
-        if (status === 200) {
-          setFavItems((prev) => {
-            return prev.filter(
-              (el) =>
-                el.id !== favoriteItem.id || el.title !== favoriteItem.title
-            );
-          });
-        } else {
-        }
+        setFavItems((prev) => {
+          return prev.filter(
+            (el) => el.id !== favoriteItem.id || el.type !== favoriteItem.type
+          );
+        });
       })
       .catch((e) => console.log(e));
   };
+
+  async function getFavorites(favs) {
+    console.log("radi");
+    let res;
+    for (let i = 0; i < favs.length; i++) {
+      res = await fetch(`https://kitsu.io/api/edge/${favs[i].favorites.tip}/${favs[i].favorites.idSadrzaja}`);
+      let data = await res.json();
+      niz.push(data.data);
+    }
+    setFavItems(niz);
+  }
+
+
   const values = {
     favItems,
     setFavItems,
@@ -84,6 +81,9 @@ function FavoritesContextProvider({ children }) {
     removeFromFav,
     isAuth,
     setIsAuth,
+    token,
+    setToken,
+    getFavorites
   };
   return (
     <FavoritesList.Provider value={values}>{children}</FavoritesList.Provider>

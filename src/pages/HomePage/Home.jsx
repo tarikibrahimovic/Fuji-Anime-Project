@@ -63,7 +63,6 @@ function Home() {
   };
 
 
-
   useEffect(() => {
     getTrending();
     getCategories();

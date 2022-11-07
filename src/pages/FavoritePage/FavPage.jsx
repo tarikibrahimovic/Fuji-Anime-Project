@@ -41,29 +41,25 @@ export default function FavPage() {
                     <div
                       className="flex justify-center"
                       onClick={() => {
-                        navigate(`/manga/${el.title}/${el.id}`, {
+                        navigate(`/anime/${el.attributes.canonicalTitle}/${el.id}`, {
                           state: {
-                            id: el.id,
-                            image: el.image,
-                            title: el.title,
-                            description: el.description,
-                            type: el.type,
+                            anime:el
                           },
                         });
                       }}
                     >
                       <h1 className="absolute text-xl text-white top-2 z-10 opacity-0 delay-150 group-hover:opacity-100">
-                        {el.title}
+                        {el.attributes.canonicalTitle}
                       </h1>
                       <img
-                        src={el.image}
+                        src={el.attributes.posterImage.small}
                         alt=""
                         className=" rounded-lg delay-150 group-hover:brightness-20"
                       />
                     </div>
                     <div
                       className="absolute self-end text-white delay-150 z-10 opacity-0 group-hover:opacity-100 w-full flex justify-center"
-                      onClick={() => removeFromFav(el.id, el.title)}
+                      onClick={() => removeFromFav(el)}
                     >
                       <p className="absolute self-end bottom-5 text-white delay-150 z-10 opacity-0 group-hover:opacity-100">
                         Remove from Favorites
@@ -89,22 +85,18 @@ export default function FavPage() {
                     <div
                       className="flex justify-center"
                       onClick={() => {
-                        navigate(`/manga/${el.title}/${el.id}`, {
+                        navigate(`/manga/${el.attributes.canonicalTitle}/${el.id}`, {
                           state: {
-                            id: el.id,
-                            image: el.image,
-                            title: el.title,
-                            description: el.description,
-                            type: el.type,
+                            manga:el
                           },
                         });
                       }}
                     >
                       <h1 className="absolute text-xl text-white top-2 z-10 opacity-0 delay-150 group-hover:opacity-100">
-                        {el.title}
+                        {el.attributes.canonicalTitle}
                       </h1>
                       <img
-                        src={el.image}
+                        src={el.attributes.posterImage.small}
                         alt=""
                         className=" rounded-lg delay-150 group-hover:brightness-20"
                       />
@@ -112,7 +104,7 @@ export default function FavPage() {
                     <div
                       className="absolute self-end text-white delay-150 z-10 opacity-0 group-hover:opacity-100 w-full flex justify-center"
                       onClick={() => {
-                        removeFromFav(el.id, el.title);
+                        removeFromFav(el);
                       }}
                     >
                       <p className="absolute self-end bottom-5 text-white delay-150 z-10 opacity-0 group-hover:opacity-100">
