@@ -13,15 +13,13 @@ export default function FavPage() {
     return e.type === "manga";
   });
 
-  console.log(favItems);
-
 
   return (
     <div className="bg-dark h-full">
       {favItems.length === 0 ? (
         <div className=" text-white text-2xl pt-10 flex justify-center">
           <p className="cursor-pointer" onClick={() => {
-            navigate('/', {
+            navigate('/home', {
             })
           }}>You have no favorites</p>
 

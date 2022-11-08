@@ -98,13 +98,7 @@ function Home() {
       >
         {trending.slice(0, 5).map((el) => (
           <HomePoster
-            image={el.attributes.coverImage.large}
-            title={el.attributes.canonicalTitle}
-            episodes={el.attributes.episodeCount}
-            rating={el.attributes.averageRating}
-            description={el.attributes.description}
-            posterImage={el.attributes.posterImage.small}
-            id={el.id}
+            anime={el}
           />
         ))}
       </Carousel>
@@ -121,11 +115,7 @@ function Home() {
             onClick={() => {
               navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  id: el.id,
-                  image: el.attributes.posterImage.small,
-                  title: el.attributes.canonicalTitle,
-                  description: el.attributes.description,
-                  type: el.type
+                  anime: el
                 },
               });
             }}
@@ -146,11 +136,7 @@ function Home() {
             onClick={() => {
               navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  id: el.id,
-                  image: el.attributes.posterImage.small,
-                  title: el.attributes.canonicalTitle,
-                  description: el.attributes.description,
-                  type: el.type
+                  anime: el
                 },
               });
             }}
@@ -170,11 +156,7 @@ function Home() {
             onClick={() => {
               navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  id: el.id,
-                  image: el.attributes.posterImage.small,
-                  title: el.attributes.canonicalTitle,
-                  description: el.attributes.description,
-                  type: el.type
+                  anime: el
                 },
               });
             }}
@@ -194,11 +176,7 @@ function Home() {
             onClick={() => {
               navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  id: el.id,
-                  image: el.attributes.posterImage.small,
-                  title: el.attributes.canonicalTitle,
-                  description: el.attributes.description,
-                  type: el.type
+                  manga: el
                 },
               });
             }}
@@ -218,11 +196,7 @@ function Home() {
             onClick={() => {
               navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  id: el.id,
-                  image: el.attributes.posterImage.small,
-                  title: el.attributes.canonicalTitle,
-                  description: el.attributes.description,
-                  type: el.type
+                  manga: el
                 },
               });
             }}

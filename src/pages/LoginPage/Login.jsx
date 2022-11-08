@@ -3,10 +3,12 @@ import Poster from "../../img/all-anime-poster.jpg";
 import { useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  
-  const { setIsAuth, setToken} = useContext(FavoritesList);
+
+  const navigate = useNavigate();
+  const { setIsAuth, setToken } = useContext(FavoritesList);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -28,13 +30,12 @@ function Login() {
         return res.json();
       })
       .then((e) => {
-        localStorage.setItem("token", 'Bearer ' + e.token);
+        localStorage.setItem("token", "Bearer " + e.token);
         localStorage.setItem("username", e.username);
-        setToken('Bearer ' + e.token);
-        if(status === 200){
-            setIsAuth(true);
-        }
-        else{
+        setToken("Bearer " + e.token);
+        if (status === 200) {
+          setIsAuth(true);
+        } else {
           setError(e.message);
         }
       })
@@ -59,13 +60,16 @@ function Login() {
           </a>
           <div className="w-full bg-dark rounded-lg shadow-logored shadow-md border-logored border md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Sign in to your account
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                Log in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={(e) => {
-                e.preventDefault();
-                Login(email, password);
-              }}>
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  Login(email, password);
+                }}
+              >
                 {error && <p className="text-lightred">{error}</p>}
                 <div>
                   <label
@@ -129,6 +133,20 @@ function Login() {
                   </a>
                 </p>
               </form>
+              <hr className="text-white" />
+              <div className="flex justify-center flex-col">
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center pb-6">
+                  Log in like a Guest
+                </h1>
+                <button
+                onClick={(e) => {
+                  localStorage.setItem('username', "Guest");
+                  navigate('/home', {});
+                }}
+                className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100">
+                  Log in Like a Guest
+                </button>
+              </div>
             </div>
           </div>
         </div>

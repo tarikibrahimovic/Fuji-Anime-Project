@@ -12,8 +12,29 @@ import Delete from "./pages/DeletePage/Delete";
 import ChangePass from "./pages/ChangePassPage/ChangePass";
 
 function App() {
-  const { isAuth, token, getFavorites } = useContext(FavoritesList);
+  const { isAuth, setIsAuth, token, getFavorites, setToken } = useContext(FavoritesList);
   const tok = token;
+  let status
+
+  useEffect(() => {
+    if(token === undefined && localStorage.getItem('token')?.length > 8){
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      };
+      fetch("https://localhost:7098/api/User/check-token",requestOptions).then((e) => {
+        status = e.status
+        return e.json()
+      }).then((e) => {
+        if(status === 200){
+          setToken(localStorage.getItem('token'))
+          setIsAuth(true);
+        }
+      })
+    }
+  }, [])
 
   useEffect(() => {
     if (tok == null) return;
@@ -32,7 +53,7 @@ function App() {
         
       })
       .catch((e) => console.log(e));
-  }, [,token]);
+  }, [token]);
 
   return (
     <div className="App">

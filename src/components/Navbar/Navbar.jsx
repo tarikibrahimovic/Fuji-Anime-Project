@@ -4,7 +4,7 @@ import { FavoritesList } from "../Context/Context";
 import './Navbar.css'
 
 function Navbar() {
-  const { setIsAuth } = useContext(FavoritesList);
+  const { setIsAuth, isAuth } = useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
@@ -77,7 +77,7 @@ function Navbar() {
               </NavLink>
             </li>
             <hr className="text-white" />
-            <li id="options">
+            {isAuth?(<><li id="options">
               <NavLink
                 to="/changepass"
                 className={nesto}
@@ -85,31 +85,34 @@ function Navbar() {
               >
                 Change Password
               </NavLink>
-            </li>
-            <li id="options">
-              <NavLink
-                to="/"
-                className={nesto}
-                // style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                onClick={(e) => {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("username");
-                  setIsAuth(false);
-                }}
-              >
-                Log Out
-              </NavLink>
-            </li>
-            <hr className="text-white" />
-            <li id="options">
-              <NavLink
-                to="/deleteacc"
-                className={nesto}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-              >
-                Delete Account
-              </NavLink>
-            </li>
+            </li><li id="options">
+                <NavLink
+                  to="/"
+                  className={nesto}
+                  onClick={(e) => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                    setIsAuth(false);
+                  } }
+                >
+                  Log Out
+                </NavLink>
+              </li><hr className="text-white" /><li id="options">
+                <NavLink
+                  to="/deleteacc"
+                  className={nesto}
+                  style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                >
+                  Delete Account
+                </NavLink>
+              </li></>): (<li id="options">
+                <NavLink
+                  to="/"
+                  className={nesto}
+                >
+                  Log In
+                </NavLink>
+              </li>)}
           </ul>
         </div>
       </div>
