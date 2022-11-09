@@ -4,12 +4,15 @@ import { FavoritesList } from "../../components/Context/Context";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import CommentBox from "../../components/CommentBox/CommentBox";
+import CommentAdd from "../../components/CommentBox/CommentAdd";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
     useContext(FavoritesList);
   const { state } = useLocation();
   const [comments, setComments] = useState([]);
+  const [optionCom, setOptionCom] = useState(true);
+  const [optionLink, setOptionLink] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -23,10 +26,9 @@ export default function AnimeInfo() {
       });
   }, []);
 
-  console.log(comments);
   return (
-    <div>
-      <div className="flex flex-row justify-center items-start w-full h-full bg-dark text-white">
+    <>
+      <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
         <div className="flex flex-col w-1/4 justify-center items-center pt-4">
           <img
             className="rounded-lg w-64 cursor-pointer"
@@ -76,12 +78,91 @@ export default function AnimeInfo() {
           </div>
         </div>
       </div>
-      <hr className="text-white my-10 w-9/12 flex justify-center" />
-      <div className="">
-        {comments.map((comment) => {
-          return (<CommentBox comment={comment} info={state.anime} setComments={setComments}/>)
-        })}
+      <hr className="text-white mt-10 w-9/12" />
+      <div 
+      onClick={(e) => {
+        e.preventDefault();
+        setOptionCom(!optionCom);
+      }}
+      className="border-b border-white cursor-pointer">
+        <button
+          className={`ml-3 text-white px-5 py-3 text-2xl ${
+            optionCom ? "font-bold" : ""
+          }`}
+        >
+          Comments
+        </button>
+        {optionCom ? (
+          <div className="">
+            {isAuth ? (
+              <CommentAdd
+                info={state.anime}
+                setComments={setComments}
+                comments={comments}
+                anime={state.anime}
+              />
+            ) : (
+              ""
+            )}
+            <div className="flex flex-col lg:flex-row flex-wrap">
+              {comments.map((comment) => {
+                return (
+                  <CommentBox
+                    comment={comment}
+                    info={state.anime}
+                    setComments={setComments}
+                    comments={comments}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-    </div>
+      <div 
+      onClick={(e) => {
+        e.preventDefault();
+        setOptionLink(!optionLink);
+      }}
+      className="border-b border-white cursor-pointer">
+        <button
+          className={`ml-3 text-white px-5 py-3 text-2xl ${
+            optionLink ? "font-bold" : ""
+          }`}
+        >
+          Links
+        </button>
+        {optionLink ? (
+          <div className="">
+            {isAuth ? (
+              <CommentAdd
+                info={state.anime}
+                setComments={setComments}
+                comments={comments}
+                anime={state.anime}
+              />
+            ) : (
+              ""
+            )}
+            <div className="flex flex-col lg:flex-row flex-wrap">
+              {comments.map((comment) => {
+                return (
+                  <CommentBox
+                    comment={comment}
+                    info={state.anime}
+                    setComments={setComments}
+                    comments={comments}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </>
   );
 }

@@ -6,6 +6,8 @@ function FavoritesContextProvider({ children }) {
   const [favItems, setFavItems] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState();
+  const [username, setUsername] = useState();
+  const [id, setId] = useState();
   let niz = [];
 
   const addToFavorites = (favoriteItem) => {
@@ -63,7 +65,6 @@ function FavoritesContextProvider({ children }) {
   };
 
   async function getFavorites(favs) {
-    console.log("radi");
     let res;
     for (let i = 0; i < favs.length; i++) {
       res = await fetch(`https://kitsu.io/api/edge/${favs[i].favorites.tip}/${favs[i].favorites.idSadrzaja}`);
@@ -83,7 +84,11 @@ function FavoritesContextProvider({ children }) {
     setIsAuth,
     token,
     setToken,
-    getFavorites
+    getFavorites,
+    id,
+    setId,
+    username,
+    setUsername
   };
   return (
     <FavoritesList.Provider value={values}>{children}</FavoritesList.Provider>

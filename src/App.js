@@ -12,9 +12,9 @@ import Delete from "./pages/DeletePage/Delete";
 import ChangePass from "./pages/ChangePassPage/ChangePass";
 
 function App() {
-  const { isAuth, setIsAuth, token, getFavorites, setToken } = useContext(FavoritesList);
+  const { isAuth, setIsAuth, token, getFavorites, setToken, setUsername, setId } = useContext(FavoritesList);
   const tok = token;
-  let status
+  let status;
 
   useEffect(() => {
     if(token === undefined && localStorage.getItem('token')?.length > 8){
@@ -31,6 +31,8 @@ function App() {
         if(status === 200){
           setToken(localStorage.getItem('token'))
           setIsAuth(true);
+          setUsername(e.username)
+          setId(e.userId);
         }
       })
     }
