@@ -5,12 +5,15 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import CommentBox from "../../components/CommentBox/CommentBox";
 import CommentAdd from "../../components/CommentBox/CommentAdd";
+import LinkBox from "../../components/LinkBox/LinkBox";
+import LinkAdd from "../../components/LinkBox/LinkAdd";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
     useContext(FavoritesList);
   const { state } = useLocation();
   const [comments, setComments] = useState([]);
+  const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
 
@@ -24,8 +27,19 @@ export default function AnimeInfo() {
       .then((e) => {
         setComments(e);
       });
+
+    fetch(
+      `https://localhost:7098/api/User/get-links?tip=anime&idSadrzaja=${state.anime.id}`
+    )
+      .then((e) => {
+        return e.json();
+      })
+      .then((e) => {
+        setLinks(e);
+      });
   }, []);
 
+  console.log(links);
   return (
     <>
       <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
@@ -79,30 +93,28 @@ export default function AnimeInfo() {
         </div>
       </div>
       <hr className="text-white mt-10 w-9/12" />
-      <div 
-      onClick={(e) => {
-        e.preventDefault();
-        setOptionCom(!optionCom);
-      }}
-      className="border-b border-white cursor-pointer">
+      {/* COMMENTS */}
+      <div className="border-b border-white">
         <button
-          className={`ml-3 text-white px-5 py-3 text-2xl ${
+          onClick={(e) => {
+            e.preventDefault();
+            setOptionCom(!optionCom);
+          }}
+          className={` text-white px-5 py-3 text-2xl text-left w-full ${
             optionCom ? "font-bold" : ""
           }`}
         >
           Comments
         </button>
-        {optionCom ? (
-          <div className="">
-            {isAuth ? (
+        {optionCom && (
+          <div className="transition-all ease-in">
+            {isAuth && (
               <CommentAdd
                 info={state.anime}
                 setComments={setComments}
                 comments={comments}
                 anime={state.anime}
               />
-            ) : (
-              ""
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
               {comments.map((comment) => {
@@ -117,50 +129,44 @@ export default function AnimeInfo() {
               })}
             </div>
           </div>
-        ) : (
-          ""
         )}
       </div>
-      <div 
-      onClick={(e) => {
-        e.preventDefault();
-        setOptionLink(!optionLink);
-      }}
-      className="border-b border-white cursor-pointer">
+      {/* LINKS */}
+      <div className="border-b border-white">
         <button
-          className={`ml-3 text-white px-5 py-3 text-2xl ${
+          onClick={(e) => {
+            e.preventDefault();
+            setOptionLink(!optionLink);
+          }}
+          className={`text-white text-left px-5 py-3 text-2xl w-full ${
             optionLink ? "font-bold" : ""
           }`}
         >
           Links
         </button>
-        {optionLink ? (
-          <div className="">
-            {isAuth ? (
-              <CommentAdd
+        {optionLink && (
+          <div className="transition ease-in-out delay-150">
+            {isAuth && (
+              <LinkAdd
                 info={state.anime}
-                setComments={setComments}
-                comments={comments}
+                setLinks={setLinks}
+                links={links}
                 anime={state.anime}
               />
-            ) : (
-              ""
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
-              {comments.map((comment) => {
+              {links.map((link) => {
                 return (
-                  <CommentBox
-                    comment={comment}
+                  <LinkBox
+                    link={link}
                     info={state.anime}
-                    setComments={setComments}
-                    comments={comments}
+                    setLinks={setLinks}
+                    links={links}
                   />
                 );
               })}
             </div>
           </div>
-        ) : (
-          ""
         )}
       </div>
     </>

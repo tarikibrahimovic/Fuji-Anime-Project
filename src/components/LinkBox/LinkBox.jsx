@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../Context/Context";
 
-export default function LinkBox({ comment, info, setComments, comments }){
+export default function LinkBox({ link, info, setLinks, links }){
     const { token, id } = useContext(FavoritesList);
     const [edit, setEdit] = useState(false);
-    const [newCom, setNewCom] = useState();
+    const [newL, setNewL] = useState();
     let date = new Date();
   
     function Delete() {
@@ -23,8 +23,8 @@ export default function LinkBox({ comment, info, setComments, comments }){
           return e.json();
         })
         .then((e) => {
-          setComments((curr) => {
-            return curr.filter((e) => e.id !== comment.id);
+          setLinks((curr) => {
+            return curr.filter((e) => e.id !== link.id);
           });
         });
     }
@@ -36,22 +36,22 @@ export default function LinkBox({ comment, info, setComments, comments }){
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          komentar: newCom,
+          link: newL,
           idSadrzaja: info.id,
           tipSadrzaja: info.type,
           date: date.toString(),
         }),
       };
-      fetch(`https://localhost:7098/api/User/edit-comment`, requestOptions)
+      fetch(`https://localhost:7098/api/User/edit-link`, requestOptions)
         .then((e) => {
           return e.json();
         })
         .then((e) => {
           setEdit(false);
-          setComments(
-            comments.map((e) => {
-              if (e.id == comment.id) {
-                return { ...e, komentar: newCom, date: date.toString() };
+          setLinks(
+            links.map((e) => {
+              if (e.id == link.id) {
+                return { ...e, link: newL, date: date.toString() };
               } else {
                 return { ...e };
               }
@@ -67,9 +67,9 @@ export default function LinkBox({ comment, info, setComments, comments }){
             <div class="flex flex-col w-full">
               <div class="flex flex-row justify-between">
                 <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
-                  {comment.username.toUpperCase()}
+                  {link.username.toUpperCase()}
                 </p>
-                {id === comment.userId ? (
+                {id === link.userId && (
                   <div className="flex">
                     <p
                       className="px-3 opacity-70 hover:opacity-100 cursor-pointer"
@@ -90,24 +90,22 @@ export default function LinkBox({ comment, info, setComments, comments }){
                       Delete
                     </p>
                   </div>
-                ) : (
-                  ""
                 )}
               </div>
-              <p class="text-sm opacity-70">{comment.date.slice(0,24)}</p>
+              <p class="text-sm opacity-70">{link.date.slice(0,24)}</p>
             </div>
           </div>
           {!edit ? (
-            <p class="mt-4 font-bold">{comment.komentar}</p>
+            <a class="mt-4 font-bold text-linkblue">{link.link}</a>
           ) : (
             <>
               <textarea
                 onChange={(e) => {
-                  setNewCom(e.target.value);
+                  setNewL(e.target.value);
                 }}
                 className="bg-dark border border-white"
               >
-                {comment.komentar}
+                {link.link}
               </textarea>
               <div className="flex">
                 <button
@@ -117,7 +115,7 @@ export default function LinkBox({ comment, info, setComments, comments }){
                   }}
                   className="bg-logored w-1/2 h-auto rounded-md opacity-90 hover:opacity-100 mx-2"
                 >
-                  Add Comment
+                  Add Link
                 </button>
                 <button
                   onClick={(e) => {
