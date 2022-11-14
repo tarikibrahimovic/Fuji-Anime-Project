@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../Context/Context";
+import Votes from "../Votes/Votes";
 
 export default function LinkBox({ link, info, setLinks, links }){
     const { token, id } = useContext(FavoritesList);
@@ -16,7 +17,7 @@ export default function LinkBox({ link, info, setLinks, links }){
         },
       };
       fetch(
-        `https://localhost:7098/api/User/delete-comment?idSadrzaja=${info.id}&tip=${info.type}`,
+        `https://localhost:7098/api/User/delete-link?idSadrzaja=${info.id}&tip=${info.type}`,
         requestOptions
       )
         .then((e) => {
@@ -69,6 +70,7 @@ export default function LinkBox({ link, info, setLinks, links }){
                 <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
                   {link.username.toUpperCase()}
                 </p>
+                {/* <Votes link={links}/> */}
                 {id === link.userId && (
                   <div className="flex">
                     <p

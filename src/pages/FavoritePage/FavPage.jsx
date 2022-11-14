@@ -13,7 +13,6 @@ export default function FavPage() {
     return e.type === "manga";
   });
 
-
   return (
     <div className="bg-dark h-full">
       {favItems.length === 0 ? (

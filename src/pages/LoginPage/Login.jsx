@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
 
   const navigate = useNavigate();
-  const { setIsAuth, setToken } = useContext(FavoritesList);
+  const { setIsAuth, setToken, setUsername, setId } = useContext(FavoritesList);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -35,6 +35,8 @@ function Login() {
         setToken("Bearer " + e.token);
         if (status === 200) {
           setIsAuth(true);
+          setId(e.id)
+          setUsername(e.username)
         } else {
           setError(e.message);
         }
@@ -141,6 +143,8 @@ function Login() {
                 <button
                 onClick={(e) => {
                   localStorage.setItem('username', "Guest");
+                  setId('');
+                  setUsername('Guest');
                   navigate('/home', {});
                 }}
                 className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100">

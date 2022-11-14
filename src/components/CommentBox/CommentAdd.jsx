@@ -2,8 +2,7 @@ import { useContext, useRef } from "react";
 import { useState } from "react";
 import { FavoritesList } from "../Context/Context";
 
-export default function CommentAdd({ info, setComments, anime }) {
-//   const [newCom, setNewCom] = useState();
+export default function CommentAdd({ info, setComments, sadrzaj }) {
   let com;
   const { token } = useContext(FavoritesList);
   let date = new Date();
@@ -12,7 +11,6 @@ export default function CommentAdd({ info, setComments, anime }) {
 
   function Add() {
     if (com) {
-        // ref.target.value = ''
       let requestOptions = {
         method: "POST",
         headers: {
@@ -32,7 +30,7 @@ export default function CommentAdd({ info, setComments, anime }) {
         })
         .then((e) => {
           fetch(
-            `https://localhost:7098/api/User/get-comments?tip=anime&idSadrzaja=${anime.id}`
+            `https://localhost:7098/api/User/get-comments?tip=${sadrzaj.type}&idSadrzaja=${sadrzaj.id}`
           )
             .then((e) => {
               return e.json();
@@ -55,16 +53,15 @@ export default function CommentAdd({ info, setComments, anime }) {
               <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
                 Add your comment
               </p>
-                {error ? (<p class="relative text-xl whitespace-nowrap text-lightred overflow-hidden">
+                {error && (<p class="relative text-xl whitespace-nowrap text-lightred overflow-hidden">
                 Enter something before adding!
-              </p>) : ""}
+              </p>)}
             </div>
           </div>
         </div>
         <textarea
           ref={ref}
           onChange={(e) => {
-            // setNewCom(e.target.value);
             com = e.target.value;
           }}
           className="bg-dark border border-white"

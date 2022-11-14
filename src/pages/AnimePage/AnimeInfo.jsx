@@ -7,6 +7,7 @@ import CommentBox from "../../components/CommentBox/CommentBox";
 import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
+import Votes from "../../components/Votes/Votes";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -16,7 +17,6 @@ export default function AnimeInfo() {
   const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
-
   useEffect(() => {
     fetch(
       `https://localhost:7098/api/User/get-comments?tip=anime&idSadrzaja=${state.anime.id}`
@@ -39,7 +39,6 @@ export default function AnimeInfo() {
       });
   }, []);
 
-  console.log(links);
   return (
     <>
       <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
@@ -59,14 +58,12 @@ export default function AnimeInfo() {
             <h4>{state.anime.attributes.description}</h4>
           </div>
           <div>
-            {!isAuth ? (
+            {!isAuth && (
               <div className="text-lightred my-7">
                 <p className="">
                   You are not Authorised, Please log in or make an Account
                 </p>
               </div>
-            ) : (
-              ""
             )}
             <Link to="/anime">
               {favItems.some(
@@ -113,7 +110,7 @@ export default function AnimeInfo() {
                 info={state.anime}
                 setComments={setComments}
                 comments={comments}
-                anime={state.anime}
+                sadrzaj={state.anime}
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
@@ -150,19 +147,22 @@ export default function AnimeInfo() {
               <LinkAdd
                 info={state.anime}
                 setLinks={setLinks}
-                links={links}
-                anime={state.anime}
+                sadrzaj={state.anime}
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
               {links.map((link) => {
                 return (
+                  <>
+                  {console.log(link.votes)}
+                  <Votes link={link.votes}/>
                   <LinkBox
                     link={link}
                     info={state.anime}
                     setLinks={setLinks}
                     links={links}
                   />
+                  </>
                 );
               })}
             </div>

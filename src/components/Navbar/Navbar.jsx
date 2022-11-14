@@ -4,7 +4,7 @@ import { FavoritesList } from "../Context/Context";
 import './Navbar.css'
 
 function Navbar() {
-  const { setIsAuth, isAuth } = useContext(FavoritesList);
+  const { setIsAuth, isAuth, setId, setUsername } = useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
@@ -93,6 +93,8 @@ function Navbar() {
                     localStorage.removeItem("token");
                     localStorage.removeItem("username");
                     setIsAuth(false);
+                    setId('');
+                    setUsername(null)
                   } }
                 >
                   Log Out

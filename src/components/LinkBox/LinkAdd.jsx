@@ -2,8 +2,7 @@ import { useContext, useRef } from "react";
 import { useState } from "react";
 import { FavoritesList } from "../Context/Context";
 
-export default function LinkAdd({ info, setComments, anime }) {
-//   const [newCom, setNewCom] = useState();
+export default function LinkAdd({ info, setLinks, sadrzaj }) {
   let com;
   const { token } = useContext(FavoritesList);
   let date = new Date();
@@ -12,7 +11,6 @@ export default function LinkAdd({ info, setComments, anime }) {
 
   function Add() {
     if (com) {
-        // ref.target.value = ''
       let requestOptions = {
         method: "POST",
         headers: {
@@ -20,30 +18,30 @@ export default function LinkAdd({ info, setComments, anime }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          komentar: com,
+          link: com,
           idSadrzaja: info.id,
           tipSadrzaja: info.type,
           date: date.toString(),
         }),
       };
-      fetch(`https://localhost:7098/api/User/add-comment`, requestOptions)
+      fetch(`https://localhost:7098/api/User/add-link`, requestOptions)
         .then((e) => {
           return e.json();
         })
         .then((e) => {
           fetch(
-            `https://localhost:7098/api/User/get-comments?tip=anime&idSadrzaja=${anime.id}`
+            `https://localhost:7098/api/User/get-links?tip=${sadrzaj.type}&idSadrzaja=${sadrzaj.id}`
           )
             .then((e) => {
               return e.json();
             })
             .then((e) => {
-              setComments(e);
+              setLinks(e);
             });
         })
         .catch((e) => console.log(e));
     } else {
-        setError(true);
+      setError(true);
     }
   }
   return (
@@ -55,16 +53,19 @@ export default function LinkAdd({ info, setComments, anime }) {
               <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
                 Add your Link
               </p>
-                {error ? (<p class="relative text-xl whitespace-nowrap text-lightred overflow-hidden">
-                Enter Your link
-              </p>) : ""}
+              {error ? (
+                <p class="relative text-xl whitespace-nowrap text-lightred overflow-hidden">
+                  Enter Your link
+                </p>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
         <textarea
           ref={ref}
           onChange={(e) => {
-            // setNewCom(e.target.value);
             com = e.target.value;
           }}
           className="bg-dark border border-white"

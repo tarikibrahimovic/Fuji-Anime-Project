@@ -62,7 +62,6 @@ function Home() {
       });
   };
 
-
   useEffect(() => {
     getTrending();
     getCategories();
@@ -75,17 +74,17 @@ function Home() {
   const clickAnimeCategoryHandler = (cat) => {
     navigate(`/anime`, {
       state: {
-        category: cat
+        category: cat,
       },
     });
-  }
+  };
   const clickMangaCategoryHandler = (cat) => {
     navigate(`/manga`, {
       state: {
-        category: cat
+        category: cat,
       },
     });
-  }
+  };
 
   return (
     <div className="bg-dark">
@@ -97,46 +96,51 @@ function Home() {
         interval={5000}
       >
         {trending.slice(0, 5).map((el) => (
-          <HomePoster
-            anime={el}
-          />
+          <HomePoster anime={el} />
         ))}
       </Carousel>
-      <h1 className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer" onClick={() => {
-        clickAnimeCategoryHandler("action")
-      }}>
+      <h1
+        className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        onClick={() => {
+          clickAnimeCategoryHandler("action");
+        }}
+      >
         Adventure
       </h1>
       <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
         {categories.map((el) => (
-          <img
-            src={el.attributes.posterImage.small}
-            alt=''
-            onClick={() => {
-              navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
-                state: {
-                  anime: el
-                },
-              });
-            }}
-            className="w-full shadow-xl mr-5 hover:scale-110 object-contain h-52 transition-transform duration-400 cursor-pointer"
-          />
+            <img
+              src={el.attributes.posterImage.small}
+              alt=""
+              onClick={() => {
+                navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
+                  state: {
+                    anime: el,
+                  },
+                });
+              }}
+              className="w-full shadow-xl mr-5 hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+            />
         ))}
       </div>
 
-      <h1 className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer" onClick={() => {
-        clickAnimeCategoryHandler("action")
-      }}>
-        Romance</h1>
+      <h1
+        className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        onClick={() => {
+          clickAnimeCategoryHandler("action");
+        }}
+      >
+        Romance
+      </h1>
       <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
         {romance.map((el) => (
           <img
             src={el.attributes.posterImage.small}
-            alt=''
+            alt=""
             onClick={() => {
               navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  anime: el
+                  anime: el,
                 },
               });
             }}
@@ -144,19 +148,23 @@ function Home() {
           />
         ))}
       </div>
-      <h1 className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer" onClick={() => {
-        clickAnimeCategoryHandler("horror")
-      }}>
-        Horror</h1>
+      <h1
+        className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        onClick={() => {
+          clickAnimeCategoryHandler("horror");
+        }}
+      >
+        Horror
+      </h1>
       <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
         {horror.map((el) => (
           <img
             src={el.attributes.posterImage.small}
-            alt=''
+            alt=""
             onClick={() => {
               navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  anime: el
+                  anime: el,
                 },
               });
             }}
@@ -164,19 +172,23 @@ function Home() {
           />
         ))}
       </div>
-      <h1 className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer" onClick={() => {
-        clickMangaCategoryHandler("adventure")
-      }}>
-        Adventure Manga</h1>
+      <h1
+        className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        onClick={() => {
+          clickMangaCategoryHandler("adventure");
+        }}
+      >
+        Adventure Manga
+      </h1>
       <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 ml-3">
         {trendingManga.map((el) => (
           <img
             src={el.attributes.posterImage.small}
-            alt=''
+            alt=""
             onClick={() => {
               navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  manga: el
+                  manga: el,
                 },
               });
             }}
@@ -184,19 +196,23 @@ function Home() {
           />
         ))}
       </div>
-      <h1 className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer" onClick={() => {
-        clickMangaCategoryHandler("action")
-      }}>
-        Action Manga</h1>
+      <h1
+        className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        onClick={() => {
+          clickMangaCategoryHandler("action");
+        }}
+      >
+        Action Manga
+      </h1>
       <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 ml-3">
         {action.map((el) => (
           <img
             src={el.attributes.posterImage.small}
-            alt=''
+            alt=""
             onClick={() => {
               navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
-                  manga: el
+                  manga: el,
                 },
               });
             }}
