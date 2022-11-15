@@ -38,6 +38,10 @@ function App() {
     }
   }, [])
 
+//ADMIN TAB AND ERROR PAGE, ON INFO'S FOR GUEST BUTTON, 
+
+
+
   useEffect(() => {
     if (tok == null) return;
     let requestOptions = {

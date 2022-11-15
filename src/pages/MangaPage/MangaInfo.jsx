@@ -16,8 +16,6 @@ export default function MangaInfo() {
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
 
-  console.log(links);
-
   useEffect(() => {
     fetch(
       `https://localhost:7098/api/User/get-comments?tip=manga&idSadrzaja=${state.manga.id}`
@@ -114,16 +112,24 @@ export default function MangaInfo() {
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
-              {comments.map((comment) => {
-                return (
-                  <CommentBox
-                    comment={comment}
-                    info={state.manga}
-                    setComments={setComments}
-                    comments={comments}
-                  />
-                );
-              })}
+              {comments.length !== 0 ? (
+                <>
+                  {comments.map((comment) => {
+                    return (
+                      <CommentBox
+                        comment={comment}
+                        info={state.manga}
+                        setComments={setComments}
+                        comments={comments}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text-lightred flex justify-center">
+                  THERE ARE NO COMMENTS
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -152,16 +158,24 @@ export default function MangaInfo() {
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
-              {links.map((link) => {
-                return (
-                  <LinkBox
-                    link={link}
-                    info={state.manga}
-                    setLinks={setLinks}
-                    links={links}
-                  />
-                );
-              })}
+              {links.length !== 0 ? (
+                <>
+                  {links.map((link) => {
+                    return (
+                      <LinkBox
+                        link={link}
+                        info={state.manga}
+                        setLinks={setLinks}
+                        links={links}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text-lightred flex justify-center">
+                  THERE ARE NO LINKS
+                </p>
+              )}
             </div>
           </div>
         )}

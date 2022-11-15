@@ -114,16 +114,24 @@ export default function AnimeInfo() {
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
-              {comments.map((comment) => {
-                return (
-                  <CommentBox
-                    comment={comment}
-                    info={state.anime}
-                    setComments={setComments}
-                    comments={comments}
-                  />
-                );
-              })}
+            {comments.length !== 0 ? (
+                <>
+                  {comments.map((comment) => {
+                    return (
+                      <CommentBox
+                        comment={comment}
+                        info={state.anime}
+                        setComments={setComments}
+                        comments={comments}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text-lightred flex justify-center">
+                  THERE ARE NO COMMENTS
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -151,20 +159,24 @@ export default function AnimeInfo() {
               />
             )}
             <div className="flex flex-col lg:flex-row flex-wrap">
-              {links.map((link) => {
-                return (
-                  <>
-                  {console.log(link.votes)}
-                  <Votes link={link.votes}/>
-                  <LinkBox
-                    link={link}
-                    info={state.anime}
-                    setLinks={setLinks}
-                    links={links}
-                  />
-                  </>
-                );
-              })}
+            {links.length !== 0 ? (
+                <>
+                  {links.map((link) => {
+                    return (
+                      <LinkBox
+                        link={link}
+                        info={state.manga}
+                        setLinks={setLinks}
+                        links={links}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text-lightred flex justify-center">
+                  THERE ARE NO LINKS
+                </p>
+              )}
             </div>
           </div>
         )}
