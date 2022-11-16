@@ -60,15 +60,6 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/about"
-                className={nesto}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-              >
-                About Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to="/favorites"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}

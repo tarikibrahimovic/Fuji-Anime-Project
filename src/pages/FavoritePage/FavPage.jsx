@@ -1,6 +1,8 @@
 import { FavoritesList } from "../../components/Context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
+// import "react-notifications/lib/notifications.css";
 
 export default function FavPage() {
   const { favItems, removeFromFav } = useContext(FavoritesList);
@@ -13,15 +15,22 @@ export default function FavPage() {
     return e.type === "manga";
   });
 
+  const notification = () => {
+    NotificationManager.succes("", "Succesfully removed!");
+  };
+
   return (
     <div className="bg-dark h-full">
       {favItems.length === 0 ? (
         <div className=" text-white text-2xl pt-10 flex justify-center">
-          <p className="cursor-pointer" onClick={() => {
-            navigate('/home', {
-            })
-          }}>You have no favorites</p>
-
+          <p
+            className="cursor-pointer"
+            onClick={() => {
+              navigate("/home", {});
+            }}
+          >
+            You don't have a favorite
+          </p>
         </div>
       ) : (
         <div>
@@ -33,16 +42,21 @@ export default function FavPage() {
               <hr className="text-white w-3/4"></hr>
               <div className="w-full border-b pb-3 border-white flex flex-wrap">
                 {anime?.map((el) => (
-                  <div key={el.id} 
-                  className="group flex justify-center hover:scale-105 mx-3 transition ease-out mt-10 relative w-fit bg-black cursor-pointer rounded-lg shadow-md hover:bg-gray-25 dark:bg-gray-800 dark:border-gray-700 dark:group-hover:bg-gray-900">
+                  <div
+                    key={el.id}
+                    className="group flex justify-center hover:scale-105 mx-3 transition ease-out mt-10 relative w-fit bg-black cursor-pointer rounded-lg shadow-md hover:bg-gray-25 dark:bg-gray-800 dark:border-gray-700 dark:group-hover:bg-gray-900"
+                  >
                     <div
                       className="flex justify-center"
                       onClick={() => {
-                        navigate(`/anime/${el.attributes.canonicalTitle}/${el.id}`, {
-                          state: {
-                            anime:el
-                          },
-                        });
+                        navigate(
+                          `/anime/${el.attributes.canonicalTitle}/${el.id}`,
+                          {
+                            state: {
+                              anime: el,
+                            },
+                          }
+                        );
                       }}
                     >
                       <h1 className="absolute text-xl text-white top-2 z-10 opacity-0 delay-150 group-hover:opacity-100">
@@ -56,7 +70,10 @@ export default function FavPage() {
                     </div>
                     <div
                       className="absolute self-end text-white delay-150 z-10 opacity-0 group-hover:opacity-100 w-full flex justify-center"
-                      onClick={() => removeFromFav(el)}
+                      onClick={() => {
+                        NotificationManager.success("", "Succesfully removed!");
+                        removeFromFav(el);
+                      }}
                     >
                       <p className="absolute self-end bottom-5 text-white delay-150 z-10 opacity-0 group-hover:opacity-100">
                         Remove from Favorites
@@ -77,16 +94,21 @@ export default function FavPage() {
               <hr className="text-white w-3/4"></hr>
               <div className="w-full border-b pb-3 border-white flex flex-wrap">
                 {manga?.map((el) => (
-                  <div key={el.id} 
-                   className="group flex justify-center hover:scale-105 transition ease-out mt-10 relative w-fit bg-black cursor-pointer rounded-lg shadow-md hover:bg-gray-25 dark:bg-gray-800 dark:border-gray-700 dark:group-hover:bg-gray-900 mx-3">
+                  <div
+                    key={el.id}
+                    className="group flex justify-center hover:scale-105 transition ease-out mt-10 relative w-fit bg-black cursor-pointer rounded-lg shadow-md hover:bg-gray-25 dark:bg-gray-800 dark:border-gray-700 dark:group-hover:bg-gray-900 mx-3"
+                  >
                     <div
                       className="flex justify-center"
                       onClick={() => {
-                        navigate(`/manga/${el.attributes.canonicalTitle}/${el.id}`, {
-                          state: {
-                            manga:el
-                          },
-                        });
+                        navigate(
+                          `/manga/${el.attributes.canonicalTitle}/${el.id}`,
+                          {
+                            state: {
+                              manga: el,
+                            },
+                          }
+                        );
                       }}
                     >
                       <h1 className="absolute text-xl text-white top-2 z-10 opacity-0 delay-150 group-hover:opacity-100">
@@ -101,6 +123,7 @@ export default function FavPage() {
                     <div
                       className="absolute self-end text-white delay-150 z-10 opacity-0 group-hover:opacity-100 w-full flex justify-center"
                       onClick={() => {
+                        NotificationManager.success("", "Succesfully removed!");
                         removeFromFav(el);
                       }}
                     >

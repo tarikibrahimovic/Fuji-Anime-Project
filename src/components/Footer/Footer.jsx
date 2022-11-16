@@ -38,10 +38,10 @@ function Footer() {
           </li>
           <li>
             <NavLink
-              to="/about"
+              to="/favorites"
               className="mr-4 hover:underline md:mr-6 text-white"
             >
-              About Us
+              Favorites
             </NavLink>
           </li>
         </ul>

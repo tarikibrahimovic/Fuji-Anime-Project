@@ -10,6 +10,10 @@ import ForgotEmail from "./pages/ForgotEmailPage/ForgotEmail";
 import ForgotPass from "./pages/ForgorPasswordPage/ForgotPass";
 import Delete from "./pages/DeletePage/Delete";
 import ChangePass from "./pages/ChangePassPage/ChangePass";
+import 'react-notifications/lib/notifications.css';
+import {
+  NotificationContainer,
+} from "react-notifications";
 
 function App() {
   const { isAuth, setIsAuth, token, getFavorites, setToken, setUsername, setId } = useContext(FavoritesList);
@@ -38,7 +42,7 @@ function App() {
     }
   }, [])
 
-//ADMIN TAB AND ERROR PAGE, ON INFO'S FOR GUEST BUTTON, 
+//ADMIN TAB AND ERROR PAGE, CHANGE USERNAME,
 
 
 
@@ -68,7 +72,8 @@ function App() {
           path="/"
           element={isAuth ? <Navigate to="/home" /> : <Login />}
         />
-        <Route path="/*" element={<Layout />} />
+        {/* <Route path="*" element={<Verify />} /> */}
+        <Route path="/:" element={<Layout />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify/:id" element={<Verify />} />
         <Route path="/forgotpassword" element={<ForgotEmail />} />
@@ -76,6 +81,7 @@ function App() {
         <Route path="/changepass" element={<ChangePass />} />
         <Route path="/deleteacc" element={<Delete />} />
       </Routes>
+      <NotificationContainer/>
     </div>
   );
 }

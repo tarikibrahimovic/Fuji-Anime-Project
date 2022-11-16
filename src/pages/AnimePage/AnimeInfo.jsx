@@ -7,7 +7,7 @@ import CommentBox from "../../components/CommentBox/CommentBox";
 import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
-import Votes from "../../components/Votes/Votes";
+import { NotificationManager } from "react-notifications";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -17,6 +17,24 @@ export default function AnimeInfo() {
   const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
+
+  let createNotification = (type) => {
+    return () => {
+      switch (type) {
+        case "success":
+          NotificationManager.success("Success message", "Title here");
+          break;
+        case "removed":
+          NotificationManager.success("Nesto1", "nesto2");
+        case "error":
+          NotificationManager.error("Error message", "Click me!", 5000, () => {
+            alert("callback");
+          });
+          break;
+      }
+    };
+  };
+
   useEffect(() => {
     fetch(
       `https://localhost:7098/api/User/get-comments?tip=anime&idSadrzaja=${state.anime.id}`
@@ -71,7 +89,10 @@ export default function AnimeInfo() {
               ) ? (
                 <button
                   className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded absolute"
-                  onClick={() => removeFromFav(state.anime)}
+                  onClick={() => {
+                    removeFromFav(state.anime);
+                    NotificationManager.success("", "Succesfully removed!");
+                  }}
                 >
                   Remove from favorites
                 </button>
@@ -79,7 +100,19 @@ export default function AnimeInfo() {
                 <button
                   className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded absolute"
                   onClick={() => {
-                    if (isAuth) addToFavorites(state.anime);
+                    if (isAuth) {
+                      addToFavorites(state.anime);
+                      NotificationManager.success("", "Succesfully added!");
+                    } else {
+                      NotificationManager.error(
+                        "Please log in!",
+                        "You are not Loged In",
+                        5000,
+                        () => {
+                          alert("callback");
+                        }
+                      );
+                    }
                   }}
                 >
                   Add to favorites
@@ -91,7 +124,7 @@ export default function AnimeInfo() {
       </div>
       <hr className="text-white mt-10 w-9/12" />
       {/* COMMENTS */}
-      <div className="border-b border-white">
+      <div className="border-b border-white bg-dark">
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -113,8 +146,8 @@ export default function AnimeInfo() {
                 sadrzaj={state.anime}
               />
             )}
-            <div className="flex flex-col lg:flex-row flex-wrap">
-            {comments.length !== 0 ? (
+            <div className="flex flex-col lg:flex-row flex-wrap justify-center">
+              {comments.length !== 0 ? (
                 <>
                   {comments.map((comment) => {
                     return (
@@ -137,7 +170,7 @@ export default function AnimeInfo() {
         )}
       </div>
       {/* LINKS */}
-      <div className="border-b border-white">
+      <div className="border-b border-white bg-dark">
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -158,8 +191,8 @@ export default function AnimeInfo() {
                 sadrzaj={state.anime}
               />
             )}
-            <div className="flex flex-col lg:flex-row flex-wrap">
-            {links.length !== 0 ? (
+            <div className="flex flex-col lg:flex-row flex-wrap justify-center">
+              {links.length !== 0 ? (
                 <>
                   {links.map((link) => {
                     return (

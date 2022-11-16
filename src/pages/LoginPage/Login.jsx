@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import { useNavigate } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
 
 function Login() {
-
   const navigate = useNavigate();
   const { setIsAuth, setToken, setUsername, setId } = useContext(FavoritesList);
   const [email, setEmail] = useState();
@@ -35,8 +35,9 @@ function Login() {
         setToken("Bearer " + e.token);
         if (status === 200) {
           setIsAuth(true);
-          setId(e.id)
-          setUsername(e.username)
+          setId(e.id);
+          setUsername(e.username);
+          NotificationManager.succes("","Welcome back!");
         } else {
           setError(e.message);
         }
@@ -85,7 +86,7 @@ function Login() {
                     name="email"
                     id="email"
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setEmail(e.target.value.trim());
                     }}
                     className="bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none"
                     placeholder="name@company.com"
@@ -104,7 +105,7 @@ function Login() {
                     name="password"
                     id="password"
                     onChange={(e) => {
-                      setPassword(e.target.value);
+                      setPassword(e.target.value.trim());
                     }}
                     placeholder="••••••••"
                     className="bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none"
@@ -141,13 +142,14 @@ function Login() {
                   Log in like a Guest
                 </h1>
                 <button
-                onClick={(e) => {
-                  localStorage.setItem('username', "Guest");
-                  setId('');
-                  setUsername('Guest');
-                  navigate('/home', {});
-                }}
-                className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100">
+                  onClick={(e) => {
+                    localStorage.setItem("username", "Guest");
+                    setId("");
+                    setUsername("Guest");
+                    navigate("/home", {});
+                  }}
+                  className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
+                >
                   Log in Like a Guest
                 </button>
               </div>

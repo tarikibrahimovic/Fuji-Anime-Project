@@ -6,6 +6,7 @@ import CommentBox from "../../components/CommentBox/CommentBox";
 import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
+import { NotificationManager } from "react-notifications";
 
 export default function MangaInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -69,7 +70,10 @@ export default function MangaInfo() {
               ) ? (
                 <button
                   className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded absolute"
-                  onClick={() => removeFromFav(state.manga)}
+                  onClick={() => {
+                    removeFromFav(state.manga);
+                    NotificationManager.success("", "Succesfully removed!");
+                  }}
                 >
                   Remove from favorites
                 </button>
@@ -77,7 +81,20 @@ export default function MangaInfo() {
                 <button
                   className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded absolute"
                   onClick={() => {
-                    if (isAuth) addToFavorites(state.manga);
+                    if (isAuth) {
+                      addToFavorites(state.manga);
+                      NotificationManager.success("", "Succesfully added!");
+                    }
+                    else{
+                      NotificationManager.error(
+                        "Please log in!",
+                        "You are not Loged In",
+                        5000,
+                        () => {
+                          alert("callback");
+                        }
+                      );
+                    }
                   }}
                 >
                   Add to favorites
@@ -111,7 +128,7 @@ export default function MangaInfo() {
                 sadrzaj={state.manga}
               />
             )}
-            <div className="flex flex-col lg:flex-row flex-wrap">
+            <div className="flex flex-col lg:flex-row flex-wrap justify-center">
               {comments.length !== 0 ? (
                 <>
                   {comments.map((comment) => {
@@ -157,7 +174,7 @@ export default function MangaInfo() {
                 sadrzaj={state.manga}
               />
             )}
-            <div className="flex flex-col lg:flex-row flex-wrap">
+            <div className="flex flex-col lg:flex-row flex-wrap justify-center">
               {links.length !== 0 ? (
                 <>
                   {links.map((link) => {

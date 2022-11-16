@@ -15,7 +15,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import Anime from "./pages/AnimePage/Anime";
 import Manga from "./pages/MangaPage/Manga";
-import About from "./pages/AboutPage/About";
 import MangaInfo from "./pages/MangaPage/MangaInfo";
 import AnimeInfo from "./pages/AnimePage/AnimeInfo";
 import FavPage from "./pages/FavoritePage/FavPage";
@@ -89,10 +88,9 @@ export default function AppShellDemo() {
       }
     >
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/layout/home" element={<Home />} />
         <Route path="/anime" element={<Anime />} />
         <Route path="/manga" element={<Manga />} />
-        <Route path="/about" element={<About />} />
         <Route path="/favorites" element={<FavPage />} />
         <Route path="/manga/:id/:title" element={<MangaInfo />} />
         <Route path="/anime/:id/:title" element={<AnimeInfo />} />

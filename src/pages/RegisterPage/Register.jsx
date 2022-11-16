@@ -6,9 +6,6 @@ import { useState } from "react";
 function Login() {
   
   let navigate = useNavigate();
-  let confirmPassword = "";
-  let password = "";
-  let email = "";
   let status;
   const [conPass, setConPass] = useState();
   const [pass, setPass] = useState();
@@ -31,16 +28,14 @@ function Login() {
     fetch("https://localhost:7098/api/User/register", requestOptions)
     .then((res) => {
       status = res.status;
-      console.log(res, status);
       return res.json();
     })
     .then((e) => {
-      console.log(e);
       if(status === 200){
         navigate("/",{})
       }
       else{
-        setErrors(e.errors);
+        setErrors(e.message);
       }
     })
     .catch((e) => console.log(e));
@@ -67,6 +62,7 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Make your new account
               </h1>
+              {errors && (<p className="text-lightred">{errors}</p>)}
               <form className="space-y-4 md:space-y-6" onSubmit={(e) => {
                 e.preventDefault();
                 Register(mail, pass, conPass, username);
@@ -83,15 +79,12 @@ function Login() {
                     name="username"
                     id="username"
                     onChange={(e) => {
-                      setUsername(e.target.value)
+                      setUsername(e.target.value.trim())
                     }}
                     className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${(errors?.Username )? "border-lightred" : ""}`}
                     placeholder="username"
                     required=""
                   />
-                  {errors?.Username?.map((e) => {
-                    return (<p className="text-lightred">{e}</p>)
-                  })}
                 </div>
                 <div>
                   <label
@@ -105,15 +98,12 @@ function Login() {
                     name="email"
                     id="email"
                     onChange={(e) => {
-                      setMail(e.target.value)
+                      setMail(e.target.value.trim())
                     }}
                     className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${(errors?.Email )? "border-lightred" : ""}`}
                     placeholder="name@company.com"
                     required=""
                   />
-                  {errors?.Email?.map((e) => {
-                    return (<p className="text-lightred">{e}</p>)
-                  })}
                 </div>
                 <div>
                   <label
@@ -127,15 +117,12 @@ function Login() {
                     name="password"
                     id="password"
                     onChange={(e) => {
-                      setPass(e.target.value);
+                      setPass(e.target.value.trim());
                     }}
                     placeholder="••••••••"
                     className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${(errors?.Password)? "border-lightred" : ""}`}
                     required=""
                   />
-                  {errors?.Password?.map((e) => {
-                    return (<p className="text-lightred">{e}</p>)
-                  })}
                 </div>
                 <div>
                   <label
@@ -149,15 +136,12 @@ function Login() {
                     name="confirmpassword"
                     id="confirmpassword"
                     onChange={(e) => {
-                      setConPass(e.target.value);
+                      setConPass(e.target.value.trim());
                     }}
                     placeholder="••••••••"
                     className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${(errors?.ConfirmPassword)? "border-lightred" : ""}`}
                     required=""
                   />
-                  {errors?.ConfirmPassword?.map((e) => {
-                    return (<p className="text-lightred">{e}</p>)
-                  })}
                 </div>
                 <button
                   type="submit"
