@@ -1,5 +1,6 @@
 import { useContext, useRef } from "react";
 import { useState } from "react";
+import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 
 export default function LinkAdd({ info, setLinks, sadrzaj }) {
@@ -37,6 +38,7 @@ export default function LinkAdd({ info, setLinks, sadrzaj }) {
             })
             .then((e) => {
               setLinks(e);
+              NotificationManager.success("", "Succesfully added!");
             });
         })
         .catch((e) => console.log(e));

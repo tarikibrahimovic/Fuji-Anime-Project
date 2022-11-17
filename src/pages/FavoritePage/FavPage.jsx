@@ -26,7 +26,7 @@ export default function FavPage() {
           <p
             className="cursor-pointer"
             onClick={() => {
-              navigate("/home", {});
+              navigate("/layout/home", {});
             }}
           >
             You don't have a favorite

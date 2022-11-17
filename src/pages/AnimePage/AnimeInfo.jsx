@@ -8,6 +8,7 @@ import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
 import { NotificationManager } from "react-notifications";
+import {BsArrowLeft} from "react-icons/bs";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -17,23 +18,6 @@ export default function AnimeInfo() {
   const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
-
-  let createNotification = (type) => {
-    return () => {
-      switch (type) {
-        case "success":
-          NotificationManager.success("Success message", "Title here");
-          break;
-        case "removed":
-          NotificationManager.success("Nesto1", "nesto2");
-        case "error":
-          NotificationManager.error("Error message", "Click me!", 5000, () => {
-            alert("callback");
-          });
-          break;
-      }
-    };
-  };
 
   useEffect(() => {
     fetch(
@@ -59,6 +43,9 @@ export default function AnimeInfo() {
 
   return (
     <>
+    <Link to="/layout/anime">
+      <BsArrowLeft className="text-white text-3xl m-5"/>
+    </Link>
       <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
         <div className="flex flex-col w-1/4 justify-center items-center pt-4">
           <img
@@ -83,7 +70,6 @@ export default function AnimeInfo() {
                 </p>
               </div>
             )}
-            <Link to="/anime">
               {favItems.some(
                 (el) => el.id === state.anime.id && el.type === state.anime.type
               ) ? (
@@ -118,7 +104,6 @@ export default function AnimeInfo() {
                   Add to favorites
                 </button>
               )}
-            </Link>
           </div>
         </div>
       </div>

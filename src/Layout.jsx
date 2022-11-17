@@ -11,13 +11,7 @@ import Logo from "./img/fuji-logo.png";
 import Sidebar from "./components/Navbar/Navbar";
 import FooterReal from "./components/Footer/Footer";
 import DropDown from "./components/DropDown/DropDown";
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/HomePage/Home";
-import Anime from "./pages/AnimePage/Anime";
-import Manga from "./pages/MangaPage/Manga";
-import MangaInfo from "./pages/MangaPage/MangaInfo";
-import AnimeInfo from "./pages/AnimePage/AnimeInfo";
-import FavPage from "./pages/FavoritePage/FavPage";
+import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function AppShellDemo() {
@@ -69,14 +63,14 @@ export default function AppShellDemo() {
                   mr="xl"
                 />
               </MediaQuery>
-              <Link to="/home">
+              <Link to="/layout/home">
                 <img
                   src={Logo}
                   alt=""
                   className="w-9 h-9 lg:ml-3 sm:ml-5 cursor-pointer"
                 />
               </Link>
-              <Link to="/home">
+              <Link to="/layout/home">
                 <h1 className="text-white text-3xl font-bold pl-3 cursor-pointer">
                   Fuji
                 </h1>
@@ -87,14 +81,7 @@ export default function AppShellDemo() {
         </Header>
       }
     >
-      <Routes>
-        <Route path="/layout/home" element={<Home />} />
-        <Route path="/anime" element={<Anime />} />
-        <Route path="/manga" element={<Manga />} />
-        <Route path="/favorites" element={<FavPage />} />
-        <Route path="/manga/:id/:title" element={<MangaInfo />} />
-        <Route path="/anime/:id/:title" element={<AnimeInfo />} />
-      </Routes>
+      <Outlet />
     </AppShell>
   );
 }

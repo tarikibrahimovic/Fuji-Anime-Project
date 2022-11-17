@@ -30,7 +30,7 @@ function Navbar() {
           <ul class="flex flex-col py-4">
             <li>
               <NavLink
-                to="/home"
+                to="/layout/home"
                 end
                 className={({ isActive }) =>
                   isActive ? activeClassName : nesto
@@ -42,7 +42,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/anime"
+                to="/layout/anime"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -51,7 +51,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/manga"
+                to="/layout/manga"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -60,7 +60,7 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/favorites"
+                to="/layout/favorites"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -70,7 +70,7 @@ function Navbar() {
             <hr className="text-white" />
             {isAuth?(<><li id="options">
               <NavLink
-                to="/changepass"
+                to="/layout/changepass"
                 className={nesto}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -92,7 +92,7 @@ function Navbar() {
                 </NavLink>
               </li><hr className="text-white" /><li id="options">
                 <NavLink
-                  to="/deleteacc"
+                  to="/layout/deleteacc"
                   className={nesto}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >

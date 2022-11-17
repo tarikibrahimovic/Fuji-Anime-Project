@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
+import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 
 export default function CommentBox({ comment, info, setComments, comments }) {
@@ -26,6 +27,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
         setComments((curr) => {
           return curr.filter((e) => e.id !== comment.id);
         });
+        NotificationManager.success("", "Succesfully removed!");
       });
   }
   function Edit() {

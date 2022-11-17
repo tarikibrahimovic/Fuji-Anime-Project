@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
+import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 
 export default function Votes({ link }) {
@@ -48,7 +49,7 @@ export default function Votes({ link }) {
         return e.json();
       })
       .then((res) => {
-        // console.log(res);
+        NotificationManager.success("", "Succesfully voted!");
       })
       .catch((e) => console.log(e));
   }

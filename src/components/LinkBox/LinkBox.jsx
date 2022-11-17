@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
+import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 import Votes from "../Votes/Votes";
 
@@ -27,6 +28,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
         setLinks((curr) => {
           return curr.filter((e) => e.id !== link.id);
         });
+        NotificationManager.success("", "Succesfully deleted!");
       });
   }
   function Edit() {

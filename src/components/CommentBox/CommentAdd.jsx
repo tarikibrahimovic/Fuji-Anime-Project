@@ -1,5 +1,6 @@
 import { useContext, useRef } from "react";
 import { useState } from "react";
+import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 
 export default function CommentAdd({ info, setComments, sadrzaj }) {
@@ -38,6 +39,7 @@ export default function CommentAdd({ info, setComments, sadrzaj }) {
             .then((e) => {
               setComments(e);
             });
+            NotificationManager.success("", "Succesfully added!");
         })
         .catch((e) => console.log(e));
     } else {
