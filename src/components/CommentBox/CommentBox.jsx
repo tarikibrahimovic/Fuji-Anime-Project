@@ -4,11 +4,12 @@ import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 
 export default function CommentBox({ comment, info, setComments, comments }) {
-  const { token, id } = useContext(FavoritesList);
+  const { token, id, admin } = useContext(FavoritesList);
   const [edit, setEdit] = useState(false);
   const [newCom, setNewCom] = useState();
   let date = new Date();
 
+  console.log(comment);
   function Delete() {
     let requestOptions = {
       method: "DELETE",
@@ -17,7 +18,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-comment?idSadrzaja=${info.id}&tip=${info.type}`,
+      `https://localhost:7098/api/User/delete-comment?commentId=${comment.id}`,
       requestOptions
     )
       .then((e) => {
@@ -30,6 +31,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
         NotificationManager.success("", "Succesfully removed!");
       });
   }
+
   function Edit() {
     let requestOptions = {
       method: "PATCH",
@@ -71,7 +73,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
               <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
                 {comment.username.toUpperCase()}
               </p>
-              {id === comment.userId ? (
+              {(id === comment.userId || admin === "Admin") ? (
                 <div className="flex">
                   <p
                     className="px-3 opacity-70 hover:opacity-100 cursor-pointer"

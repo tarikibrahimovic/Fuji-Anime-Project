@@ -8,8 +8,8 @@ import { FavoritesContextProvider } from "./components/Context/Context";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-  <FavoritesContextProvider>
-    <App />
+    <FavoritesContextProvider>
+        <App />
     </FavoritesContextProvider>
   </BrowserRouter>
 );

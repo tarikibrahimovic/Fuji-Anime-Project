@@ -19,6 +19,7 @@ import MangaInfo from "./pages/MangaPage/MangaInfo";
 import AnimeInfo from "./pages/AnimePage/AnimeInfo";
 import FavPage from "./pages/FavoritePage/FavPage";
 import ErrorPage from "./pages/404Page/ErrorPage";
+import Admin from "./pages/AdminPage/Admin";
 
 function App() {
   const {
@@ -29,10 +30,13 @@ function App() {
     setToken,
     setUsername,
     setId,
+    admin,
+    setAdmin
   } = useContext(FavoritesList);
   const tok = token;
   let status;
 
+  
   useEffect(() => {
     if (token === undefined && localStorage.getItem("token")?.length > 8) {
       let requestOptions = {
@@ -52,12 +56,13 @@ function App() {
             setIsAuth(true);
             setUsername(e.username);
             setId(e.userId);
+            setAdmin(e.role);
           }
         });
     }
   }, []);
 
-  //ADMIN TAB AND ERROR PAGE, CHANGE USERNAME,
+  //ADMIN TAB AND CHANGE USERNAME,
 
   useEffect(() => {
     if (tok == null) return;
@@ -91,6 +96,7 @@ function App() {
           <Route path="favorites" element={<FavPage />} />
           <Route path="manga/:id/:title" element={<MangaInfo />} />
           <Route path="anime/:id/:title" element={<AnimeInfo />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/verify/:id" element={<Verify />} />
@@ -98,7 +104,7 @@ function App() {
         <Route path="/forgot/:id" element={<ForgotPass />} />
         <Route path="/changepass" element={<ChangePass />} />
         <Route path="/deleteacc" element={<Delete />} />
-        <Route path="*" element={<ErrorPage/>} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <NotificationContainer />
     </div>

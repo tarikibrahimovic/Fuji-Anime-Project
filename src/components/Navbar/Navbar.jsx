@@ -4,7 +4,7 @@ import { FavoritesList } from "../Context/Context";
 import './Navbar.css'
 
 function Navbar() {
-  const { setIsAuth, isAuth, setId, setUsername } = useContext(FavoritesList);
+  const { setIsAuth, isAuth, setId, setUsername, admin } = useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
@@ -67,6 +67,15 @@ function Navbar() {
                 Favorites
               </NavLink>
             </li>
+            {(admin === "Admin") && (<li>
+              <NavLink
+                to="/layout/admin"
+                className={nesto}
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Admin
+              </NavLink>
+            </li>)}
             <hr className="text-white" />
             {isAuth?(<><li id="options">
               <NavLink
