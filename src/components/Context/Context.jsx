@@ -8,7 +8,7 @@ function FavoritesContextProvider({ children }) {
   const [token, setToken] = useState();
   const [username, setUsername] = useState();
   const [id, setId] = useState();
-  const [admin, setAdmin] = useState();
+  const [admin, setAdmin] = useState("");
   let niz = [];
 
   const addToFavorites = (favoriteItem) => {

@@ -72,14 +72,14 @@ function Home() {
   }, []);
 
   const clickAnimeCategoryHandler = (cat) => {
-    navigate(`/anime`, {
+    navigate(`/layout/anime`, {
       state: {
         category: cat,
       },
     });
   };
   const clickMangaCategoryHandler = (cat) => {
-    navigate(`/manga`, {
+    navigate(`/layout/manga`, {
       state: {
         category: cat,
       },
@@ -113,7 +113,7 @@ function Home() {
               src={el.attributes.posterImage.small}
               alt=""
               onClick={() => {
-                navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
+                navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                   state: {
                     anime: el,
                   },
@@ -138,7 +138,7 @@ function Home() {
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
+              navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
                   anime: el,
                 },
@@ -162,7 +162,7 @@ function Home() {
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/anime/${el.id}/${el.attributes.canonicalTitle}`, {
+              navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
                   anime: el,
                 },
@@ -186,7 +186,7 @@ function Home() {
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
+              navigate(`/layout/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
                   manga: el,
                 },
@@ -210,7 +210,7 @@ function Home() {
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/manga/${el.id}/${el.attributes.canonicalTitle}`, {
+              navigate(`/layout/manga/${el.id}/${el.attributes.canonicalTitle}`, {
                 state: {
                   manga: el,
                 },

@@ -20,6 +20,7 @@ import AnimeInfo from "./pages/AnimePage/AnimeInfo";
 import FavPage from "./pages/FavoritePage/FavPage";
 import ErrorPage from "./pages/404Page/ErrorPage";
 import Admin from "./pages/AdminPage/Admin";
+import ChangeUsername from "./pages/ChangeUsername/ChangeUsername";
 
 function App() {
   const {
@@ -104,6 +105,7 @@ function App() {
         <Route path="/forgot/:id" element={<ForgotPass />} />
         <Route path="/changepass" element={<ChangePass />} />
         <Route path="/deleteacc" element={<Delete />} />
+        <Route path="/changeusername" element={<ChangeUsername />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <NotificationContainer />

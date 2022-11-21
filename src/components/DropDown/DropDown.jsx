@@ -7,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Example() {
   let username = localStorage.getItem("username") || "";
-  const { isAuth, setIsAuth, setFavItems } = useContext(FavoritesList);
+  const { isAuth, setIsAuth, setFavItems, admin, setAdmin } =
+    useContext(FavoritesList);
   const navigate = useNavigate();
 
   return (
     <div className="top-16 w-56 text-right md" id="dropdown">
-      <Menu as="div" className="relative inline-block text-left border-b border-white mr-3">
+      <Menu
+        as="div"
+        className="relative inline-block text-left border-b border-white mr-3"
+      >
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             {username.toUpperCase()}
@@ -64,6 +68,32 @@ export default function Example() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/changeusername");
+                        }}
+                        className={`${
+                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      >
+                        {active ? (
+                          <ArchiveActiveIcon
+                            className="mr-2 h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <ArchiveInactiveIcon
+                            className="mr-2 h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        )}
+                        Change Username
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
                         className={`${
                           active ? " text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -71,6 +101,7 @@ export default function Example() {
                           e.preventDefault();
                           localStorage.removeItem("token");
                           localStorage.removeItem("username");
+                          setAdmin("");
                           setFavItems([]);
                           setIsAuth(false);
                           navigate("/", {});
@@ -123,34 +154,33 @@ export default function Example() {
               </>
             ) : (
               <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active ? " text-white" : "text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          // localStorage.removeItem("username");
-                          setFavItems([]);
-                          setIsAuth(false);
-                          navigate("/", {});
-                        }}
-                      >
-                        {active ? (
-                          <MoveActiveIcon
-                            className="mr-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <MoveInactiveIcon
-                            className="mr-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                        )}
-                        Log In
-                      </button>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? " text-white" : "text-gray-900"
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFavItems([]);
+                      setIsAuth(false);
+                      navigate("/", {});
+                    }}
+                  >
+                    {active ? (
+                      <MoveActiveIcon
+                        className="mr-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <MoveInactiveIcon
+                        className="mr-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
                     )}
-                  </Menu.Item>
+                    Log In
+                  </button>
+                )}
+              </Menu.Item>
             )}
           </Menu.Items>
         </Transition>
@@ -158,90 +188,6 @@ export default function Example() {
     </div>
   );
 }
-
-// function EditInactiveIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       viewBox="0 0 20 20"
-//       fill="none"
-//       xmlns="http://www.w3.org/2000/svg"
-//     >
-//       <path
-//         d="M4 13V16H7L16 7L13 4L4 13Z"
-//         fill="#EDE9FE"
-//         stroke="#A78BFA"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// }
-
-// function EditActiveIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       viewBox="0 0 20 20"
-//       fill="none"
-//       xmlns="http://www.w3.org/2000/svg"
-//     >
-//       <path
-//         d="M4 13V16H7L16 7L13 4L4 13Z"
-//         fill="#8B5CF6"
-//         stroke="#C4B5FD"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// }
-
-// function DuplicateInactiveIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       viewBox="0 0 20 20"
-//       fill="none"
-//       xmlns="http://www.w3.org/2000/svg"
-//     >
-//       <path
-//         d="M4 4H12V12H4V4Z"
-//         fill="#EDE9FE"
-//         stroke="#A78BFA"
-//         strokeWidth="2"
-//       />
-//       <path
-//         d="M8 8H16V16H8V8Z"
-//         fill="#EDE9FE"
-//         stroke="#A78BFA"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// }
-
-// function DuplicateActiveIcon(props) {
-//   return (
-//     <svg
-//       {...props}
-//       viewBox="0 0 20 20"
-//       fill="none"
-//       xmlns="http://www.w3.org/2000/svg"
-//     >
-//       <path
-//         d="M4 4H12V12H4V4Z"
-//         fill="#8B5CF6"
-//         stroke="#C4B5FD"
-//         strokeWidth="2"
-//       />
-//       <path
-//         d="M8 8H16V16H8V8Z"
-//         fill="#8B5CF6"
-//         stroke="#C4B5FD"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// }
 
 function ArchiveInactiveIcon(props) {
   return (

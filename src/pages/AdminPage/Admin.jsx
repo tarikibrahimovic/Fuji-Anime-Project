@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
+import { FavoritesList } from "../../components/Context/Context";
 import AdminShow from "./AdminShow";
+import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
   const [data, setData] = useState([]);
   const [value, setValue] = useState();
   let searchValue = "";
   const [searchData ,setSearchData] = useState([]);
+  const {admin} = useContext(FavoritesList);
+
+  const navigate = useNavigate();
 
 
   async function getAdmin() {
@@ -29,7 +35,6 @@ export default function Admin() {
     }
   }
 
-
   useEffect(() => {
     getAdmin();
   }, []);
@@ -42,10 +47,8 @@ export default function Admin() {
     });
   }, [value]);
 
-
-  console.log(data, searchData);
   return (
-    <div>
+    <>{(admin === "Admin") ? (<div>
       <form
         className="flex items-center my-3 px-3"
         onSubmit={(e) => {
@@ -110,6 +113,7 @@ export default function Admin() {
       {data?.map((e) => {
         return <AdminShow data={e} setData={setData} setSearchData={setSearchData} getAdmin={getAdmin}/>;
       })}
-    </div>
+    </div>) : (<>{navigate('*', {})}</>)}</>
+    
   );
 }

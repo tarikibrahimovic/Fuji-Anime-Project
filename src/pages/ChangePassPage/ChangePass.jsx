@@ -1,6 +1,6 @@
 import Logo from "../../img/fuji-logo.png";
 import Poster from "../../img/all-anime-poster.jpg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 
