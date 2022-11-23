@@ -2,9 +2,10 @@ import Logo from "../../img/fuji-logo.png";
 import Poster from "../../img/all-anime-poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 function Login() {
-  
   let navigate = useNavigate();
   const [email, setEmail] = useState();
   const [error, setError] = useState();
@@ -16,23 +17,30 @@ function Login() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: em
+        email: em,
       }),
     };
-    fetch(`https://localhost:7098/api/User/forgot-password?email=${email}`, requestOptions)
+    fetch(
+      `https://localhost:7098/api/User/forgot-password?email=${email}`,
+      requestOptions
+    )
       .then((res) => {
         status = res.status;
         return res.json();
       })
       .then((e) => {
-        if(status === 200){
-          navigate('/',{});
-        }
-        else{
-            setError(e.message);
+        if (status === 200) {
+          notify();
+          navigate("/", {});
+        } else {
+          setError(e.message);
         }
       })
       .catch((e) => console.log(e));
+  };
+
+  const notify = () => {
+    NotificationManager.success("", "Chenck your email!");
   };
 
   return (
@@ -56,10 +64,13 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Enter your Email
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={(e) => {
-                e.preventDefault();
-                SendEmail(email);
-              }}>
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  SendEmail(email);
+                }}
+              >
                 {error && <p className="text-lightred">{error}</p>}
                 <div>
                   <label

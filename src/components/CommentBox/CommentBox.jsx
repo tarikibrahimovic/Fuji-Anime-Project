@@ -2,14 +2,38 @@ import { useState } from "react";
 import { useContext } from "react";
 import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#343338"
+  },
+};
 
 export default function CommentBox({ comment, info, setComments, comments }) {
   const { token, id, admin } = useContext(FavoritesList);
   const [edit, setEdit] = useState(false);
   const [newCom, setNewCom] = useState();
   let date = new Date();
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-  console.log(comment);
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   function Delete() {
     let requestOptions = {
       method: "DELETE",
@@ -73,7 +97,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
               <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
                 {comment.username.toUpperCase()}
               </p>
-              {(id === comment.userId || admin === "Admin") ? (
+              {(id === comment.userId || admin === "Admin") && (
                 <div className="flex">
                   <p
                     className="px-3 opacity-70 hover:opacity-100 cursor-pointer"
@@ -88,19 +112,34 @@ export default function CommentBox({ comment, info, setComments, comments }) {
                     className="px-3 opacity-70 hover:opacity-100 cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      Delete();
+                      openModal();
                     }}
                   >
                     Delete
                   </p>
                 </div>
-              ) : (
-                ""
               )}
             </div>
             <p class="text-sm opacity-70">{comment.date.slice(0,24)}</p>
           </div>
         </div>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="">
+          <h2 className="text-center text-2xl text-white">
+            Do you want to Delete this Comment?
+          </h2>
+          </div>
+          <div className="flex justify-around my-4 text-white">
+            <button onClick={closeModal} className="bg-grayish rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Close</button>
+            <button onClick={() => Delete()} className="bg-logored rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Delete</button>
+          </div>
+        </Modal>
         {!edit ? (
           <p class="mt-4 font-bold">{comment.komentar}</p>
         ) : (

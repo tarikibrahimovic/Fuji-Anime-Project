@@ -22,7 +22,7 @@ function Footer() {
           </li>
           <li>
             <NavLink
-              to="/anime"
+              to="/layout/anime"
               className="mr-4 hover:underline md:mr-6 text-white"
             >
               Anime
@@ -30,7 +30,7 @@ function Footer() {
           </li>
           <li>
             <NavLink
-              to="/manga"
+              to="/layout/manga"
               className="mr-4 hover:underline md:mr-6 text-white"
             >
               Manga
@@ -38,7 +38,7 @@ function Footer() {
           </li>
           <li>
             <NavLink
-              to="/favorites"
+              to="/layout/favorites"
               className="mr-4 hover:underline md:mr-6 text-white"
             >
               Favorites

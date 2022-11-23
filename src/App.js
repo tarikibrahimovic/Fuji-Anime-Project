@@ -9,7 +9,6 @@ import Verify from "./pages/VerifyPage/Verify";
 import ForgotEmail from "./pages/ForgotEmailPage/ForgotEmail";
 import ForgotPass from "./pages/ForgorPasswordPage/ForgotPass";
 import Delete from "./pages/DeletePage/Delete";
-import ChangePass from "./pages/ChangePassPage/ChangePass";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import Home from "./pages/HomePage/Home";
@@ -20,7 +19,10 @@ import AnimeInfo from "./pages/AnimePage/AnimeInfo";
 import FavPage from "./pages/FavoritePage/FavPage";
 import ErrorPage from "./pages/404Page/ErrorPage";
 import Admin from "./pages/AdminPage/Admin";
-import ChangeUsername from "./pages/ChangeUsername/ChangeUsername";
+import Modal from 'react-modal';
+import Profile from "./pages/ProfilePage/Profile";
+
+Modal.setAppElement('#root');
 
 function App() {
   const {
@@ -31,8 +33,9 @@ function App() {
     setToken,
     setUsername,
     setId,
-    admin,
-    setAdmin
+    setAdmin,
+    setVerifiedAt,
+    setEmail
   } = useContext(FavoritesList);
   const tok = token;
   let status;
@@ -53,17 +56,18 @@ function App() {
         })
         .then((e) => {
           if (status === 200) {
+            console.log(e)
             setToken(localStorage.getItem("token"));
             setIsAuth(true);
             setUsername(e.username);
             setId(e.userId);
             setAdmin(e.role);
+            setEmail(e.email);
+            setVerifiedAt(e.verifiedAt)
           }
         });
     }
   }, []);
-
-  //ADMIN TAB AND CHANGE USERNAME,
 
   useEffect(() => {
     if (tok == null) return;
@@ -103,9 +107,8 @@ function App() {
         <Route path="/verify/:id" element={<Verify />} />
         <Route path="/forgotpassword" element={<ForgotEmail />} />
         <Route path="/forgot/:id" element={<ForgotPass />} />
-        <Route path="/changepass" element={<ChangePass />} />
         <Route path="/deleteacc" element={<Delete />} />
-        <Route path="/changeusername" element={<ChangeUsername />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <NotificationContainer />

@@ -7,7 +7,7 @@ import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
 import { NotificationManager } from "react-notifications";
-import {BsArrowLeft} from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 
 export default function MangaInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -41,9 +41,9 @@ export default function MangaInfo() {
   }, []);
   return (
     <>
-    <Link to="/layout/manga">
-      <BsArrowLeft className="text-white text-3xl m-5"/>
-    </Link>
+      <Link to="/layout/manga">
+        <BsArrowLeft className="text-white text-3xl m-5" />
+      </Link>
       <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
         <div className="flex flex-col w-1/4 justify-center items-center pt-4">
           <img
@@ -68,7 +68,7 @@ export default function MangaInfo() {
                 </p>
               </div>
             )}
-            <Link to="/layout/anime">
+            <Link to="/layout/manga">
               {favItems.some(
                 (el) => el.id === state.manga.id && el.type === state.manga.type
               ) ? (
@@ -88,8 +88,7 @@ export default function MangaInfo() {
                     if (isAuth) {
                       addToFavorites(state.manga);
                       NotificationManager.success("", "Succesfully added!");
-                    }
-                    else{
+                    } else {
                       NotificationManager.error(
                         "Please log in!",
                         "You are not Loged In",

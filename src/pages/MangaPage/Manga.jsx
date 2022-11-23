@@ -39,7 +39,6 @@ function Manga() {
         `https://kitsu.io/api/edge/manga?&page[limit]=20&page[offset]=${pomeraj}`
       );
     } else {
-
       if (naziv.length !== 0 && kategorija.length === 0) {
         res = await fetch(
           `https://kitsu.io/api/edge/manga?filter[text]=${naziv}&page[limit]=20&page[offset]=${pomeraj}`
@@ -69,16 +68,15 @@ function Manga() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       kategorija = state.category;
     }
-    window.scrollTo({top: 0});
+    window.scrollTo({ top: 0 });
     getManga();
   }, []);
 
   useEffect(() => {
-      promena === true ? setHasMore(true) : setHasMore(false);
+    promena === true ? setHasMore(true) : setHasMore(false);
   }, [promena]);
 
   useEffect(() => {
-    
     setOffset(offset + 20);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [manga]);
@@ -90,31 +88,6 @@ function Manga() {
   return (
     <div className="bg-dark">
       <div className="w-full flex justify-around">
-        <select
-          id="default"
-          value={category}
-          className="bg-dark h-10 w-4/12 border border-white text-grayish rounded-lg my-auto ml-5"
-          onChange={(e) => {
-            kategorija = e.target.value;
-            setCategory(kategorija);
-            setManga([]);
-            pomeraj = 0;
-            setOffset(-12);
-            setValue(naziv);
-            getManga();
-          }}
-        >
-          <option selected>Choose a category</option>
-          <option value="adventure">Adventure</option>
-          <option value="action">Action</option>
-          <option value="fantasy">Fantasy</option>
-          <option value="crime">Crmie</option>
-          <option value="drama">Drama</option>
-          <option value="romance">Romance</option>
-          <option value="supernatural">Supernatural</option>
-          <option value="magic">Magic</option>
-          <option value="horror">Horror</option>
-        </select>
         <form
           className="bg-dark flex justify-end m-12"
           onSubmit={(e) => {
@@ -126,7 +99,7 @@ function Manga() {
             getManga();
           }}
         >
-          <div className="relative">
+          <div className="relative w-full">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
@@ -147,7 +120,7 @@ function Manga() {
             <input
               type="search"
               id="search"
-              className="block h-10 pl-10 w-full text-sm text-gray-900 border-white bg-dark rounded-lg border border-gray-300"
+              className="block h-10 pl-10 px-20 w-full text-sm text-gray-900 border-white bg-dark rounded-lg border border-gray-300"
               placeholder="Search"
               required=""
               onChange={(e) => {
@@ -156,6 +129,31 @@ function Manga() {
             />
           </div>
         </form>
+        <select
+          id="default"
+          value={category}
+          className="bg-dark h-10 w-1/6 border border-white text-grayish rounded-lg my-auto"
+          onChange={(e) => {
+            kategorija = e.target.value;
+            setCategory(kategorija);
+            setManga([]);
+            pomeraj = 0;
+            setOffset(-12);
+            setValue(naziv);
+            getManga();
+          }}
+        >
+          <option selected>Choose category</option>
+          <option value="adventure">Adventure</option>
+          <option value="action">Action</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="crime">Crmie</option>
+          <option value="drama">Drama</option>
+          <option value="romance">Romance</option>
+          <option value="supernatural">Supernatural</option>
+          <option value="magic">Magic</option>
+          <option value="horror">Horror</option>
+        </select>
       </div>
       <hr className="text-white w-11/12 m-auto"></hr>
       <GlobalStyle />
@@ -171,7 +169,7 @@ function Manga() {
           </p>
         }
       >
-        <ToTop/>
+        <ToTop />
         <div className="flex flex-wrap gap-8 justify-center bg-dark py-10">
           {manga.map((manga) => (
             <div
@@ -180,7 +178,7 @@ function Manga() {
               onClick={() => {
                 navigate(`${manga.attributes.canonicalTitle}/${manga.id}`, {
                   state: {
-                    manga: manga
+                    manga: manga,
                   },
                 });
               }}

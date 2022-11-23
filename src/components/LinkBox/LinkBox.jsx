@@ -3,12 +3,37 @@ import { useContext } from "react";
 import { NotificationManager } from "react-notifications";
 import { FavoritesList } from "../Context/Context";
 import Votes from "../Votes/Votes";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#343338"
+  },
+};
 
 export default function LinkBox({ link, info, setLinks, links }) {
   const { token, id } = useContext(FavoritesList);
   const [edit, setEdit] = useState(false);
   const [newL, setNewL] = useState();
   let date = new Date();
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   function Delete() {
     let requestOptions = {
@@ -67,7 +92,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
     <div class="flex text-white relative top-1/3 w-3/4 m-auto">
       <div class="relative flex flex-col p-4 mb-8 border rounded-lg bg-dark w-full shadow-lg ml-3">
         <div class="relative flex flex-row">
-            <Votes link={link} />
+          <Votes link={link} />
           <div class="flex flex-col w-full pt-2">
             <div class="flex flex-row justify-between">
               <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
@@ -88,7 +113,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
                     className="px-3 opacity-70 hover:opacity-100 cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      Delete();
+                      openModal();
                     }}
                   >
                     Delete
@@ -99,6 +124,23 @@ export default function LinkBox({ link, info, setLinks, links }) {
             <p class="text-sm opacity-70">{link.date.slice(0, 24)}</p>
           </div>
         </div>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="">
+          <h2 className="text-center text-2xl text-white">
+            Do you want to Delete this Link?
+          </h2>
+          </div>
+          <div className="flex justify-around my-4 text-white">
+            <button onClick={closeModal} className="bg-grayish rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Close</button>
+            <button onClick={() => Delete()} className="bg-logored rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Delete</button>
+          </div>
+        </Modal>
         {!edit ? (
           <a class="mt-4 font-bold text-linkblue">{link.link}</a>
         ) : (
