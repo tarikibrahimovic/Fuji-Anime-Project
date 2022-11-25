@@ -11,6 +11,7 @@ function FavoritesContextProvider({ children }) {
   const [admin, setAdmin] = useState("");
   const [email, setEmail] = useState("");
   const [verifiedAt, setVerifiedAt] = useState();
+  const [imageUrl, setImageUrl] = useState();
   let niz = [];
 
   const addToFavorites = (favoriteItem) => {
@@ -97,7 +98,9 @@ function FavoritesContextProvider({ children }) {
     email, 
     setEmail,
     verifiedAt,
-    setVerifiedAt
+    setVerifiedAt,
+    imageUrl,
+    setImageUrl
   };
   return (
     <FavoritesList.Provider value={values}>{children}</FavoritesList.Provider>

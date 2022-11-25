@@ -35,7 +35,8 @@ function App() {
     setId,
     setAdmin,
     setVerifiedAt,
-    setEmail
+    setEmail,
+    setImageUrl
   } = useContext(FavoritesList);
   const tok = token;
   let status;
@@ -56,14 +57,14 @@ function App() {
         })
         .then((e) => {
           if (status === 200) {
-            console.log(e)
             setToken(localStorage.getItem("token"));
             setIsAuth(true);
             setUsername(e.username);
             setId(e.userId);
             setAdmin(e.role);
             setEmail(e.email);
-            setVerifiedAt(e.verifiedAt)
+            setVerifiedAt(e.verifiedAt);
+            console.log(e);
           }
         });
     }

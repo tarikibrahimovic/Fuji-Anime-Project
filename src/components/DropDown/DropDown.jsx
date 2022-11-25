@@ -7,8 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function Example() {
   let username = localStorage.getItem("username") || "";
-  const { isAuth, setIsAuth, setFavItems, admin, setAdmin } =
-    useContext(FavoritesList);
+  const {
+    isAuth,
+    setIsAuth,
+    setFavItems,
+    setEmail,
+    setAdmin,
+    setVerifiedAt,
+    setImageUrl,
+    setId,
+    setToken
+  } = useContext(FavoritesList);
   const navigate = useNavigate();
 
   return (
@@ -78,6 +87,11 @@ export default function Example() {
                           setAdmin("");
                           setFavItems([]);
                           setIsAuth(false);
+                          setEmail("");
+                          setVerifiedAt("");
+                          setImageUrl("");
+                          setId(0);
+                          setToken("")
                           navigate("/", {});
                         }}
                       >

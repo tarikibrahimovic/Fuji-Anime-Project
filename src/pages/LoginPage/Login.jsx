@@ -8,8 +8,17 @@ import { NotificationManager } from "react-notifications";
 
 function Login() {
   const navigate = useNavigate();
-  const { setIsAuth, setToken, setUsername, setId, admin, setAdmin } = useContext(FavoritesList);
-  const [email, setEmail] = useState();
+  const {
+    setIsAuth,
+    setToken,
+    setUsername,
+    setId,
+    setEmail,
+    setAdmin,
+    setVerifiedAt,
+    setImageUrl,
+  } = useContext(FavoritesList);
+  const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
   let status;
@@ -38,6 +47,10 @@ function Login() {
           setId(e.id);
           setUsername(e.username);
           setAdmin(e.role);
+          setEmail(e.email);
+          setVerifiedAt(e.verifiedAt);
+          setImageUrl(e.pictureUrl);
+          NotificationManager.success("", `Welcome back! ${e.username}`);
         } else {
           setError(e.message);
         }
@@ -70,7 +83,7 @@ function Login() {
                 className="space-y-4 md:space-y-6"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  Login(email, password);
+                  Login(mail, password);
                 }}
               >
                 {error && <p className="text-lightred">{error}</p>}
@@ -86,7 +99,7 @@ function Login() {
                     name="email"
                     id="email"
                     onChange={(e) => {
-                      setEmail(e.target.value.trim());
+                      setMail(e.target.value.trim());
                     }}
                     className="bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none"
                     placeholder="name@company.com"
