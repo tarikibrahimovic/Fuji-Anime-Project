@@ -9,6 +9,8 @@ import ErrorPage from "../404Page/ErrorPage";
 import Avatar from "../../img/avatar.png";
 import Modal from "react-modal";
 import axios from "axios";
+import { NotificationManager } from "react-notifications";
+import Loader from "../../components/scroll/Loader";
 
 const customStyles = {
   content: {
@@ -36,6 +38,7 @@ function Profile() {
   const [newImage, setNewImage] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpen2, setIsOpen2] = useState(false);
+  const [loading, setLoading] = useState();
 
   let status;
   const {
@@ -57,11 +60,11 @@ function Profile() {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {}
-
   function closeModal() {
-    setIsOpen2(false);
+    setIsOpen(false);
   }
+
+  function afterOpenModal() {}
 
   function openModal2() {
     setIsOpen2(true);
@@ -163,6 +166,7 @@ function Profile() {
   }
 
   async function PostImage() {
+    setLoading(true);
     try {
       const bodyFormData = new FormData();
       bodyFormData.append("ProfilePicture", newImage);
@@ -175,14 +179,17 @@ function Profile() {
           },
         }
       );
+      NotificationManager.success("", "Image Succesfully Added!");
       setImageUrl(res.data.pictureUrl);
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      NotificationManager.error("", `${error}`);
     }
   }
-  // console.log(imageUrl)
 
   async function DeleteImage() {
+    setLoading(true);
     try {
       let res = await axios.delete(
         "https://localhost:7098/api/User/delete-image",
@@ -193,8 +200,10 @@ function Profile() {
         }
       );
       setImageUrl("");
+      NotificationManager.succes("", "Image Succesfully Deleted!");
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
     }
   }
 
@@ -210,17 +219,21 @@ function Profile() {
             contentLabel="Example Modal"
           >
             <label
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               for="file_input"
             >
               Upload file
             </label>
             <input
-              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-dark focus:outline-none text-white"
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-dark focus:outline-none text-white"
               id="file_input"
               type="file"
               onChange={(e) => {
+                if(e.target.files[0])
                 setNewImage(e.target.files[0]);
+                else{
+                  NotificationManager.error("","Uploud something!");
+                }
               }}
             />
             <div className="flex justify-around my-4 text-white">
@@ -231,10 +244,10 @@ function Profile() {
                 Close
               </button>
               <button
-                type="submit"
                 className="bg-logored rounded-lg px-5 py-1 opacity-100 hover:opacity-90"
                 onClick={(e) => {
                   e.preventDefault();
+                  closeModal();
                   PostImage();
                 }}
               >
@@ -250,22 +263,22 @@ function Profile() {
             style={customStyles}
             contentLabel="Example Modal"
           >
-            <h1 class="block mb-10 text-xl font-medium text-gray-900 dark:text-white">
+            <h1 className="block mb-10 text-xl font-medium text-gray-900 dark:text-white">
               Do you want to delete your profile picture?
             </h1>
 
             <div className="flex justify-around my-4 text-white">
               <button
-                onClick={closeModal}
+                onClick={closeModal2}
                 className="bg-grayish rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
               >
                 Close
               </button>
               <button
-                type="submit"
                 className="bg-logored rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
                 onClick={(e) => {
                   e.preventDefault();
+                  closeModal2();
                   DeleteImage();
                 }}
               >
@@ -273,10 +286,12 @@ function Profile() {
               </button>
             </div>
           </Modal>
+
           <div className="flex justify-center mb-6 border-b border-logored pb-4">
             <img src={Logo} alt="" className="w-14" />
             <h1 className="text-white text-3xl my-auto">FUJI</h1>
           </div>
+          {loading && <Loader />}
           <div className="text-white flex mt-4">
             <BsArrowLeft
               className="text-white text-3xl m-5 cursor-pointer"
@@ -287,7 +302,7 @@ function Profile() {
             />
             <p className="my-auto text-2xl">To Home</p>
           </div>
-          <div className="md:flex no-wrap md:-mx-2 mt-4">
+          <div id="profile" className="md:flex no-wrap md:-mx-2 mt-4 mb-4 gap-3">
             {/* <!-- Left Side --> */}
             <div className="w-full md:w-3/12 md:mx-2">
               {/* <!-- Profile Card --> */}
@@ -303,15 +318,17 @@ function Profile() {
                     }}
                   />
                 </div>
-                <div
-                  className="w-full flex justify-center my-5 bg-grayish rounded-lg hover:bg-logored py-2 cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openModal2();
-                  }}
-                >
-                  <button>Delete Picutre</button>
-                </div>
+                {imageUrl && (
+                  <div
+                    className="w-full flex justify-center my-5 bg-grayish rounded-lg hover:bg-logored py-2 cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openModal2();
+                    }}
+                  >
+                    <button>Delete Picutre</button>
+                  </div>
+                )}
                 <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
                   {username}
                 </h1>
@@ -336,7 +353,7 @@ function Profile() {
             <div className="w-full md:w-9/12 mx-2 h-64">
               {/* <!-- Profile tab --> */}
               {/* <!-- About Section --> */}
-              <div className="bg-dark text-white p-3 shadow-md rounded-sm shadow-logored border border-logored">
+              <div className="bg-dark text-white p-3 shadow-md rounded-sm shadow-logored border border-logored gap-4">
                 <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                   <span clas="text-green-500">
                     <svg
@@ -354,31 +371,34 @@ function Profile() {
                       />
                     </svg>
                   </span>
-                  <span className="tracking-wide">About</span>
+                  <span className="tracking-wide">
+                    About
+                    <hr className="text-logored" />
+                  </span>
                 </div>
                 <div className="text-gray-700 w-full">
-                  <div className="grid md:grid-cols-2 text-sm">
-                    <div className="grid grid-cols-2">
+                  <div className="grid md:grid-cols-2 gap-3 text-sm">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Username</div>
                       <div className="px-4 py-2">{username}</div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Email.</div>
                       <div className="px-4 py-2">{email}</div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Id</div>
                       <div className="px-4 py-2">{id}</div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Verified</div>
                       <div className="px-4 py-2">True</div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Verified At</div>
                       <div className="px-4 py-2">{verifiedAt.slice(0, 10)}</div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                       <div className="px-4 py-2 font-semibold">Role</div>
                       <div className="px-4 py-2">{admin}</div>
                     </div>

@@ -121,6 +121,7 @@ function Anime() {
             <input
               type="search"
               id="search"
+              autoComplete="off"
               className="block h-10 pl-10 px-20 w-full text-sm text-gray-900 border-white bg-dark rounded-lg border border-gray-300"
               placeholder="Search"
               required=""

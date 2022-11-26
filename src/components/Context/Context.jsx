@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { NotificationManager } from "react-notifications";
 
 const FavoritesList = createContext();
 
@@ -39,6 +40,7 @@ function FavoritesContextProvider({ children }) {
         ) {
           setFavItems((prev) => [...prev, favoriteItem]);
         }
+        NotificationManager.success("", "Succesfully added!");
       })
       .catch((e) => console.log(e));
   };
@@ -64,6 +66,7 @@ function FavoritesContextProvider({ children }) {
             (el) => el.id !== favoriteItem.id || el.type !== favoriteItem.type
           );
         });
+        NotificationManager.success("", "Succesfully removed!");
       })
       .catch((e) => console.log(e));
   };

@@ -4,6 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import "./DropDown.css";
 import { FavoritesList } from "../Context/Context";
 import { useNavigate } from "react-router-dom";
+import Avatar from "../../img/avatar.png"
 
 export default function Example() {
   let username = localStorage.getItem("username") || "";
@@ -16,12 +17,14 @@ export default function Example() {
     setVerifiedAt,
     setImageUrl,
     setId,
-    setToken
+    setToken,
+    imageUrl
   } = useContext(FavoritesList);
   const navigate = useNavigate();
 
   return (
-    <div className="top-16 w-56 text-right md" id="dropdown">
+    <div className="top-16 w-56 text-right flex justify-center" id="dropdown">
+      <img src={imageUrl || Avatar} alt="" className="w-10 h-auto object-scale-down rounded-full"/>
       <Menu
         as="div"
         className="relative inline-block text-left border-b border-white mr-3"

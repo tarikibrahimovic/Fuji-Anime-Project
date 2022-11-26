@@ -77,7 +77,6 @@ export default function AnimeInfo() {
                   className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded absolute"
                   onClick={() => {
                     removeFromFav(state.anime);
-                    NotificationManager.success("", "Succesfully removed!");
                   }}
                 >
                   Remove from favorites
@@ -88,7 +87,6 @@ export default function AnimeInfo() {
                   onClick={() => {
                     if (isAuth) {
                       addToFavorites(state.anime);
-                      NotificationManager.success("", "Succesfully added!");
                     } else {
                       NotificationManager.error(
                         "Please log in!",

@@ -98,6 +98,7 @@ function Login() {
                     type="email"
                     name="email"
                     id="email"
+                    autoComplete="off"
                     onChange={(e) => {
                       setMail(e.target.value.trim());
                     }}

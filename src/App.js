@@ -64,7 +64,7 @@ function App() {
             setAdmin(e.role);
             setEmail(e.email);
             setVerifiedAt(e.verifiedAt);
-            console.log(e);
+            setImageUrl(e.pictureUrl)
           }
         });
     }

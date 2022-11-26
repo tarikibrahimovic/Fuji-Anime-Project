@@ -2,9 +2,9 @@ import Logo from "../../img/fuji-logo.png";
 import Poster from "../../img/all-anime-poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { NotificationManager } from "react-notifications";
 
 function Login() {
-  
   let navigate = useNavigate();
   let status;
   const [conPass, setConPass] = useState();
@@ -26,19 +26,18 @@ function Login() {
       }),
     };
     fetch("https://localhost:7098/api/User/register", requestOptions)
-    .then((res) => {
-      status = res.status;
-      return res.json();
-    })
-    .then((e) => {
-      if(status === 200){
-        navigate("/",{})
-      }
-      else{
-        setErrors(e.message);
-      }
-    })
-    .catch((e) => console.log(e));
+      .then((res) => {
+        status = res.status;
+        return res.json();
+      })
+      .then((e) => {
+        if (status === 200) {
+          navigate("/", {});
+        } else {
+          setErrors(e.message);
+        }
+      })
+      .catch((e) => console.log(e));
   }
 
   return (
@@ -62,11 +61,18 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Make your new account
               </h1>
-              {errors && (<p className="text-lightred">{errors}</p>)}
-              <form className="space-y-4 md:space-y-6" onSubmit={(e) => {
-                e.preventDefault();
-                Register(mail, pass, conPass, username);
-              }}>
+              {errors && <p className="text-lightred">{errors}</p>}
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (
+                    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)
+                  )
+                    Register(mail, pass, conPass, username);
+                  else NotificationManager.error("", "Invalid Email Format!");
+                }}
+              >
                 <div>
                   <label
                     for="username"
@@ -75,13 +81,16 @@ function Login() {
                     Your username
                   </label>
                   <input
+                    autoComplete="off"
                     type="username"
                     name="username"
                     id="username"
                     onChange={(e) => {
-                      setUsername(e.target.value.trim())
+                      setUsername(e.target.value.trim());
                     }}
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${(errors?.Username )? "border-lightred" : ""}`}
+                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${
+                      errors?.Username ? "border-lightred" : ""
+                    }`}
                     placeholder="username"
                     required=""
                   />
@@ -97,10 +106,13 @@ function Login() {
                     type="email"
                     name="email"
                     id="email"
+                    autoComplete="off"
                     onChange={(e) => {
-                      setMail(e.target.value.trim())
+                      setMail(e.target.value.trim());
                     }}
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${(errors?.Email )? "border-lightred" : ""}`}
+                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none ${
+                      errors?.Email ? "border-lightred" : ""
+                    }`}
                     placeholder="name@company.com"
                     required=""
                   />
@@ -120,7 +132,9 @@ function Login() {
                       setPass(e.target.value.trim());
                     }}
                     placeholder="••••••••"
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${(errors?.Password)? "border-lightred" : ""}`}
+                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                      errors?.Password ? "border-lightred" : ""
+                    }`}
                     required=""
                   />
                 </div>
@@ -139,7 +153,9 @@ function Login() {
                       setConPass(e.target.value.trim());
                     }}
                     placeholder="••••••••"
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${(errors?.ConfirmPassword)? "border-lightred" : ""}`}
+                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                      errors?.ConfirmPassword ? "border-lightred" : ""
+                    }`}
                     required=""
                   />
                 </div>
