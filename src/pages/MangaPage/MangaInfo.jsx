@@ -8,6 +8,7 @@ import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
 import { NotificationManager } from "react-notifications";
 import { BsArrowLeft } from "react-icons/bs";
+import YoutubeEmbed from "../../components/Trailer/YouTubeEmbed";
 
 export default function MangaInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -39,36 +40,77 @@ export default function MangaInfo() {
         setLinks(e);
       });
   }, []);
+
+  console.log(state.manga)
+
+
   return (
     <>
       <Link to="/layout/manga">
         <BsArrowLeft className="text-white text-3xl m-5" />
       </Link>
-      <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
-        <div className="flex flex-col w-1/4 justify-center items-center pt-4">
-          <img
-            className="rounded-lg w-64 cursor-pointer"
-            src={state.manga.attributes.posterImage.small}
-            alt=""
-          />
-        </div>
-        <div className="flex flex-col w-3/4 pt-4 gap-5 h-full">
-          <div>
+      <div className="flex flex-col justify-center items-start w-full h-auto bg-dark text-white">
+        <div className="flex w-full pl-10 mb-10 ">
+          <div className="flex">
             <p className="text-4xl font-bold">
               {state.manga.attributes.canonicalTitle}
+              <hr />
+              {state.manga.attributes.titles.ja_jp}
             </p>
-            <br />
-            <h4>{state.manga.attributes.description}</h4>
+            <div className="px-2 h-8 text-xl font-bold bg-logored text-white rounded-xl flex items-center">
+              {state.manga.attributes.averageRating}
+            </div>
           </div>
+        </div>
+        <div className="flex w-full justify-evenly" id="prikaz">
+          <img
+            className="rounded-lg w-64 cursor-pointer"
+            src={state.manga.attributes.posterImage.large}
+            alt=""
+          />
+          <div className="">
+            <YoutubeEmbed trailer={state.manga.attributes.youtubeVideoId} />
+          </div>
+        </div>
+        <hr className="text-logored w-9/12 my-5 m-auto" />
+        <div className="flex flex-col w-full px-10 mt-10 pb-10">
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Age Rating: </b>
+            {state.manga.attributes.ageRatingGuide}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Status: </b>
+            {state.manga.attributes.status}{" "}
+            {state.manga.attributes.status === "finished"
+              ? state.manga.attributes.endDate
+              : ""}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Episode Count: </b>
+            {state.manga.attributes.episodeCount}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Favorite Count: </b>
+            {state.manga.attributes.favoritesCount}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Description: </b>
+            {state.manga.attributes.synopsis}{" "}
+          </p>
           <div>
-            {!isAuth && (
-              <div className="text-lightred my-7">
-                <p className="">
-                  You are not Authorised, Please log in or make an Account
-                </p>
-              </div>
-            )}
-            <Link to="/layout/manga">
+            <div className="mt-5">
+              {!isAuth && (
+                <div className="text-lightred my-7">
+                  <p className="">
+                    You are not Authorised, Please log in or make an Account
+                  </p>
+                </div>
+              )}
               {favItems.some(
                 (el) => el.id === state.manga.id && el.type === state.manga.type
               ) ? (
@@ -86,7 +128,6 @@ export default function MangaInfo() {
                   onClick={() => {
                     if (isAuth) {
                       addToFavorites(state.manga);
-                      NotificationManager.success("", "Succesfully added!");
                     } else {
                       NotificationManager.error(
                         "Please log in!",
@@ -102,7 +143,7 @@ export default function MangaInfo() {
                   Add to favorites
                 </button>
               )}
-            </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,28 @@
+.video-responsive {
+    overflow: hidden;
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  .video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 400px;
+    width: 600px;
+  }
+
+  @media only screen and (max-width: 1015px) {
+    .video-responsive iframe {
+      left: 0;
+      top: 0;
+      height: 200px;
+      width: 300px;
+    }
+    .video-responsive {
+      overflow: hidden;
+      width: fit-content;
+      height: fit-content;
+      margin-top: 40px;
+    }
+
+  }

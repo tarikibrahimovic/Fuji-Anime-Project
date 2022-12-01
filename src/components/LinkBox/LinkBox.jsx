@@ -13,7 +13,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "#343338"
+    backgroundColor: "#343338",
   },
 };
 
@@ -28,8 +28,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {
-  }
+  function afterOpenModal() {}
 
   function closeModal() {
     setIsOpen(false);
@@ -95,7 +94,12 @@ export default function LinkBox({ link, info, setLinks, links }) {
           <Votes link={link} />
           <div class="flex flex-col w-full pt-2">
             <div class="flex flex-row justify-between">
-              <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
+              <p class="relative text-xl whitespace-nowrap font-bold overflow-hidden flex items-center">
+                {link.pictureUrl && (
+                  <div className="w-10 h-10">
+                    <img src={link.pictureUrl} alt="picture" />
+                  </div>
+                )}
                 {link.username.toUpperCase()}
               </p>
               {id === link.userId && (
@@ -132,13 +136,23 @@ export default function LinkBox({ link, info, setLinks, links }) {
           contentLabel="Example Modal"
         >
           <div className="">
-          <h2 className="text-center text-2xl text-white">
-            Do you want to Delete this Link?
-          </h2>
+            <h2 className="text-center text-2xl text-white">
+              Do you want to Delete this Link?
+            </h2>
           </div>
           <div className="flex justify-around my-4 text-white">
-            <button onClick={closeModal} className="bg-grayish rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Close</button>
-            <button onClick={() => Delete()} className="bg-logored rounded-lg px-5 py-1 opacity-80 hover:opacity-100">Delete</button>
+            <button
+              onClick={closeModal}
+              className="bg-grayish rounded-lg px-5 py-1 opacity-80 hover:opacity-100"
+            >
+              Close
+            </button>
+            <button
+              onClick={() => Delete()}
+              className="bg-logored rounded-lg px-5 py-1 opacity-80 hover:opacity-100"
+            >
+              Delete
+            </button>
           </div>
         </Modal>
         {!edit ? (

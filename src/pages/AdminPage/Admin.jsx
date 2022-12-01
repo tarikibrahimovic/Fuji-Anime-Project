@@ -30,6 +30,7 @@ export default function Admin() {
       res = await res.json();
       setData(res);
       setSearchData(res);
+      console.log(res)
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +48,7 @@ export default function Admin() {
     });
   }, [value]);
 
+  console.log(admin)
   return (
     <>{(admin === "Admin") ? (<div>
       <form
@@ -113,7 +115,7 @@ export default function Admin() {
       {data?.map((e) => {
         return <AdminShow data={e} setData={setData} setSearchData={setSearchData} getAdmin={getAdmin}/>;
       })}
-    </div>) : (<>{navigate('*', {})}</>)}</>
+    </div>) : (<>{navigate('/*', {})}</>)}</>
     
   );
 }

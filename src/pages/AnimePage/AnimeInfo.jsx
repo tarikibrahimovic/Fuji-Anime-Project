@@ -8,7 +8,8 @@ import CommentAdd from "../../components/CommentBox/CommentAdd";
 import LinkBox from "../../components/LinkBox/LinkBox";
 import LinkAdd from "../../components/LinkBox/LinkAdd";
 import { NotificationManager } from "react-notifications";
-import {BsArrowLeft} from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
+import YoutubeEmbed from "../../components/Trailer/YouTubeEmbed";
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems, isAuth } =
@@ -41,35 +42,75 @@ export default function AnimeInfo() {
       });
   }, []);
 
+  console.log(links)
+
   return (
     <>
-    <Link to="/layout/anime">
-      <BsArrowLeft className="text-white text-3xl m-5"/>
-    </Link>
-      <div className="flex flex-row justify-center items-start w-full h-auto bg-dark text-white">
-        <div className="flex flex-col w-1/4 justify-center items-center pt-4">
-          <img
-            className="rounded-lg w-64 cursor-pointer"
-            src={state.anime.attributes.posterImage.small}
-            alt=""
-          />
-        </div>
-        <div className="flex flex-col w-3/4 pt-4 gap-5 h-full">
-          <div>
+      <Link to="/layout/anime">
+        <BsArrowLeft className="text-white text-3xl m-5" />
+      </Link>
+      <div className="flex flex-col justify-center items-start w-full h-auto bg-dark text-white">
+        <div className="flex w-full pl-10 mb-10 ">
+          <div className="flex">
             <p className="text-4xl font-bold">
               {state.anime.attributes.canonicalTitle}
+              <hr />
+              {state.anime.attributes.titles.ja_jp}
             </p>
-            <br />
-            <h4>{state.anime.attributes.description}</h4>
+            <div className="px-2 h-8 text-xl font-bold bg-logored text-white rounded-xl flex items-center">
+              {state.anime.attributes.averageRating}
+            </div>
           </div>
+        </div>
+        <div className="flex w-full justify-evenly" id="prikaz">
+          <img
+            className="rounded-lg w-64 cursor-pointer"
+            src={state.anime.attributes.posterImage.large}
+            alt=""
+          />
+          <div className="">
+            <YoutubeEmbed trailer={state.anime.attributes.youtubeVideoId} />
+          </div>
+        </div>
+        <hr className="text-logored w-9/12 my-5 m-auto" />
+        <div className="flex flex-col w-full px-10 mt-10 pb-10">
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Age Rating: </b>
+            {state.anime.attributes.ageRatingGuide}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Status: </b>
+            {state.anime.attributes.status}{" "}
+            {state.anime.attributes.status === "finished"
+              ? state.anime.attributes.endDate
+              : ""}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Episode Count: </b>
+            {state.anime.attributes.episodeCount}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Favorite Count: </b>
+            {state.anime.attributes.favoritesCount}{" "}
+          </p>
+          <p className="my-1">
+            {" "}
+            <b className="text-logored ">Description: </b>
+            {state.anime.attributes.synopsis}{" "}
+          </p>
           <div>
-            {!isAuth && (
-              <div className="text-lightred my-7">
-                <p className="">
-                  You are not Authorised, Please log in or make an Account
-                </p>
-              </div>
-            )}
+            <div className="mt-5">
+              {!isAuth && (
+                <div className="text-lightred my-7">
+                  <p className="">
+                    You are not Authorised, Please log in or make an Account
+                  </p>
+                </div>
+              )}
               {favItems.some(
                 (el) => el.id === state.anime.id && el.type === state.anime.type
               ) ? (
@@ -102,6 +143,7 @@ export default function AnimeInfo() {
                   Add to favorites
                 </button>
               )}
+            </div>
           </div>
         </div>
       </div>

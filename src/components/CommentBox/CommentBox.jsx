@@ -94,7 +94,12 @@ export default function CommentBox({ comment, info, setComments, comments }) {
         <div class="relative flex gap-4">
           <div class="flex flex-col w-full">
             <div class="flex flex-row justify-between">
-              <p class="relative text-xl whitespace-nowrap font-bold  overflow-hidden">
+            <p class="relative text-xl whitespace-nowrap font-bold overflow-hidden flex items-center">
+                {comment.pictureUrl && (
+                  <div className="w-10 h-10">
+                    <img src={comment.pictureUrl} alt="picture" />
+                  </div>
+                )}
                 {comment.username.toUpperCase()}
               </p>
               {(id === comment.userId || admin === "Admin") && (

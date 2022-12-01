@@ -23,4 +23,18 @@ input:-webkit-autofill:active{
   #profile {
     margin-bottom: 100px;
   }
+
+  #prikaz{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 1015px) {
+  #prikaz{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

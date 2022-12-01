@@ -46,7 +46,7 @@ export default function FavPage() {
                       className="flex justify-center"
                       onClick={() => {
                         navigate(
-                          `/anime/${el.attributes.canonicalTitle}/${el.id}`,
+                          `/layout/anime/${el.attributes.canonicalTitle}/${el.id}`,
                           {
                             state: {
                               anime: el,
@@ -97,7 +97,7 @@ export default function FavPage() {
                       className="flex justify-center"
                       onClick={() => {
                         navigate(
-                          `/manga/${el.attributes.canonicalTitle}/${el.id}`,
+                          `/layout/manga/${el.attributes.canonicalTitle}/${el.id}`,
                           {
                             state: {
                               manga: el,
