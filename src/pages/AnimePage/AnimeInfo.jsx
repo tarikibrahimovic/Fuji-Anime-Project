@@ -42,7 +42,6 @@ export default function AnimeInfo() {
       });
   }, []);
 
-  console.log(links)
 
   return (
     <>

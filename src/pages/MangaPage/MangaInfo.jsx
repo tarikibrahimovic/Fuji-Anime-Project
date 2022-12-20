@@ -41,9 +41,6 @@ export default function MangaInfo() {
       });
   }, []);
 
-  console.log(state.manga)
-
-
   return (
     <>
       <Link to="/layout/manga">

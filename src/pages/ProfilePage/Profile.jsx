@@ -11,6 +11,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
 import Loader from "../../components/scroll/Loader";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const customStyles = {
   content: {
@@ -39,6 +40,7 @@ function Profile() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpen2, setIsOpen2] = useState(false);
   const [loading, setLoading] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
   let status;
   const {
@@ -53,6 +55,7 @@ function Profile() {
     isAuth,
     imageUrl,
     setImageUrl,
+    tip
   } = useContext(FavoritesList);
   let navigate = useNavigate();
 
@@ -149,11 +152,9 @@ function Profile() {
     )
       .then((e) => {
         status = e.status;
-        console.log(e);
         return e.json();
       })
       .then((res) => {
-        console.log(res);
         if (status === 200) {
           setUsername(NewUsername);
           localStorage.setItem("username", NewUsername);
@@ -460,7 +461,7 @@ function Profile() {
               </div>
             )}
           </div>
-          <div className="border-b border-logored text-white">
+          { (tip !== "Google") && (<div className="border-b border-logored text-white">
             <button
               className={`text-2xl my-4 w-full text-left ${
                 changePassword && "font-bold"
@@ -481,7 +482,7 @@ function Profile() {
                     Forgot(pass, conPass);
                   }}
                 >
-                  <div>
+                  {/* <div>
                     <label
                       for="password"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -505,6 +506,8 @@ function Profile() {
                       return <p className="text-lightred">{e}</p>;
                     })}
                   </div>
+
+
                   <div>
                     <label
                       for="confirmpassword"
@@ -528,7 +531,99 @@ function Profile() {
                     {errors?.ConfirmPassword?.map((e) => {
                       return <p className="text-lightred">{e}</p>;
                     })}
+                  </div> */}
+
+
+
+
+
+
+                  <div>
+                  <label
+                    for="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Password
+                  </label>
+                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                    <input
+                      type={`${showPassword ? "text" : "password"}`}
+                      name="password"
+                      id="password"
+                      onChange={(e) => {
+                        setPass(e.target.value.trim());
+                      }}
+                      placeholder="••••••••"
+                      className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                        errors?.Password ? "border-lightred" : ""
+                      }`}
+                      required=""
+                    />
+                    <div className="flex justify-center pr-1">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      ) : (
+                        <AiFillEye
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
+                  {errors?.Password?.map((e) => {
+                      return <p className="text-lightred">{e}</p>;
+                    })}
+                </div>
+                <div>
+                  <label
+                    for="confirmpassword"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Confirm Password
+                  </label>
+                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                    <input
+                      type={`${showPassword ? "text" : "password"}`}
+                      name="password"
+                      id="password"
+                      onChange={(e) => {
+                        setConPass(e.target.value.trim());
+                      }}
+                      placeholder="••••••••"
+                      className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                        errors?.ConfirmPassword ? "border-lightred" : ""
+                      }`}
+                      required=""
+                    />
+                    <div className="flex justify-center pr-1">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      ) : (
+                        <AiFillEye
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  {errors?.ConfirmPassword?.map((e) => {
+                      return <p className="text-lightred">{e}</p>;
+                    })}
+                </div>
                   <button
                     type="submit"
                     className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
@@ -538,7 +633,7 @@ function Profile() {
                 </form>
               </div>
             )}
-          </div>
+          </div>)}
           <div className="border-b border-logored text-white">
             <button
               className={`text-2xl my-4 w-full text-left ${

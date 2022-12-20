@@ -5,6 +5,9 @@ import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import { useNavigate } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import { useEffect } from "react";
+import jwtDecode from "jwt-decode";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,11 +20,13 @@ function Login() {
     setAdmin,
     setVerifiedAt,
     setImageUrl,
+    setTip,
   } = useContext(FavoritesList);
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
   let status;
+  const [showPassword, setShowPassword] = useState(false);
 
   const Login = (em, pass) => {
     setError();
@@ -50,6 +55,7 @@ function Login() {
           setEmail(e.email);
           setVerifiedAt(e.verifiedAt);
           setImageUrl(e.pictureUrl);
+          setTip(e.type);
           NotificationManager.success("", `Welcome back! ${e.username}`);
         } else {
           setError(e.message);
@@ -57,6 +63,71 @@ function Login() {
       })
       .catch((e) => console.log(e));
   };
+
+  const GoogleLogin = (userObject) => {
+    setError();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: userObject.name,
+        email: userObject.email,
+        sub: userObject.sub,
+      }),
+    };
+    fetch("https://localhost:7098/api/User/login-google", requestOptions)
+      .then((res) => {
+        status = res.status;
+        return res.json();
+      })
+      .then((e) => {
+        localStorage.setItem("token", "Bearer " + e.token);
+        localStorage.setItem("username", e.username);
+        setToken("Bearer " + e.token);
+        if (status === 200) {
+          setIsAuth(true);
+          setId(e.id);
+          setUsername(e.username);
+          setAdmin(e.role);
+          setEmail(e.email);
+          setVerifiedAt(e.verifiedAt);
+          setImageUrl(e.pictureUrl);
+          setTip(e.type);
+          NotificationManager.success("", `Welcome back! ${e.username}`);
+        } else {
+          setError(e.message);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const CLIENT_ID =
+    "DUMMY";
+
+  const handleCallbackResponse = (response) => {
+    let userObject = jwtDecode(response.credential);
+    GoogleLogin(userObject);
+  };
+
+  useEffect(() => {
+    /* global google */
+    const google = window.google;
+    google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-signin-button"),
+      {
+        theme: "outline",
+        height: "auto",
+        width: "auto",
+        backGroundColor: "red",
+        color: "white",
+      }
+    );
+  }, []);
 
   return (
     <section className="bg-dark w-full">
@@ -79,6 +150,11 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
                 Log in to your account
               </h1>
+              <div
+                id="google-signin-button"
+                className="flex justify-center"
+              ></div>
+              <hr className="border-white" />
               <form
                 className="space-y-4 md:space-y-6"
                 onSubmit={(e) => {
@@ -114,18 +190,45 @@ function Login() {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    onChange={(e) => {
-                      setPassword(e.target.value.trim());
-                    }}
-                    placeholder="••••••••"
-                    className="bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none"
-                    required=""
-                  />
+                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                    <input
+                      type={`${showPassword ? "text" : "password"}`}
+                      name="password"
+                      id="password"
+                      onChange={(e) => {
+                        setPassword(e.target.value.trim());
+                      }}
+                      placeholder="••••••••"
+                      className="text-white bg-dark rounded-lg w-full p-2.5 focus:outline-none"
+                      required=""
+                    />
+                    <div className="flex justify-center pr-1">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                        className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      ) : (
+                        <AiFillEye
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
+                {/* <PasswordInput
+                  placeholder="Password"
+                  label="Password"
+                  onChange={(e) => {
+                    setPassword(e.target.value.trim());
+                  }}
+                  className="bg-dark border border-logored text-white rounded-lg w-full p-2.5"
+                /> */}
                 <div className="flex items-center justify-between">
                   <a
                     href="/forgotpassword"

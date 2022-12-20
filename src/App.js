@@ -36,7 +36,8 @@ function App() {
     setAdmin,
     setVerifiedAt,
     setEmail,
-    setImageUrl
+    setImageUrl,
+    setTip
   } = useContext(FavoritesList);
   const tok = token;
   let status;
@@ -65,6 +66,7 @@ function App() {
             setEmail(e.email);
             setVerifiedAt(e.verifiedAt);
             setImageUrl(e.pictureUrl)
+            setTip(e.pom)
           }
         });
     }

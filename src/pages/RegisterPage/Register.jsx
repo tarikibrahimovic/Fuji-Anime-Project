@@ -3,6 +3,9 @@ import Poster from "../../img/all-anime-poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { NotificationManager } from "react-notifications";
+import { useEffect } from "react";
+import jwtDecode from "jwt-decode";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Login() {
   let navigate = useNavigate();
@@ -12,6 +15,7 @@ function Login() {
   const [mail, setMail] = useState();
   const [errors, setErrors] = useState();
   const [username, setUsername] = useState();
+  const [showPassword, setShowPassword] = useState(false);
 
   function Register(em, pass, confirmpass, user) {
     setErrors();
@@ -40,6 +44,54 @@ function Login() {
       .catch((e) => console.log(e));
   }
 
+  function GoogleRegister(userObject) {
+    setErrors();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: userObject.name,
+        email: userObject.email,
+        sub: userObject.sub,
+      }),
+    };
+    fetch("https://localhost:7098/api/User/register-google", requestOptions)
+      .then((res) => {
+        status = res.status;
+        return res.json();
+      })
+      .then((e) => {
+        if (status === 200) {
+          navigate("/", {});
+        } else {
+          setErrors(e.message);
+        }
+      })
+      .catch((e) => console.log(e));
+  }
+
+  const CLIENT_ID =
+    "DUMMY";
+
+  const handleCallbackResponse = (response) => {
+    let userObject = jwtDecode(response.credential);
+    GoogleRegister(userObject);
+  };
+
+  useEffect(() => {
+    /* global google */
+    const google = window.google;
+    google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-signin-button"),
+      { theme: "outline", height: "50px", width: "200px" }
+    );
+  }, []);
+
   return (
     <section className="bg-dark w-full">
       <div>
@@ -61,6 +113,11 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Make your new account
               </h1>
+              <div
+                id="google-signin-button"
+                className="flex justify-center"
+              ></div>
+              <hr className="border-white" />
               {errors && <p className="text-lightred">{errors}</p>}
               <form
                 className="space-y-4 md:space-y-6"
@@ -69,8 +126,14 @@ function Login() {
                   if (
                     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)
                   )
-                    Register(mail, pass, conPass, username);
-                  else NotificationManager.error("", "Invalid Email Format!");
+                    if (
+                      username &&
+                      conPass?.length >= 6 &&
+                      pass?.length >= 6 &&
+                      mail
+                    )
+                      Register(mail, pass, conPass, username);
+                    else NotificationManager.error("", "Something is wrong!");
                 }}
               >
                 <div>
@@ -124,19 +187,36 @@ function Login() {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    onChange={(e) => {
-                      setPass(e.target.value.trim());
-                    }}
-                    placeholder="••••••••"
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                      errors?.Password ? "border-lightred" : ""
-                    }`}
-                    required=""
-                  />
+                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                    <input
+                      type={`${showPassword ? "text" : "password"}`}
+                      name="password"
+                      id="password"
+                      onChange={(e) => {
+                        setPass(e.target.value.trim());
+                      }}
+                      placeholder="••••••••"
+                      className="text-white bg-dark rounded-lg w-full p-2.5 focus:outline-none"
+                      required=""
+                    />
+                    <div className="flex justify-center pr-1">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      ) : (
+                        <AiFillEye
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label
@@ -145,19 +225,36 @@ function Login() {
                   >
                     Confirm Password
                   </label>
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    id="confirmpassword"
-                    onChange={(e) => {
-                      setConPass(e.target.value.trim());
-                    }}
-                    placeholder="••••••••"
-                    className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                      errors?.ConfirmPassword ? "border-lightred" : ""
-                    }`}
-                    required=""
-                  />
+                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                    <input
+                      type={`${showPassword ? "text" : "password"}`}
+                      name="password"
+                      id="password"
+                      onChange={(e) => {
+                        setConPass(e.target.value.trim());
+                      }}
+                      placeholder="••••••••"
+                      className="text-white bg-dark rounded-lg w-full p-2.5 focus:outline-none"
+                      required=""
+                    />
+                    <div className="flex justify-center pr-1">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      ) : (
+                        <AiFillEye
+                          className="text-2xl"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <button
                   type="submit"
