@@ -16,6 +16,7 @@ function Login() {
   const [errors, setErrors] = useState();
   const [username, setUsername] = useState();
   const [showPassword, setShowPassword] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function Register(em, pass, confirmpass, user) {
     setErrors();
@@ -29,7 +30,7 @@ function Login() {
         confirmPassword: confirmpass,
       }),
     };
-    fetch("https://localhost:7098/api/User/register", requestOptions)
+    fetch(link + "User/register", requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -55,7 +56,7 @@ function Login() {
         sub: userObject.sub,
       }),
     };
-    fetch("https://localhost:7098/api/User/register-google", requestOptions)
+    fetch(link + "User/register-google", requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -70,8 +71,7 @@ function Login() {
       .catch((e) => console.log(e));
   }
 
-  const CLIENT_ID =
-    "DUMMY";
+  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
   const handleCallbackResponse = (response) => {
     let userObject = jwtDecode(response.credential);

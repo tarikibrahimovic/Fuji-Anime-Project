@@ -5,6 +5,7 @@ function Verify() {
     let {id} = useParams();
     const navigate = useNavigate();
     let status;
+    const link = process.env.REACT_APP_BACKEND_LINK;
     function Verify() {
         const requestOptions = {
             method: "POST",
@@ -13,10 +14,10 @@ function Verify() {
                Token: id
           }),
           };
-          fetch("https://localhost:7098/api/User/verify", requestOptions)
+          fetch(link + "User/verify", requestOptions)
           .then((res) => {
             status = res.status
-            console.log(res, status);
+            console.log(res, status, id);
             return res.json();
           }).then((e) => {
             console.log(e);

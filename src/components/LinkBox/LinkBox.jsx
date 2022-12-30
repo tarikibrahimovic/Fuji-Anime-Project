@@ -23,6 +23,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
   const [newL, setNewL] = useState();
   let date = new Date();
   const [modalIsOpen, setIsOpen] = useState(false);
+  const url = process.env.REACT_APP_BACKEND_LINK;
 
   function openModal() {
     setIsOpen(true);
@@ -35,6 +36,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
   }
 
   function Delete() {
+    console.log(link.id)
     let requestOptions = {
       method: "DELETE",
       headers: {
@@ -42,13 +44,15 @@ export default function LinkBox({ link, info, setLinks, links }) {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-link?linkId=${link.id}`,
+      url + `User/delete-link/${link.id}`,
       requestOptions
     )
       .then((e) => {
+        console.log(e);
         return e.json();
       })
       .then((e) => {
+        console.log(e);
         setLinks((curr) => {
           return curr.filter((e) => e.id !== link.id);
         });
@@ -69,7 +73,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
         date: date.toString(),
       }),
     };
-    fetch(`https://localhost:7098/api/User/edit-link`, requestOptions)
+    fetch(url + `User/edit-link`, requestOptions)
       .then((e) => {
         return e.json();
       })
@@ -156,7 +160,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
           </div>
         </Modal>
         {!edit ? (
-          <a class="mt-4 font-bold text-linkblue">{link.link}</a>
+          <a href={link.link} class="mt-4 font-bold text-linkblue">{link.link}</a>
         ) : (
           <>
             <textarea

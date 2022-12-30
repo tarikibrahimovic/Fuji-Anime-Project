@@ -2,6 +2,7 @@ import { FavoritesList } from "../../components/Context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import { useEffect } from "react";
 
 export default function FavPage() {
   const { favItems, removeFromFav } = useContext(FavoritesList);
@@ -13,6 +14,10 @@ export default function FavPage() {
   let manga = favItems.filter((e) => {
     return e.type === "manga";
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
 
 
   return (

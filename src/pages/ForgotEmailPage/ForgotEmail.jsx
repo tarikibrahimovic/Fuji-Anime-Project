@@ -10,6 +10,7 @@ function Login() {
   const [email, setEmail] = useState();
   const [error, setError] = useState();
   let status;
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   const SendEmail = (em) => {
     setError();
@@ -21,7 +22,7 @@ function Login() {
       }),
     };
     fetch(
-      `https://localhost:7098/api/User/forgot-password?email=${email}`,
+      link + `User/forgot-password/${email}`,
       requestOptions
     )
       .then((res) => {

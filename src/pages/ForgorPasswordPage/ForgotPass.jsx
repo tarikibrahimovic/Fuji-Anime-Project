@@ -11,6 +11,7 @@ function Forgot() {
   const [conPass, setConPass] = useState();
   const [pass, setPass] = useState();
   const [errors, setErrors] = useState();
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function Forgot(pass, confirmpass) {
     setErrors();
@@ -23,7 +24,7 @@ function Forgot() {
         confirmPassword: confirmpass,
       }),
     };
-    fetch("https://localhost:7098/api/User/reset-password", requestOptions)
+    fetch(link + "User/reset-password", requestOptions)
     .then((res) => {
       status = res.status;
       console.log(res, status);

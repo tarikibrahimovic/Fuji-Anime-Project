@@ -27,6 +27,7 @@ function Login() {
   const [error, setError] = useState();
   let status;
   const [showPassword, setShowPassword] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   const Login = (em, pass) => {
     setError();
@@ -38,7 +39,7 @@ function Login() {
         password: pass,
       }),
     };
-    fetch("https://localhost:7098/api/User/login", requestOptions)
+    fetch(link + "User/login", requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -75,7 +76,7 @@ function Login() {
         sub: userObject.sub,
       }),
     };
-    fetch("https://localhost:7098/api/User/login-google", requestOptions)
+    fetch(link + "User/login-google", requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -102,7 +103,7 @@ function Login() {
   };
 
   const CLIENT_ID =
-    "DUMMY";
+    process.env.REACT_APP_CLIENT_ID;
 
   const handleCallbackResponse = (response) => {
     let userObject = jwtDecode(response.credential);
@@ -221,14 +222,6 @@ function Login() {
                     </div>
                   </div>
                 </div>
-                {/* <PasswordInput
-                  placeholder="Password"
-                  label="Password"
-                  onChange={(e) => {
-                    setPassword(e.target.value.trim());
-                  }}
-                  className="bg-dark border border-logored text-white rounded-lg w-full p-2.5"
-                /> */}
                 <div className="flex items-center justify-between">
                   <a
                     href="/forgotpassword"

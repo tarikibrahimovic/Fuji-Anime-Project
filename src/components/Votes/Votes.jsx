@@ -13,6 +13,7 @@ export default function Votes({ link }) {
   const [option, setOption] = useState();
   let positive = 0;
   let negative = 0;
+  const url = process.env.REACT_APP_BACKEND_LINK;
 
   useEffect(() => {
     glasovi.forEach((el) => {
@@ -44,7 +45,7 @@ export default function Votes({ link }) {
         vote: option,
       }),
     };
-    fetch("https://localhost:7098/api/User/vote", requestOptions)
+    fetch(url + "User/vote", requestOptions)
       .then((e) => {
         return e.json();
       })

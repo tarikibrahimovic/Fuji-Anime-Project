@@ -41,6 +41,7 @@ function App() {
   } = useContext(FavoritesList);
   const tok = token;
   let status;
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   
   useEffect(() => {
@@ -51,7 +52,7 @@ function App() {
           Authorization: localStorage.getItem("token"),
         },
       };
-      fetch("https://localhost:7098/api/User/check-token", requestOptions)
+      fetch(link + "User/check-token", requestOptions)
         .then((e) => {
           status = e.status;
           return e.json();
@@ -80,7 +81,7 @@ function App() {
         Authorization: token,
       },
     };
-    fetch(`https://localhost:7098/api/User/get-favorites`, requestOptions)
+    fetch(link + `Favorites/get-favorites`, requestOptions)
       .then((res) => {
         return res.json();
       })

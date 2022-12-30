@@ -9,6 +9,7 @@ export default function LinkAdd({ info, setLinks, sadrzaj }) {
   let date = new Date();
   const ref = useRef();
   const [error, setError] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function Add() {
     if (com) {
@@ -25,13 +26,13 @@ export default function LinkAdd({ info, setLinks, sadrzaj }) {
           date: date.toString(),
         }),
       };
-      fetch(`https://localhost:7098/api/User/add-link`, requestOptions)
+      fetch(link + `User/add-link`, requestOptions)
         .then((e) => {
           return e.json();
         })
         .then((e) => {
           fetch(
-            `https://localhost:7098/api/User/get-links?tip=${sadrzaj.type}&idSadrzaja=${sadrzaj.id}`
+            link + `User/get-links/${sadrzaj.type}/${sadrzaj.id}`
           )
             .then((e) => {
               return e.json();

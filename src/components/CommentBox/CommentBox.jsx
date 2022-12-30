@@ -22,6 +22,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
   const [newCom, setNewCom] = useState();
   let date = new Date();
   const [modalIsOpen, setIsOpen] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function openModal() {
     setIsOpen(true);
@@ -42,7 +43,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-comment?commentId=${comment.id}`,
+      link + `User/delete-comment/${comment.id}`,
       requestOptions
     )
       .then((e) => {
@@ -70,7 +71,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
         date: date.toString(),
       }),
     };
-    fetch(`https://localhost:7098/api/User/edit-comment`, requestOptions)
+    fetch(link + `User/edit-comment`, requestOptions)
       .then((e) => {
         return e.json();
       })

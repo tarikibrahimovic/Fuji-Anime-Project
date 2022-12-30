@@ -22,6 +22,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [deletePic, setDeletePic] = useState(false);
   const [loading, setLoading] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function openModal() {
     setIsOpen(true);
@@ -52,7 +53,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
     };
     try {
       let res = await fetch(
-        `https://localhost:7098/api/User/admin-delete?id=${data.id}`,
+        link + `User/admin-delete/${data.id}`,
         requestOptions
       );
       res = await res.json();
@@ -67,7 +68,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
     setLoading(true);
     try {
       let res = await axios.delete(
-        `https://localhost:7098/api/User/admin-delete-image?userId=${data.id}`,
+        link + `User/admin-delete-image/${data.id}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),

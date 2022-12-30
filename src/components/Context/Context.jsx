@@ -15,6 +15,7 @@ function FavoritesContextProvider({ children }) {
   const [imageUrl, setImageUrl] = useState();
   const [tip, setTip] = useState("");
   let niz = [];
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   const addToFavorites = (favoriteItem) => {
     let token = localStorage.getItem("token") || "";
@@ -22,14 +23,14 @@ function FavoritesContextProvider({ children }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: token,fetch
       },
       body: JSON.stringify({
         idSadrzaja: favoriteItem.id,
         tip: favoriteItem.type,
       }),
     };
-    fetch("https://localhost:7098/api/User/add-favorite", requestOptions)
+    fetch(link + "Favorites/add-favorite", requestOptions)
       .then((res) => {
         return res.json();
       })
@@ -55,7 +56,7 @@ function FavoritesContextProvider({ children }) {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-favorite?Tip=${favoriteItem.type}&idSadrzaja=${favoriteItem.id}`,
+      link + `Favorites/delete-favorite/${favoriteItem.type}/${favoriteItem.id}`,
       requestOptions
     )
       .then((res) => {

@@ -9,6 +9,7 @@ export default function CommentAdd({ info, setComments, sadrzaj }) {
   let date = new Date();
   const ref = useRef();
   const [error, setError] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   function Add() {
     if (com) {
@@ -25,13 +26,13 @@ export default function CommentAdd({ info, setComments, sadrzaj }) {
           date: date.toString(),
         }),
       };
-      fetch(`https://localhost:7098/api/User/add-comment`, requestOptions)
+      fetch(link + `User/add-comment`, requestOptions)
         .then((e) => {
           return e.json();
         })
         .then((e) => {
           fetch(
-            `https://localhost:7098/api/User/get-comments?tip=${sadrzaj.type}&idSadrzaja=${sadrzaj.id}`
+            link + `User/get-comments/${sadrzaj.type}/${sadrzaj.id}`
           )
             .then((e) => {
               return e.json();

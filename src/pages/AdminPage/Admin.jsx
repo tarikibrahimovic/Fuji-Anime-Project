@@ -11,7 +11,7 @@ export default function Admin() {
   let searchValue = "";
   const [searchData ,setSearchData] = useState([]);
   const {admin} = useContext(FavoritesList);
-
+  const link = process.env.REACT_APP_BACKEND_LINK;
   const navigate = useNavigate();
 
 
@@ -24,13 +24,12 @@ export default function Admin() {
     };
     try {
       let res = await fetch(
-        "https://localhost:7098/api/User/admin",
+        link + "User/admin",
         requestOptions
       );
       res = await res.json();
       setData(res);
       setSearchData(res);
-      console.log(res)
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +47,6 @@ export default function Admin() {
     });
   }, [value]);
 
-  console.log(admin)
   return (
     <>{(admin === "Admin") ? (<div>
       <form

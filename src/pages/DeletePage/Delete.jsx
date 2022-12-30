@@ -12,6 +12,7 @@ function Delete() {
   const [error, setError] = useState();
   let status;
   let token = localStorage.getItem("token") || "";
+  const link = process.env.REACT_APP_BACKEND_LINK;
   
   const DeleteUser = (pass) => {
     setError();
@@ -22,7 +23,7 @@ function Delete() {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-acc?password=${pass}`,
+      link + `User/delete-acc/${pass}`,
       requestOptions
     )
       .then((res) => {

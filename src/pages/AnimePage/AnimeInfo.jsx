@@ -19,10 +19,11 @@ export default function AnimeInfo() {
   const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   useEffect(() => {
     fetch(
-      `https://localhost:7098/api/User/get-comments?tip=anime&idSadrzaja=${state.anime.id}`
+      link + `User/get-comments/anime/${state.anime.id}`
     )
       .then((e) => {
         return e.json();
@@ -32,7 +33,7 @@ export default function AnimeInfo() {
       });
 
     fetch(
-      `https://localhost:7098/api/User/get-links?tip=anime&idSadrzaja=${state.anime.id}`
+      link + `User/get-links/anime/${state.anime.id}`
     )
       .then((e) => {
         return e.json();

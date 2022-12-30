@@ -41,6 +41,7 @@ function Profile() {
   const [modalIsOpen2, setIsOpen2] = useState(false);
   const [loading, setLoading] = useState();
   const [showPassword, setShowPassword] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   let status;
   const {
@@ -88,7 +89,7 @@ function Profile() {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/delete-acc?password=${pass}`,
+      link + `User/delete-acc/${pass}`,
       requestOptions
     )
       .then((res) => {
@@ -121,7 +122,7 @@ function Profile() {
         confirmPassword: confirmpass,
       }),
     };
-    fetch("https://localhost:7098/api/User/change-password", requestOptions)
+    fetch(link + "User/change-password", requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -147,7 +148,7 @@ function Profile() {
       },
     };
     fetch(
-      `https://localhost:7098/api/User/change-username?newUsername=${NewUsername}`,
+      link + `User/change-username/${NewUsername}`,
       requestOptions
     )
       .then((e) => {
@@ -172,7 +173,7 @@ function Profile() {
       const bodyFormData = new FormData();
       bodyFormData.append("ProfilePicture", newImage);
       let res = await axios.post(
-        "https://localhost:7098/api/User/add-image",
+        link + "User/add-image",
         bodyFormData,
         {
           headers: {
@@ -193,7 +194,7 @@ function Profile() {
     setLoading(true);
     try {
       let res = await axios.delete(
-        "https://localhost:7098/api/User/delete-image",
+        link + "User/delete-image",
         {
           headers: {
             Authorization: token,
@@ -482,62 +483,6 @@ function Profile() {
                     Forgot(pass, conPass);
                   }}
                 >
-                  {/* <div>
-                    <label
-                      for="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      onChange={(e) => {
-                        setPass(e.target.value);
-                      }}
-                      placeholder="••••••••"
-                      className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                        errors?.Password ? "border-lightred" : ""
-                      }`}
-                      required=""
-                    />
-                    {errors?.Password?.map((e) => {
-                      return <p className="text-lightred">{e}</p>;
-                    })}
-                  </div>
-
-
-                  <div>
-                    <label
-                      for="confirmpassword"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      name="confirmpassword"
-                      id="confirmpassword"
-                      onChange={(e) => {
-                        setConPass(e.target.value);
-                      }}
-                      placeholder="••••••••"
-                      className={`bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                        errors?.ConfirmPassword ? "border-lightred" : ""
-                      }`}
-                      required=""
-                    />
-                    {errors?.ConfirmPassword?.map((e) => {
-                      return <p className="text-lightred">{e}</p>;
-                    })}
-                  </div> */}
-
-
-
-
-
-
                   <div>
                   <label
                     for="password"

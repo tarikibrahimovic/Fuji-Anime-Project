@@ -18,10 +18,11 @@ export default function MangaInfo() {
   const [links, setLinks] = useState([]);
   const [optionCom, setOptionCom] = useState(true);
   const [optionLink, setOptionLink] = useState(false);
+  const link = process.env.REACT_APP_BACKEND_LINK;
 
   useEffect(() => {
     fetch(
-      `https://localhost:7098/api/User/get-comments?tip=manga&idSadrzaja=${state.manga.id}`
+      link + `User/get-comments/manga/${state.manga.id}`
     )
       .then((e) => {
         return e.json();
@@ -31,7 +32,7 @@ export default function MangaInfo() {
       });
 
     fetch(
-      `https://localhost:7098/api/User/get-links?tip=manga&idSadrzaja=${state.manga.id}`
+      link + `User/get-links/manga/${state.manga.id}`
     )
       .then((e) => {
         return e.json();
