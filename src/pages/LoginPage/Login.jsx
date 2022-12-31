@@ -12,8 +12,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 function Login() {
   const navigate = useNavigate();
   const {
-    setIsAuth,
     setToken,
+    setIsAuth,
     setUsername,
     setId,
     setEmail,
@@ -166,15 +166,16 @@ function Login() {
                 {error && <p className="text-lightred">{error}</p>}
                 <div>
                   <label
-                    for="email"
+                    htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your email
+                    Email
                   </label>
                   <input
                     type="email"
                     name="email"
                     id="email"
+                    data-testid="email-input"
                     autoComplete="off"
                     onChange={(e) => {
                       setMail(e.target.value.trim());
@@ -186,7 +187,7 @@ function Login() {
                 </div>
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
@@ -196,6 +197,7 @@ function Login() {
                       type={`${showPassword ? "text" : "password"}`}
                       name="password"
                       id="password"
+                      data-testid="password-input"
                       onChange={(e) => {
                         setPassword(e.target.value.trim());
                       }}
@@ -232,6 +234,7 @@ function Login() {
                 </div>
                 <button
                   type="submit"
+                  data-testid="submit-button"
                   className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                 >
                   Sign in

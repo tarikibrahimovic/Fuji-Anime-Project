@@ -138,7 +138,7 @@ function Login() {
               >
                 <div>
                   <label
-                    for="username"
+                    htmlFor="username"
                     className="block mb-2 text-sm font-medium text-white dark:text-white"
                   >
                     Your username
@@ -160,7 +160,7 @@ function Login() {
                 </div>
                 <div>
                   <label
-                    for="email"
+                    htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your email
@@ -169,6 +169,7 @@ function Login() {
                     type="email"
                     name="email"
                     id="email"
+                    data-testid="email"
                     autoComplete="off"
                     onChange={(e) => {
                       setMail(e.target.value.trim());
@@ -191,6 +192,7 @@ function Login() {
                     <input
                       type={`${showPassword ? "text" : "password"}`}
                       name="password"
+                      data-testid="password"
                       id="password"
                       onChange={(e) => {
                         setPass(e.target.value.trim());
@@ -258,6 +260,7 @@ function Login() {
                 </div>
                 <button
                   type="submit"
+                  data-testid="submit"
                   className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                 >
                   Sign in
