@@ -235,6 +235,7 @@ function Login() {
                 <button
                   type="submit"
                   data-testid="submit-button"
+                  id="submit-button"
                   className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                 >
                   Sign in

@@ -101,6 +101,7 @@ function Home() {
       </Carousel>
       <h1
         className="flex flex-start text-2xl ml-5 mt-5 text-white cursor-pointer"
+        id="adventure"
         onClick={() => {
           clickAnimeCategoryHandler("action");
         }}
