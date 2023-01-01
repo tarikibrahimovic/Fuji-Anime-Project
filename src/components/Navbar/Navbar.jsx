@@ -44,6 +44,7 @@ function Navbar() {
               <NavLink
                 to="/layout/anime"
                 className={nesto}
+                id="anime"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Anime
