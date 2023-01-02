@@ -1,0 +1,17 @@
+
+#secondForm{
+    display: none;
+}
+
+  @media only screen and (max-width: 570px) {
+    #mainForm{
+        display: none;
+    }
+    #secondForm{
+        display: inline;
+    }
+  }
+
+  #drop{
+    width: 100vw;
+  }

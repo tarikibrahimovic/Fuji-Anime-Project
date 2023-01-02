@@ -37,7 +37,8 @@ function App() {
     setVerifiedAt,
     setEmail,
     setImageUrl,
-    setTip
+    setTip,
+    setIsLoading,
   } = useContext(FavoritesList);
   const tok = token;
   let status;
@@ -46,6 +47,7 @@ function App() {
   
   useEffect(() => {
     if (token === undefined && localStorage.getItem("token")?.length > 8) {
+      setIsLoading(true);
       let requestOptions = {
         method: "GET",
         headers: {
@@ -71,6 +73,7 @@ function App() {
           }
         });
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {

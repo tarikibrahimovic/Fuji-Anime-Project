@@ -63,14 +63,22 @@ function Manga() {
   }
 
   useEffect(() => {
-    if (state) {
+    if (state?.category) {
       setCategory(state.category);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       kategorija = state.category;
     }
+    if (state?.search) {
+      setValue(state.search);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      naziv = state.search;
+    }
+    setOffset(0)
+    setManga([])
+    pomeraj = 0;
     window.scrollTo({ top: 0 });
     getManga();
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     promena === true ? setHasMore(true) : setHasMore(false);
@@ -87,53 +95,11 @@ function Manga() {
 
   return (
     <div className="bg-dark">
-      <div className="w-full flex justify-around">
-        <form
-          className="bg-dark flex justify-end m-12"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setValue(naziv);
-            setOffset(-12);
-            setManga([]);
-            pomeraj = 0;
-            getManga();
-          }}
-        >
-          <div className="relative w-full">
-            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-              <svg
-                aria-hidden="true"
-                className="w-5 h-5 text-white dark:text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
-              </svg>
-            </div>
-            <input
-              type="search"
-              id="search"
-              autoComplete="off"
-              className="block h-10 pl-10 px-20 w-full text-sm text-gray-900 border-white bg-dark rounded-lg border border-gray-300"
-              placeholder="Search"
-              required=""
-              onChange={(e) => {
-                naziv = e.target.value;
-              }}
-            />
-          </div>
-        </form>
+      <div className="w-full flex justify-start">
         <select
           id="default"
           value={category}
-          className="bg-dark h-10 w-1/6 border border-white text-grayish rounded-lg my-auto"
+          className="bg-dark h-10 w-1/3 border border-white text-grayish rounded-lg m-12"
           onChange={(e) => {
             kategorija = e.target.value;
             setCategory(kategorija);

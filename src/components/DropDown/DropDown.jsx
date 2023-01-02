@@ -152,7 +152,7 @@ export default function Example() {
           </Menu>
         </div>
       ) : (
-        <div className="mr-4">
+        <div className="mr-4" id="dropdown">
           <button
             type="button"
             onClick={(e) => {

@@ -14,6 +14,7 @@ function FavoritesContextProvider({ children }) {
   const [verifiedAt, setVerifiedAt] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [tip, setTip] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   let niz = [];
   const link = process.env.REACT_APP_BACKEND_LINK;
 
@@ -108,6 +109,8 @@ function FavoritesContextProvider({ children }) {
     setImageUrl,
     tip,
     setTip,
+    isLoading,
+    setIsLoading
   };
   return (
     <FavoritesList.Provider value={values}>{children}</FavoritesList.Provider>

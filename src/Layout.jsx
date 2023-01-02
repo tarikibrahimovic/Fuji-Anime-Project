@@ -13,6 +13,7 @@ import FooterReal from "./components/Footer/Footer";
 import DropDown from "./components/DropDown/DropDown";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
@@ -76,6 +77,7 @@ export default function AppShellDemo() {
                 </h1>
               </Link>
             </div>
+            <SearchBar/>
             <DropDown />
           </div>
         </Header>

@@ -75,6 +75,7 @@ function Home() {
     navigate(`/layout/anime`, {
       state: {
         category: cat,
+        search: "",
       },
     });
   };
@@ -82,6 +83,7 @@ function Home() {
     navigate(`/layout/manga`, {
       state: {
         category: cat,
+        search: "",
       },
     });
   };

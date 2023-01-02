@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import AdminShow from "./AdminShow";
 import { useNavigate } from "react-router-dom";
+import ErrorPage from "../404Page/ErrorPage";
 
 export default function Admin() {
   const [data, setData] = useState([]);
   const [value, setValue] = useState();
   let searchValue = "";
   const [searchData ,setSearchData] = useState([]);
-  const {admin} = useContext(FavoritesList);
+  const {admin, isLoading} = useContext(FavoritesList);
   const link = process.env.REACT_APP_BACKEND_LINK;
   const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ export default function Admin() {
   }, [value]);
 
   return (
-    <>{(admin === "Admin") ? (<div>
+    <>{ (admin === "Admin") ? (<div>
       <form
         className="flex items-center my-3 px-3"
         onSubmit={(e) => {
@@ -113,7 +114,7 @@ export default function Admin() {
       {data?.map((e) => {
         return <AdminShow data={e} setData={setData} setSearchData={setSearchData} getAdmin={getAdmin}/>;
       })}
-    </div>) : (<>{navigate('/*', {})}</>)}</>
+    </div>) : ( (isLoading) && (<ErrorPage/>))}</>
     
   );
 }

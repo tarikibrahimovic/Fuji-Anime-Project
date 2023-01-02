@@ -56,7 +56,8 @@ function Profile() {
     isAuth,
     imageUrl,
     setImageUrl,
-    tip
+    tip,
+    isLoading
   } = useContext(FavoritesList);
   let navigate = useNavigate();
 
@@ -88,10 +89,7 @@ function Profile() {
         Authorization: token,
       },
     };
-    fetch(
-      link + `User/delete-acc/${pass}`,
-      requestOptions
-    )
+    fetch(link + `User/delete-acc/${pass}`, requestOptions)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -147,10 +145,7 @@ function Profile() {
         Authorization: token,
       },
     };
-    fetch(
-      link + `User/change-username/${NewUsername}`,
-      requestOptions
-    )
+    fetch(link + `User/change-username/${NewUsername}`, requestOptions)
       .then((e) => {
         status = e.status;
         return e.json();
@@ -170,17 +165,23 @@ function Profile() {
   async function PostImage() {
     setLoading(true);
     try {
+      const fileExtension = newImage.name.split(".").pop();
+
+      // Check if the file extension is 'jpg' or 'png' (case-insensitive)
+      if (
+        fileExtension.toLowerCase() !== "jpg" &&
+        fileExtension.toLowerCase() !== "png"
+      ) {
+        throw new Error("Please select a JPEG or PNG file");
+      }
+
       const bodyFormData = new FormData();
       bodyFormData.append("ProfilePicture", newImage);
-      let res = await axios.post(
-        link + "User/add-image",
-        bodyFormData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      let res = await axios.post(link + "User/add-image", bodyFormData, {
+        headers: {
+          Authorization: token,
+        },
+      });
       NotificationManager.success("", "Image Succesfully Added!");
       setImageUrl(res.data.pictureUrl);
       setLoading(false);
@@ -193,14 +194,11 @@ function Profile() {
   async function DeleteImage() {
     setLoading(true);
     try {
-      let res = await axios.delete(
-        link + "User/delete-image",
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      let res = await axios.delete(link + "User/delete-image", {
+        headers: {
+          Authorization: token,
+        },
+      });
       setImageUrl("");
       NotificationManager.succes("", "Image Succesfully Deleted!");
       setLoading(false);
@@ -211,7 +209,7 @@ function Profile() {
 
   return (
     <>
-      {isAuth ? (
+      { isAuth ? (
         <div className="bg-dark p-5 h-full w-full">
           <Modal
             isOpen={modalIsOpen}
@@ -231,10 +229,9 @@ function Profile() {
               id="file_input"
               type="file"
               onChange={(e) => {
-                if(e.target.files[0])
-                setNewImage(e.target.files[0]);
-                else{
-                  NotificationManager.error("","Uploud something!");
+                if (e.target.files[0]) setNewImage(e.target.files[0]);
+                else {
+                  NotificationManager.error("", "Uploud something!");
                 }
               }}
             />
@@ -304,7 +301,10 @@ function Profile() {
             />
             <p className="my-auto text-2xl">To Home</p>
           </div>
-          <div id="profile" className="md:flex no-wrap md:-mx-2 mt-4 mb-4 gap-3">
+          <div
+            id="profile"
+            className="md:flex no-wrap md:-mx-2 mt-4 mb-4 gap-3"
+          >
             {/* <!-- Left Side --> */}
             <div className="w-full md:w-3/12 md:mx-2">
               {/* <!-- Profile Card --> */}
@@ -462,123 +462,125 @@ function Profile() {
               </div>
             )}
           </div>
-          { (tip !== "Google") && (<div className="border-b border-logored text-white">
-            <button
-              className={`text-2xl my-4 w-full text-left ${
-                changePassword && "font-bold"
-              }`}
-              onClick={(e) => {
-                e.preventDefault();
-                setChangePassword(!changePassword);
-              }}
-            >
-              Change Password
-            </button>
-            {changePassword && (
-              <div className="flex justify-center my-4">
-                <form
-                  className="space-y-4 md:space-y-6 w-9/12"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    Forgot(pass, conPass);
-                  }}
-                >
-                  <div>
-                  <label
-                    for="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          {tip !== "Google" && (
+            <div className="border-b border-logored text-white">
+              <button
+                className={`text-2xl my-4 w-full text-left ${
+                  changePassword && "font-bold"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setChangePassword(!changePassword);
+                }}
+              >
+                Change Password
+              </button>
+              {changePassword && (
+                <div className="flex justify-center my-4">
+                  <form
+                    className="space-y-4 md:space-y-6 w-9/12"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      Forgot(pass, conPass);
+                    }}
                   >
-                    Password
-                  </label>
-                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
-                    <input
-                      type={`${showPassword ? "text" : "password"}`}
-                      name="password"
-                      id="password"
-                      onChange={(e) => {
-                        setPass(e.target.value.trim());
-                      }}
-                      placeholder="••••••••"
-                      className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                        errors?.Password ? "border-lightred" : ""
-                      }`}
-                      required=""
-                    />
-                    <div className="flex justify-center pr-1">
-                      {showPassword ? (
-                        <AiFillEyeInvisible
-                          className="text-2xl"
-                          onClick={(e) => {
-                            setShowPassword(!showPassword);
+                    <div>
+                      <label
+                        for="password"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Password
+                      </label>
+                      <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                        <input
+                          type={`${showPassword ? "text" : "password"}`}
+                          name="password"
+                          id="password"
+                          onChange={(e) => {
+                            setPass(e.target.value.trim());
                           }}
+                          placeholder="••••••••"
+                          className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                            errors?.Password ? "border-lightred" : ""
+                          }`}
+                          required=""
                         />
-                      ) : (
-                        <AiFillEye
-                          className="text-2xl"
-                          onClick={(e) => {
-                            setShowPassword(!showPassword);
-                          }}
-                        />
-                      )}
+                        <div className="flex justify-center pr-1">
+                          {showPassword ? (
+                            <AiFillEyeInvisible
+                              className="text-2xl"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                            />
+                          ) : (
+                            <AiFillEye
+                              className="text-2xl"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      {errors?.Password?.map((e) => {
+                        return <p className="text-lightred">{e}</p>;
+                      })}
                     </div>
-                  </div>
-                  {errors?.Password?.map((e) => {
-                      return <p className="text-lightred">{e}</p>;
-                    })}
-                </div>
-                <div>
-                  <label
-                    for="confirmpassword"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Confirm Password
-                  </label>
-                  <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
-                    <input
-                      type={`${showPassword ? "text" : "password"}`}
-                      name="password"
-                      id="password"
-                      onChange={(e) => {
-                        setConPass(e.target.value.trim());
-                      }}
-                      placeholder="••••••••"
-                      className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
-                        errors?.ConfirmPassword ? "border-lightred" : ""
-                      }`}
-                      required=""
-                    />
-                    <div className="flex justify-center pr-1">
-                      {showPassword ? (
-                        <AiFillEyeInvisible
-                          className="text-2xl"
-                          onClick={(e) => {
-                            setShowPassword(!showPassword);
+                    <div>
+                      <label
+                        for="confirmpassword"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Confirm Password
+                      </label>
+                      <div className="flex bg-dark border border-logored text-white sm:text-sm rounded-lg focus:none w-full focus:outline-none items-center">
+                        <input
+                          type={`${showPassword ? "text" : "password"}`}
+                          name="password"
+                          id="password"
+                          onChange={(e) => {
+                            setConPass(e.target.value.trim());
                           }}
+                          placeholder="••••••••"
+                          className={`bg-dark text-white sm:text-sm rounded-lg focus:none w-full p-2.5 focus:outline-none ${
+                            errors?.ConfirmPassword ? "border-lightred" : ""
+                          }`}
+                          required=""
                         />
-                      ) : (
-                        <AiFillEye
-                          className="text-2xl"
-                          onClick={(e) => {
-                            setShowPassword(!showPassword);
-                          }}
-                        />
-                      )}
+                        <div className="flex justify-center pr-1">
+                          {showPassword ? (
+                            <AiFillEyeInvisible
+                              className="text-2xl"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                            />
+                          ) : (
+                            <AiFillEye
+                              className="text-2xl"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      {errors?.ConfirmPassword?.map((e) => {
+                        return <p className="text-lightred">{e}</p>;
+                      })}
                     </div>
-                  </div>
-                  {errors?.ConfirmPassword?.map((e) => {
-                      return <p className="text-lightred">{e}</p>;
-                    })}
+                    <button
+                      type="submit"
+                      className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
+                    >
+                      Reset
+                    </button>
+                  </form>
                 </div>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
-                  >
-                    Reset
-                  </button>
-                </form>
-              </div>
-            )}
-          </div>)}
+              )}
+            </div>
+          )}
           <div className="border-b border-logored text-white">
             <button
               className={`text-2xl my-4 w-full text-left ${
@@ -633,7 +635,7 @@ function Profile() {
           <Footer />
         </div>
       ) : (
-        <ErrorPage />
+        (isLoading) && (<ErrorPage />)
       )}
     </>
   );

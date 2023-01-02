@@ -15,7 +15,7 @@ function ToTop() {
   };
   return (
     <button
-      className={`${hidden ? "hidden" : ""} z-50 fixed bottom-8 bg-lightred right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-indigo-500 text-white text-3xl font-bold`}
+      className={`${hidden ? "hidden" : ""} z-50 fixed bottom-8 bg-logored right-8 border-0 w-16 h-16 rounded-full drop-shadow-md bg-indigo-500 text-white text-3xl font-bold`}
       
       onClick={(e) => {
         e.preventDefault();
