@@ -67,7 +67,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
   async function DeleteImage() {
     setLoading(true);
     try {
-      let res = await axios.delete(
+      await axios.delete(
         link + `User/admin-delete-image/${data.id}`,
         {
           headers: {
@@ -126,6 +126,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
         <div className="mx-2 my-1 w-full flex justify-center">
           {" "}
           <img
+            alt="..."
             className="w-11 h-11 cursor-pointer"
             src={data.pictureUrl}
             onClick={(e) => {
@@ -140,7 +141,7 @@ export default function AdminShow({ data, getAdmin, setData }) {
       <p className="mx-2 my-1 w-full">
         User is Varified At: {data.verifiedAt?.slice(0, 10)}
       </p>
-      {data.id != id && (
+      {data.id !== id && (
         <div class="flex space-x-2 justify-center">
           <button
             type="button"

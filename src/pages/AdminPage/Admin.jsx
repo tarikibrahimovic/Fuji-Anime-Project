@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import AdminShow from "./AdminShow";
-import { useNavigate } from "react-router-dom";
 import ErrorPage from "../404Page/ErrorPage";
 
 export default function Admin() {
@@ -13,7 +12,6 @@ export default function Admin() {
   const [searchData ,setSearchData] = useState([]);
   const {admin, isLoading} = useContext(FavoritesList);
   const link = process.env.REACT_APP_BACKEND_LINK;
-  const navigate = useNavigate();
 
 
   async function getAdmin() {
@@ -43,7 +41,7 @@ export default function Admin() {
   useEffect(() => {
     setData((prev) => {
       return prev.filter((e) => {
-        return e.username == value;
+        return e.username === value;
       });
     });
   }, [value]);

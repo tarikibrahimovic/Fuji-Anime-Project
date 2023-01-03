@@ -79,7 +79,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
         setEdit(false);
         setComments(
           comments.map((e) => {
-            if (e.id == comment.id) {
+            if (e.id === comment.id) {
               return { ...e, komentar: newCom, date: date.toString() };
             } else {
               return { ...e };
@@ -98,7 +98,7 @@ export default function CommentBox({ comment, info, setComments, comments }) {
             <p class="relative text-xl whitespace-nowrap font-bold overflow-hidden flex items-center">
                 {comment.pictureUrl && (
                   <div className="w-10 h-10">
-                    <img src={comment.pictureUrl} alt="picture" />
+                    <img src={comment.pictureUrl} alt="picurl" />
                   </div>
                 )}
                 {comment.username.toUpperCase()}

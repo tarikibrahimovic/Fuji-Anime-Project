@@ -8,7 +8,6 @@ import Register from "./pages/RegisterPage/Register";
 import Verify from "./pages/VerifyPage/Verify";
 import ForgotEmail from "./pages/ForgotEmailPage/ForgotEmail";
 import ForgotPass from "./pages/ForgorPasswordPage/ForgotPass";
-import Delete from "./pages/DeletePage/Delete";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 import Home from "./pages/HomePage/Home";
@@ -84,7 +83,7 @@ function App() {
         Authorization: token,
       },
     };
-    fetch(link + `Favorites/get-favorites`, requestOptions)
+    fetch(link + `User/get-favorites`, requestOptions)
       .then((res) => {
         return res.json();
       })
@@ -114,7 +113,6 @@ function App() {
         <Route path="/verify/:id" element={<Verify />} />
         <Route path="/forgotpassword" element={<ForgotEmail />} />
         <Route path="/forgot/:id" element={<ForgotPass />} />
-        <Route path="/deleteacc" element={<Delete />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

@@ -31,14 +31,14 @@ function FavoritesContextProvider({ children }) {
         tip: favoriteItem.type,
       }),
     };
-    fetch(link + "Favorites/add-favorite", requestOptions)
+    fetch(link + "User/add-favorite", requestOptions)
       .then((res) => {
         return res.json();
       })
       .then((e) => {
         if (
           !favItems.some(
-            (e) => e.id == favoriteItem.id && e.type == favoriteItem.type
+            (e) => e.id === favoriteItem.id && e.type === favoriteItem.type
           )
         ) {
           setFavItems((prev) => [...prev, favoriteItem]);
@@ -57,7 +57,7 @@ function FavoritesContextProvider({ children }) {
       },
     };
     fetch(
-      link + `Favorites/delete-favorite/${favoriteItem.type}/${favoriteItem.id}`,
+      link + `User/delete-favorite/${favoriteItem.type}/${favoriteItem.id}`,
       requestOptions
     )
       .then((res) => {

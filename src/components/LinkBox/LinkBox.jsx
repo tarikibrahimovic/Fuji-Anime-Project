@@ -81,7 +81,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
         setEdit(false);
         setLinks(
           links.map((e) => {
-            if (e.id == link.id) {
+            if (e.id === link.id) {
               return { ...e, link: newL, date: date.toString() };
             } else {
               return { ...e };
@@ -101,7 +101,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
               <p class="relative text-xl whitespace-nowrap font-bold overflow-hidden flex items-center">
                 {link.pictureUrl && (
                   <div className="w-10 h-10">
-                    <img src={link.pictureUrl} alt="picture" />
+                    <img src={link.pictureUrl} alt="picurl" />
                   </div>
                 )}
                 {link.username.toUpperCase()}

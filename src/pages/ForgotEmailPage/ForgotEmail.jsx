@@ -54,7 +54,7 @@ function Login() {
         />
         <div className="relative z-10 flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
           <a
-            href=""
+            href="http:..."
             className="flex items-center mb-6 text-3xl font-semibold text-gray-900 dark:text-white"
           >
             <img className="w-10 h-10 mr-2" src={Logo} alt="logo" />
