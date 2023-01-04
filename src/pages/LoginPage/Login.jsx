@@ -1,13 +1,17 @@
 import Logo from "../../img/fuji-logo.png";
 import Poster from "../../img/all-anime-poster.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import { useNavigate } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import { useEffect } from "react";
-import jwtDecode from "jwt-decode";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { auth } from "../../firebase";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -21,13 +25,78 @@ function Login() {
     setVerifiedAt,
     setImageUrl,
     setTip,
+    logout,
   } = useContext(FavoritesList);
+  const [userObj, setUserObj] = useState({});
+  const [LoginRegister, setLoginRegister] = useState("");
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
   let status;
   const [showPassword, setShowPassword] = useState(false);
   const link = process.env.REACT_APP_BACKEND_LINK;
+
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    logout();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUserObj(user);
+    });
+  }, []);
+
+  useEffect(() => {
+    setLoginRegister("login");
+    if (userObj && LoginRegister === "login") {
+      let status;
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userObj.displayName,
+          email: userObj.email,
+          sub: userObj.uid,
+        }),
+      };
+      fetch(link + "User/login-google", requestOptions)
+        .then((res) => {
+          status = res.status;
+          console.log(res);
+          return res.json();
+        })
+        .then((e) => {
+          localStorage.setItem("token", "Bearer " + e.token);
+          localStorage.setItem("username", e.username);
+          setToken("Bearer " + e.token);
+          if (status === 200) {
+            setIsAuth(true);
+            setId(e.id);
+            setUsername(e.username);
+            setAdmin(e.role);
+            setEmail(e.email);
+            setVerifiedAt(e.verifiedAt);
+            setImageUrl(e.pictureUrl);
+            setTip(e.type);
+            NotificationManager.success("", `Welcome back! ${e.username}`);
+          } else {
+            NotificationManager.error("", e.message);
+            logout();
+          }
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [userObj]);
 
   const Login = (em, pass) => {
     setError();
@@ -65,70 +134,6 @@ function Login() {
       .catch((e) => console.log(e));
   };
 
-  const GoogleLogin = (userObject) => {
-    setError();
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: userObject.name,
-        email: userObject.email,
-        sub: userObject.sub,
-      }),
-    };
-    fetch(link + "User/login-google", requestOptions)
-      .then((res) => {
-        status = res.status;
-        return res.json();
-      })
-      .then((e) => {
-        localStorage.setItem("token", "Bearer " + e.token);
-        localStorage.setItem("username", e.username);
-        setToken("Bearer " + e.token);
-        if (status === 200) {
-          setIsAuth(true);
-          setId(e.id);
-          setUsername(e.username);
-          setAdmin(e.role);
-          setEmail(e.email);
-          setVerifiedAt(e.verifiedAt);
-          setImageUrl(e.pictureUrl);
-          setTip(e.type);
-          NotificationManager.success("", `Welcome back! ${e.username}`);
-        } else {
-          setError(e.message);
-        }
-      })
-      .catch((e) => console.log(e));
-  };
-
-  const CLIENT_ID =
-    process.env.REACT_APP_CLIENT_ID;
-
-  const handleCallbackResponse = (response) => {
-    let userObject = jwtDecode(response.credential);
-    GoogleLogin(userObject);
-  };
-
-  useEffect(() => {
-    const google = window.google;
-    google.accounts.id.initialize({
-      client_id: CLIENT_ID,
-      callback: handleCallbackResponse,
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById("google-signin-button"),
-      {
-        theme: "outline",
-        height: "auto",
-        width: "auto",
-        backGroundColor: "red",
-        color: "white",
-      }
-    );
-  }, []);
-
   return (
     <section className="bg-dark w-full">
       <div>
@@ -150,10 +155,30 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
                 Log in to your account
               </h1>
-              <div
-                id="google-signin-button"
-                className="flex justify-center"
-              ></div>
+              <div className="flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={handleGoogleSignIn}
+                  class="text-white bg-logored hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+                >
+                  <svg
+                    class="w-4 h-4 mr-2 -ml-1"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fab"
+                    data-icon="google"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 488 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                    ></path>
+                  </svg>
+                  Sign in with Google
+                </button>
+              </div>
               <hr className="border-white" />
               <form
                 className="space-y-4 md:space-y-6"
@@ -207,7 +232,7 @@ function Login() {
                     <div className="flex justify-center pr-1">
                       {showPassword ? (
                         <AiFillEyeInvisible
-                        className="text-2xl"
+                          className="text-2xl"
                           onClick={(e) => {
                             setShowPassword(!showPassword);
                           }}

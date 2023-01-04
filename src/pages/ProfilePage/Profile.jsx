@@ -57,7 +57,9 @@ function Profile() {
     imageUrl,
     setImageUrl,
     tip,
-    isLoading
+    isLoading,
+    logout,
+    logoutSetup
   } = useContext(FavoritesList);
   let navigate = useNavigate();
 
@@ -81,6 +83,29 @@ function Profile() {
     setIsOpen2(false);
   }
 
+  const DeleteGoogleUser = (pass) => {
+    setErr();
+    let requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: token,
+      },
+    };
+    fetch(link + `User/delete-google`, requestOptions)
+      .then((res) => {
+        status = res.status;
+        return res.json();
+      })
+      .then((e) => {
+        if (status === 200) {
+          logout();
+        } else {
+          setErr(e.message);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   const DeleteUser = (pass) => {
     setErr();
     let requestOptions = {
@@ -96,10 +121,8 @@ function Profile() {
       })
       .then((e) => {
         if (status === 200) {
-          navigate("/", {});
-          setIsAuth(false);
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
+          logoutSetup();
+          NotificationManager.success("Account deleted successfully");
         } else {
           setErr(e.message);
         }
@@ -130,6 +153,7 @@ function Profile() {
           setIsAuth(false);
           localStorage.removeItem("token");
           navigate("/", {});
+          NotificationManager.success("Password changed successfully");
         } else {
           setErrors(e.errors);
         }
@@ -142,10 +166,14 @@ function Profile() {
     const requestOptions = {
       method: "PATCH",
       headers: {
+        "Content-Type": "application/json",
         Authorization: token,
       },
+      body: JSON.stringify({
+        username: NewUsername,
+      }),
     };
-    fetch(link + `User/change-username/${NewUsername}`, requestOptions)
+    fetch(link + `User/change-username`, requestOptions)
       .then((e) => {
         status = e.status;
         return e.json();
@@ -155,6 +183,7 @@ function Profile() {
           setUsername(NewUsername);
           localStorage.setItem("username", NewUsername);
           navigate("/layout/home", {});
+          NotificationManager.success("Username changed successfully");
         } else {
           setError(res.message);
         }
@@ -167,7 +196,6 @@ function Profile() {
     try {
       const fileExtension = newImage.name.split(".").pop();
 
-      // Check if the file extension is 'jpg' or 'png' (case-insensitive)
       if (
         fileExtension.toLowerCase() !== "jpg" &&
         fileExtension.toLowerCase() !== "png"
@@ -206,10 +234,10 @@ function Profile() {
       setLoading(false);
     }
   }
-
+  console.log(tip);
   return (
     <>
-      { isAuth ? (
+      {isAuth ? (
         <div className="bg-dark p-5 h-full w-full">
           <Modal
             isOpen={modalIsOpen}
@@ -595,47 +623,60 @@ function Profile() {
             </button>
             {accDelete && (
               <div className="flex justify-center my-4">
-                <form
-                  className="space-y-4 md:space-y-6 w-9/12"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    DeleteUser(password);
-                  }}
-                >
-                  {err && <p className="text-lightred">{err}</p>}
-                  <div>
-                    <label
-                      for="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                {tip === "Form" ? (
+                  <form
+                    className="space-y-4 md:space-y-6 w-9/12"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      DeleteUser(password);
+                    }}
+                  >
+                    {err && <p className="text-lightred">{err}</p>}
+                    <div>
+                      <label
+                        for="password"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Your Password
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        id="passowrd"
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                        className="bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none"
+                        placeholder="••••••••"
+                        required=""
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                     >
-                      Your Passowrd
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      id="passowrd"
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      className="bg-dark border border-logored text-white sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none"
-                      placeholder="••••••••"
-                      required=""
-                    />
-                  </div>
+                      Delete
+                    </button>
+                  </form>
+                ) : (
                   <button
                     type="submit"
                     className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      DeleteGoogleUser();
+                    }}
                   >
                     Delete
                   </button>
-                </form>
+                )}
               </div>
             )}
           </div>
           <Footer />
         </div>
       ) : (
-        (isLoading) && (<ErrorPage />)
+        isLoading && <ErrorPage />
       )}
     </>
   );

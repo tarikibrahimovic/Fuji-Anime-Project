@@ -3,9 +3,16 @@ import Poster from "../../img/all-anime-poster.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { NotificationManager } from "react-notifications";
-import { useEffect } from "react";
-import jwtDecode from "jwt-decode";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FavoritesList } from "../../components/Context/Context";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { auth } from "../../firebase";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 function Login() {
   let navigate = useNavigate();
@@ -16,7 +23,15 @@ function Login() {
   const [errors, setErrors] = useState();
   const [username, setUsername] = useState();
   const [showPassword, setShowPassword] = useState(false);
+  const [userObj, setUserObj] = useState({});
+  const [LoginRegister, setLoginRegister] = useState("");
   const link = process.env.REACT_APP_BACKEND_LINK;
+  const { logout } = useContext(FavoritesList);
+
+  const googleSignUp = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
 
   function Register(em, pass, confirmpass, user) {
     setErrors();
@@ -37,6 +52,11 @@ function Login() {
       })
       .then((e) => {
         if (status === 200) {
+          NotificationManager.success(
+            "Verification email sent!",
+            "Success",
+            3000
+          );
           navigate("/", {});
         } else {
           setErrors(e.message);
@@ -45,52 +65,53 @@ function Login() {
       .catch((e) => console.log(e));
   }
 
-  function GoogleRegister(userObject) {
-    setErrors();
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: userObject.name,
-        email: userObject.email,
-        sub: userObject.sub,
-      }),
-    };
-    fetch(link + "User/register-google", requestOptions)
-      .then((res) => {
-        status = res.status;
-        return res.json();
-      })
-      .then((e) => {
-        if (status === 200) {
-          navigate("/", {});
-        } else {
-          setErrors(e.message);
-        }
-      })
-      .catch((e) => console.log(e));
-  }
-
-  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-
-  const handleCallbackResponse = (response) => {
-    let userObject = jwtDecode(response.credential);
-    GoogleRegister(userObject);
+  const handleGoogleSignUp = async () => {
+    try {
+      await googleSignUp();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
-    /* global google */
-    const google = window.google;
-    google.accounts.id.initialize({
-      client_id: CLIENT_ID,
-      callback: handleCallbackResponse,
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUserObj(user);
     });
-
-    google.accounts.id.renderButton(
-      document.getElementById("google-signin-button"),
-      { theme: "outline", height: "50px", width: "200px" }
-    );
   }, []);
+
+  useEffect(() => {
+    setLoginRegister("register");
+    if(userObj && LoginRegister === "register"){
+        let status;
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: userObj.displayName,
+            email: userObj.email,
+            sub: userObj.uid,
+          }),
+        };
+        fetch(link + "User/register-google", requestOptions)
+          .then((res) => {
+            status = res.status;
+            return res.json();
+          })
+          .then((e) => {
+            if (status === 200) {
+              NotificationManager.success(
+                "Verification mail sent!",
+                "Success!"
+              );
+              logout();
+              navigate("/", {});
+            } else {
+              NotificationManager.error(e.message, "Error!");
+            }
+          })
+          .catch((e) => console.log(e));
+      }
+  }, [userObj]);
 
   return (
     <section className="bg-dark w-full">
@@ -113,10 +134,36 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Make your new account
               </h1>
-              <div
-                id="google-signin-button"
-                className="flex justify-center"
-              ></div>
+              <div className="flex items-center justify-center">
+                {/* <button
+                  onClick={handleGoogleSignUp}
+                  className="flex items-center justify-center w-10 h-10 mr-4 text-white bg-logored rounded-full"
+                >
+                  Sign IN{" "}
+                </button> */}
+                <button
+                  type="button"
+                  onClick={handleGoogleSignUp}
+                  class="text-white bg-logored hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
+                >
+                  <svg
+                    class="w-4 h-4 mr-2 -ml-1"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fab"
+                    data-icon="google"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 488 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                    ></path>
+                  </svg>
+                  Sign in with Google
+                </button>
+              </div>
               <hr className="border-white" />
               {errors && <p className="text-lightred">{errors}</p>}
               <form

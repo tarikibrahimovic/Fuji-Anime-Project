@@ -18,7 +18,7 @@ const customStyles = {
 };
 
 export default function LinkBox({ link, info, setLinks, links }) {
-  const { token, id } = useContext(FavoritesList);
+  const { token, id, admin } = useContext(FavoritesList);
   const [edit, setEdit] = useState(false);
   const [newL, setNewL] = useState();
   let date = new Date();
@@ -106,7 +106,7 @@ export default function LinkBox({ link, info, setLinks, links }) {
                 )}
                 {link.username.toUpperCase()}
               </p>
-              {id === link.userId && (
+              {(id === link.userId || admin === "Admin") && (
                 <div className="flex">
                   <p
                     className="px-3 opacity-70 hover:opacity-100 cursor-pointer"

@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FavoritesList } from "../Context/Context";
-import './Navbar.css'
+import "./Navbar.css";
 
 function Navbar() {
-  const { setIsAuth, isAuth, setId, setUsername, admin } = useContext(FavoritesList);
+  const { setIsAuth, isAuth, setId, setUsername, admin, logout, tip, logoutSetup } =
+    useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
@@ -68,54 +69,43 @@ function Navbar() {
                 Favorites
               </NavLink>
             </li>
-            {(admin === "Admin") && (<li>
-              <NavLink
-                to="/layout/admin"
-                className={nesto}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-              >
-                Admin
-              </NavLink>
-            </li>)}
-            <hr className="text-white" />
-            {isAuth?(<><li id="options">
-              <NavLink
-                to="/layout/changepass"
-                className={nesto}
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-              >
-                Change Password
-              </NavLink>
-            </li><li id="options">
+            {admin === "Admin" && (
+              <li>
                 <NavLink
-                  to="/"
-                  className={nesto}
-                  onClick={(e) => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("username");
-                    setIsAuth(false);
-                    setId('');
-                    setUsername(null)
-                  } }
-                >
-                  Log Out
-                </NavLink>
-              </li><hr className="text-white" /><li id="options">
-                <NavLink
-                  to="/layout/deleteacc"
+                  to="/layout/admin"
                   className={nesto}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
-                  Delete Account
+                  Admin
                 </NavLink>
-              </li></>): (<li id="options">
-                <NavLink
-                  to="/"
-                  className={nesto}
-                >
+              </li>
+            )}
+            <hr className="text-white" />
+            {isAuth ? (
+              <>
+                <li id="options">
+                  <NavLink
+                    to="/"
+                    className={nesto}
+                    onClick={(e) => {
+                      if (tip === "Google") {
+                        logout();
+                      } else {
+                        logoutSetup();
+                      }
+                    }}
+                  >
+                    Log Out
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <li id="options">
+                <NavLink to="/" className={nesto}>
                   Log In
                 </NavLink>
-              </li>)}
+              </li>
+            )}
           </ul>
         </div>
       </div>

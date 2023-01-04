@@ -19,6 +19,9 @@ export default function Example() {
     setId,
     setToken,
     imageUrl,
+    tip,
+    logout,
+    logoutSetup
   } = useContext(FavoritesList);
   const navigate = useNavigate();
 
@@ -118,17 +121,12 @@ export default function Example() {
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                         onClick={(e) => {
                           e.preventDefault();
-                          localStorage.removeItem("token");
-                          localStorage.removeItem("username");
-                          setAdmin("");
-                          setFavItems([]);
-                          setIsAuth(false);
-                          setEmail("");
-                          setVerifiedAt("");
-                          setImageUrl("");
-                          setId(0);
-                          setToken("");
-                          navigate("/", {});
+                          if(tip === "Google"){
+                            logout()
+                          }
+                          else{
+                          logoutSetup();
+                          }
                         }}
                       >
                         {active ? (
