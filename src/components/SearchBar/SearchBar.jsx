@@ -7,7 +7,7 @@ export default function SearchBar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [type, setType] = useState("Anime");
-  const [drop, setDrop] = useState(true);
+  const [drop, setDrop] = useState(false);
   return (
     <>
       <form className={`w-96 mr-4`} id={classes.mainForm}>
@@ -71,7 +71,6 @@ export default function SearchBar() {
       <div className="w-1/3 flex justify-end" id={classes.secondForm}>
         <form
           className={`w-1/3 text-white flex justify-end`}
-        //   id={classes.secondForm}
         >
           {drop ? (
             <div

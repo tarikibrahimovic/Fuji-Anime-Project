@@ -1,0 +1,17 @@
+@media only screen and (max-width: 660px) {
+    #naslov {
+      font-size: medium;
+    }
+    #more{
+      display: none;
+    }
+  }
+  
+  @media only screen and (max-width: 487px) {
+      #naslov {
+        font-size: small;
+      }
+      #more{
+        display: none;
+      }
+    }

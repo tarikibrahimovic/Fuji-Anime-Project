@@ -44,7 +44,7 @@ export default function AppShellDemo() {
           hidden={!opened}
           width={{ sm: 150, lg: 150 }}
         >
-          <Sidebar />
+          <Sidebar setOpened={setOpened} opened={opened}/>
         </Navbar>
       }
       footer={<FooterReal />}
@@ -77,7 +77,7 @@ export default function AppShellDemo() {
                 </h1>
               </Link>
             </div>
-            <SearchBar/>
+            <SearchBar />
             <DropDown />
           </div>
         </Header>

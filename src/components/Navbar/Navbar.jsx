@@ -3,14 +3,17 @@ import { NavLink } from "react-router-dom";
 import { FavoritesList } from "../Context/Context";
 import "./Navbar.css";
 
-function Navbar() {
-  const { setIsAuth, isAuth, setId, setUsername, admin, logout, tip, logoutSetup } =
-    useContext(FavoritesList);
+function Navbar({ setOpened, opened }) {
+  const { isAuth, admin, logout, tip, logoutSetup } = useContext(FavoritesList);
   let activeStyle = {
     color: "white",
     fontWeight: "bold",
     fontSize: "1.2rem",
     transition: "0.1s ease-in",
+  };
+
+  const eventClose = () => {
+    setOpened(!opened);
   };
 
   let activeClassName =
@@ -33,6 +36,7 @@ function Navbar() {
               <NavLink
                 to="/layout/home"
                 end
+                onClick={eventClose}
                 className={({ isActive }) =>
                   isActive ? activeClassName : nesto
                 }
@@ -45,6 +49,7 @@ function Navbar() {
               <NavLink
                 to="/layout/anime"
                 className={nesto}
+                onClick={eventClose}
                 id="anime"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
@@ -55,6 +60,7 @@ function Navbar() {
               <NavLink
                 to="/layout/manga"
                 className={nesto}
+                onClick={eventClose}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Manga
@@ -64,6 +70,7 @@ function Navbar() {
               <NavLink
                 to="/layout/favorites"
                 className={nesto}
+                onClick={eventClose}
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Favorites
@@ -74,6 +81,7 @@ function Navbar() {
                 <NavLink
                   to="/layout/admin"
                   className={nesto}
+                  onClick={eventClose}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
                 >
                   Admin
@@ -83,6 +91,11 @@ function Navbar() {
             <hr className="text-white" />
             {isAuth ? (
               <>
+                <li id="options">
+                  <NavLink to="/profile" className={nesto} onClick={eventClose}>
+                    Profile
+                  </NavLink>
+                </li>
                 <li id="options">
                   <NavLink
                     to="/"
