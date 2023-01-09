@@ -135,12 +135,6 @@ function Login() {
                 Make your new account
               </h1>
               <div className="flex items-center justify-center">
-                {/* <button
-                  onClick={handleGoogleSignUp}
-                  className="flex items-center justify-center w-10 h-10 mr-4 text-white bg-logored rounded-full"
-                >
-                  Sign IN{" "}
-                </button> */}
                 <button
                   type="button"
                   onClick={handleGoogleSignUp}

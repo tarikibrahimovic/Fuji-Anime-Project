@@ -110,20 +110,26 @@ function Home() {
       >
         Adventure
       </h1>
-      <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
+      <div className="rowPosters  flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3 pb-2">
         {categories.map((el) => (
-            <img
-              src={el.attributes.posterImage.small}
-              alt=""
-              onClick={() => {
-                navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
-                  state: {
-                    anime: el,
-                  },
-                });
-              }}
-              className="w-full shadow-xl mr-5 hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
-            />
+          <div className="flex flex-col items-center min-w-fit text-white overflow-hidden">
+              <img
+                src={el.attributes.posterImage.small}
+                alt=""
+                onClick={() => {
+                  navigate(
+                    `/layout/anime/${el.id}/${el.attributes.canonicalTitle}`,
+                    {
+                      state: {
+                        anime: el,
+                      },
+                    }
+                  );
+                }}
+                className="w-full shadow-xl mr-5 object-contain hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+              />
+              <p className="pt-3 w-24 text-sm">{el.attributes.canonicalTitle.length > 20 ? el.attributes.canonicalTitle.slice(0,18) + "..." : el.attributes.canonicalTitle}</p>
+          </div>
         ))}
       </div>
 
@@ -135,20 +141,26 @@ function Home() {
       >
         Romance
       </h1>
-      <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
+      <div className="rowPosters  flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3 pb-2">
         {romance.map((el) => (
+          <div className="flex flex-col items-center min-w-fit text-white overflow-hidden">
           <img
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
-                state: {
-                  anime: el,
-                },
-              });
+              navigate(
+                `/layout/anime/${el.id}/${el.attributes.canonicalTitle}`,
+                {
+                  state: {
+                    anime: el,
+                  },
+                }
+              );
             }}
-            className="w-full shadow-xl mr-5 hover:scale-110 object-contain h-52 transition-transform duration-400 cursor-pointer"
-          />
+            className="w-full shadow-xl mr-5 object-contain hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+              />
+              <p className="pt-3 w-24 text-sm">{el.attributes.canonicalTitle.length > 20 ? el.attributes.canonicalTitle.slice(0,18) + "..." : el.attributes.canonicalTitle}</p>
+          </div>
         ))}
       </div>
       <h1
@@ -159,20 +171,26 @@ function Home() {
       >
         Horror
       </h1>
-      <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3">
+      <div className="rowPosters  flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3 pb-2">
         {horror.map((el) => (
+          <div className="flex flex-col items-center min-w-fit text-white">
           <img
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/layout/anime/${el.id}/${el.attributes.canonicalTitle}`, {
-                state: {
-                  anime: el,
-                },
-              });
+              navigate(
+                `/layout/anime/${el.id}/${el.attributes.canonicalTitle}`,
+                {
+                  state: {
+                    anime: el,
+                  },
+                }
+              );
             }}
-            className="w-full shadow-xl mr-5 hover:scale-110 object-contain h-52 transition-transform duration-400 cursor-pointer"
-          />
+            className="w-full shadow-xl mr-5 object-contain hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+              />
+              <p className="pt-3 w-24 text-sm">{el.attributes.canonicalTitle.length > 20 ? el.attributes.canonicalTitle.slice(0,18) + "..." : el.attributes.canonicalTitle}</p>
+          </div>
         ))}
       </div>
       <h1
@@ -183,20 +201,26 @@ function Home() {
       >
         Adventure Manga
       </h1>
-      <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 ml-3">
+      <div className="rowPosters  flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3 pb-2">
         {trendingManga.map((el) => (
+          <div className="flex flex-col items-center min-w-fit text-white">
           <img
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/layout/manga/${el.id}/${el.attributes.canonicalTitle}`, {
-                state: {
-                  manga: el,
-                },
-              });
+              navigate(
+                `/layout/manga/${el.id}/${el.attributes.canonicalTitle}`,
+                {
+                  state: {
+                    manga: el,
+                  },
+                }
+              );
             }}
-            className="w-full shadow-xl mr-5 hover:scale-110 object-contain h-52 transition-transform duration-400 cursor-pointer"
-          />
+            className="w-full shadow-xl mr-5 object-contain hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+              />
+              <p className="pt-3 w-24 text-sm">{el.attributes.canonicalTitle.length > 20 ? el.attributes.canonicalTitle.slice(0,18) + "..." : el.attributes.canonicalTitle}</p>
+          </div>
         ))}
       </div>
       <h1
@@ -207,20 +231,26 @@ function Home() {
       >
         Action Manga
       </h1>
-      <div className="rowPosters flex flex-row overflow-y-hidden overflow-x-scroll p-5 ml-3">
+      <div className="rowPosters  flex flex-row overflow-y-hidden overflow-x-scroll p-5 m-3 pb-2">
         {action.map((el) => (
+          <div className="flex flex-col items-center min-w-fit text-white">
           <img
             src={el.attributes.posterImage.small}
             alt=""
             onClick={() => {
-              navigate(`/layout/manga/${el.id}/${el.attributes.canonicalTitle}`, {
-                state: {
-                  manga: el,
-                },
-              });
+              navigate(
+                `/layout/manga/${el.id}/${el.attributes.canonicalTitle}`,
+                {
+                  state: {
+                    manga: el,
+                  },
+                }
+              );
             }}
-            className="w-full shadow-xl mr-5 hover:scale-110 object-contain h-52 transition-transform duration-400 cursor-pointer"
-          />
+            className="w-full shadow-xl mr-5 object-contain hover:scale-110 h-52 transition-transform duration-400 cursor-pointer"
+              />
+              <p className="pt-3 w-24 text-sm">{el.attributes.canonicalTitle.length > 20 ? el.attributes.canonicalTitle.slice(0,18) + "..." : el.attributes.canonicalTitle}</p>
+          </div>
         ))}
       </div>
     </div>

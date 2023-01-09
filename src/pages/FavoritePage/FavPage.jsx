@@ -1,7 +1,6 @@
 import { FavoritesList } from "../../components/Context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { NotificationManager } from "react-notifications";
 import { useEffect } from "react";
 
 export default function FavPage() {
@@ -123,7 +122,6 @@ export default function FavPage() {
                     <div
                       className="absolute self-end text-white delay-150 z-10 opacity-0 group-hover:opacity-100 w-full flex justify-center"
                       onClick={() => {
-                        NotificationManager.success("", "Succesfully removed!");
                         removeFromFav(el);
                       }}
                     >

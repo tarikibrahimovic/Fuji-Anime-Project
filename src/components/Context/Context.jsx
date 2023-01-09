@@ -1,10 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { NotificationManager } from "react-notifications";
 import {
-  GoogleAuthProvider,
-  signInWithPopup,
   signOut,
-  onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +22,6 @@ function FavoritesContextProvider({ children }) {
   const [tip, setTip] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   let niz = [];
-  // let LoginRegister = '';
   const [LoginRegister, setLoginRegister] = useState("");
   const link = process.env.REACT_APP_BACKEND_LINK;
 
@@ -47,97 +43,6 @@ function FavoritesContextProvider({ children }) {
     setToken("");
     navigate("/", {});
     setTip("");
-  };
-
-  // const googleSignIn = () => {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(auth, provider);
-  // };
-  // const googleSignUp = () => {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(auth, provider);
-  // };
-  
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     console.log(user, LoginRegister);
-  //     if (user) {
-  //       if (LoginRegister === "login") {
-  //         console.log("proslo");
-  //         GoogleLogin(user);
-  //       } else if (LoginRegister === "register") {
-  //         GoogleRegister(user);
-  //       }
-  //     }
-  //   });
-  // }, []);
-
-
-
-  function GoogleRegister(userObject) {
-    let status;
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: userObject.displayName,
-        email: userObject.email,
-        sub: userObject.uid,
-      }),
-    };
-    fetch(link + "User/register-google", requestOptions)
-      .then((res) => {
-        status = res.status;
-        return res.json();
-      })
-      .then((e) => {
-        if (status === 200) {
-          NotificationManager.success("Verification mail sent!", "Success!");
-          logout();
-          navigate("/", {});
-        } else {
-          NotificationManager.error(e.message, "Error!");
-        }
-      })
-      .catch((e) => console.log(e));
-  }
-
-  const GoogleLogin = (userObject) => {
-    let status;
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: userObject.displayName,
-        email: userObject.email,
-        sub: userObject.uid,
-      }),
-    };
-    fetch(link + "User/login-google", requestOptions)
-      .then((res) => {
-        status = res.status;
-        console.log(res);
-        return res.json();
-      })
-      .then((e) => {
-        localStorage.setItem("token", "Bearer " + e.token);
-        localStorage.setItem("username", e.username);
-        setToken("Bearer " + e.token);
-        if (status === 200) {
-          setIsAuth(true);
-          setId(e.id);
-          setUsername(e.username);
-          setAdmin(e.role);
-          setEmail(e.email);
-          setVerifiedAt(e.verifiedAt);
-          setImageUrl(e.pictureUrl);
-          setTip(e.type);
-          NotificationManager.success("", `Welcome back! ${e.username}`);
-        } else {
-          NotificationManager.error("", e.message);
-        }
-      })
-      .catch((e) => console.log(e));
   };
 
   const addToFavorites = (favoriteItem) => {
@@ -235,14 +140,10 @@ function FavoritesContextProvider({ children }) {
     setTip,
     isLoading,
     setIsLoading,
-    // googleSignIn,
     logout,
-    // googleSignUp,
     logoutSetup,
     LoginRegister,
     setLoginRegister,
-    GoogleRegister,
-    GoogleLogin,
   };
   return (
     <FavoritesList.Provider value={values}>{children}</FavoritesList.Provider>

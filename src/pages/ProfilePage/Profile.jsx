@@ -39,6 +39,8 @@ function Profile() {
   const [newImage, setNewImage] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpen2, setIsOpen2] = useState(false);
+  const [modalIsOpen3, setIsOpen3] = useState(false);
+  const [modalIsOpen4, setIsOpen4] = useState(false);
   const [loading, setLoading] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const link = process.env.REACT_APP_BACKEND_LINK;
@@ -307,6 +309,66 @@ function Profile() {
                   e.preventDefault();
                   closeModal2();
                   DeleteImage();
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </Modal>
+
+          <Modal
+            isOpen={modalIsOpen3}
+            onRequestClose={() => setIsOpen3(false)}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <h1 className="block mb-10 text-xl font-medium text-gray-900 dark:text-white">
+              Do you want to delete your profile?
+            </h1>
+
+            <div className="flex justify-around my-4 text-white">
+              <button
+                onClick={e => {setIsOpen3(false)}}
+                className="bg-grayish rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
+              >
+                Close
+              </button>
+              <button
+                className="bg-logored rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpen3(false);
+                  DeleteGoogleUser();
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </Modal>
+
+          <Modal
+            isOpen={modalIsOpen4}
+            onRequestClose={() => setIsOpen4(false)}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <h1 className="block mb-10 text-xl font-medium text-gray-900 dark:text-white">
+              Do you want to delete your profile?
+            </h1>
+
+            <div className="flex justify-around my-4 text-white">
+              <button
+                onClick={e => {setIsOpen4(false)}}
+                className="bg-grayish rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
+              >
+                Close
+              </button>
+              <button
+                className="bg-logored rounded-lg px-10 py-2 opacity-100 hover:opacity-90"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpen4(false);
+                  DeleteUser(password);
                 }}
               >
                 Delete
@@ -628,7 +690,8 @@ function Profile() {
                     className="space-y-4 md:space-y-6 w-9/12"
                     onSubmit={(e) => {
                       e.preventDefault();
-                      DeleteUser(password);
+                      // DeleteUser(password);
+                      setIsOpen4(true);
                     }}
                   >
                     {err && <p className="text-lightred">{err}</p>}
@@ -653,6 +716,7 @@ function Profile() {
                     </div>
                     <button
                       type="submit"
+
                       className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                     >
                       Delete
@@ -664,7 +728,8 @@ function Profile() {
                     className="w-full text-white bg-logored focus:ring-4 focus:outline-none font-medium rounded-lg opacity-90 text-sm px-5 py-2.5 text-center hover:opacity-100"
                     onClick={(e) => {
                       e.preventDefault();
-                      DeleteGoogleUser();
+                      // DeleteGoogleUser();
+                      setIsOpen3(true);
                     }}
                   >
                     Delete
