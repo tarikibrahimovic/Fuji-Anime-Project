@@ -7,7 +7,7 @@ function MangaCard({ image, title }) {
       data-testid="manga-title"
       className="absolute text-xl text-white top-2 z-10 opacity-0 delay-150 group-hover:opacity-100"
       id={classes.naslov}>
-        {title}
+        {title.length > 22 ? title.slice(0, 20) + "..." : title}
       </h1>
       <img
         src={image}
